@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.Orbits.Specifications", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.Orbits.ReferenceData", "TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj", "{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.OrbitEngine.Vsop87", "TA.OrbitEngine.Vsop87\TA.OrbitEngine.Vsop87.csproj", "{213D08E9-A266-48BC-992F-CA50591390A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{213D08E9-A266-48BC-992F-CA50591390A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{213D08E9-A266-48BC-992F-CA50591390A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{213D08E9-A266-48BC-992F-CA50591390A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{213D08E9-A266-48BC-992F-CA50591390A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
