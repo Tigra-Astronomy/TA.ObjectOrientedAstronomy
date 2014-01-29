@@ -27,7 +27,7 @@ namespace TA.Orbits.Specifications
             OrbitEngine = new OrbitEngine.Vsop87.OrbitEngine();
             };
 
-        Because of = () => ComputedEarthL0 = OrbitEngine.ComputeL0(J2000);
+        Because of = () => ComputedEarthL0 = OrbitEngine.ComputeVsop87Term(J2000, 0.0, Vsop87Data.Vsop87B_Earth_L0);
 
         It should_compute_l0_to_match_the_reference_implementation =
             () => ComputedEarthL0.ShouldBeCloseTo(ReferenceEarthL0, Tolerance);
