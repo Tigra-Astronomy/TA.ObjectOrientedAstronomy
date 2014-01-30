@@ -34,5 +34,10 @@ namespace TA.OrbitEngine.Vsop87
                 }
             return sum;
             }
+
+        public object LoadVsop87DataFromFile(string filename)
+            {
+            throw new NotImplementedException();
+            }
         }
     }

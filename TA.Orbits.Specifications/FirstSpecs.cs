@@ -49,6 +49,16 @@ namespace TA.Orbits.Specifications
             () => ComputedLatitude.ShouldBeCloseTo(ReferenceLatitude, Tolerance);
     }
 
+
+    [Subject(typeof(VSOP87B_EarthPositionSpherical), "reference data")]
+    public class when_reading_earth_vsop87_data_from_a_text_file
+    {
+        Because of = () => earthData = OrbitEngine.LoadVsop87DataFromFile("VSOP87B.ear");
+        It should_be_the_same_as_the_hard_coded_data = () => earthData.ShouldBeTheSameAs(Vsop87Data.Vsop87B_Earth_Latitude) ;
+        static object earthData;
+        static OrbitEngine.Vsop87.OrbitEngine OrbitEngine;
+    }
+
     public class with_target_date_2014_jan_29_midday
         {
         protected const double J2000 = 2451545.0; // Julian date JD 2000.0
