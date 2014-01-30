@@ -2,7 +2,7 @@
 // 
 // Copyright © 2014 Tigra Astronomy, all rights reserved.
 // 
-// File: VSOP87B_earth_L0.cs  Last modified: 2014-01-29@04:40 by Tim Long
+// File: Vsop87Data.cs  Last modified: 2014-01-29@11:33 by Tim Long
 
 using System.Collections.Generic;
 using TA.OrbitEngine.Vsop87;
@@ -634,5 +634,13 @@ internal static class Vsop87Data
         new Vsop87Term(0.00000000041, 4.88191569433, 23536.11695768099),
         new Vsop87Term(0.00000000049, 2.44790922235, 13613.80427733600),
         new Vsop87Term(0.00000000047, 3.58181693910, 4797.09572892620),
+        };
+    internal static IList<Vsop87Term> Vsop87B_Earth_L5 = new List<Vsop87Term>
+        {
+        // VSOP87 VERSION B2    EARTH     VARIABLE 1 (LBR)       *T**5      4 TERMS    HELIOCENTRIC DYNAMICAL ECLIPTIC AND EQUINOX J2000      
+        new Vsop87Term(0.00000000172, 2.74854172392, 6283.07584999140),
+        new Vsop87Term(0.00000000050, 2.01352986713, 155.42039943420),
+        new Vsop87Term(0.00000000028, 2.93369985477, 12566.15169998280),
+        new Vsop87Term(0.00000000005, 1.93829214518, 18849.22754997420),
         };
     }

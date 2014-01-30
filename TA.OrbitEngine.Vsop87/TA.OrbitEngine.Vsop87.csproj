@@ -44,7 +44,10 @@
     <Compile Include="Vsop87Term.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VSOP87B_earth_L0.cs" />
+    <Compile Include="Vsop87Data.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RawData\VSOP87B.ear" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
