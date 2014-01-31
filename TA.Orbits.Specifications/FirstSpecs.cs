@@ -21,37 +21,54 @@ namespace TA.Orbits.Specifications
     [Subject(typeof(VSOP87B_EarthPositionSpherical), "reference data")]
     public class when_computing_vsop87_term_l0_for_earth : with_target_date_2014_jan_29_midday
         {
-        Establish context = () => ReferenceLatitude = VSOP87B_EarthPositionSpherical.Earth_L0(Rho);
-        Because of = () => ComputedLatitude = Vsop87OrbitEngine.ComputeVsop87Term(TargetDate, 0.0, Vsop87Data.Vsop87B_Earth_L0);
+        Establish context = () => ReferenceRadius = VSOP87B_EarthPositionSpherical.Earth_L0(Rho);
+        Because of = () => ComputedRadius = Vsop87OrbitEngine.ComputeVsop87Term(TargetDate, 0.0, Vsop87Data.Vsop87B_Earth_L0);
 
         It should_match_the_reference_implementation =
-            () => ComputedLatitude.ShouldBeCloseTo(ReferenceLatitude, Tolerance);
+            () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
         }
 
     [Subject(typeof(VSOP87B_EarthPositionSpherical), "reference data")]
     public class when_computing_vsop87_term_l5_for_earth : with_target_date_2014_jan_29_midday
     {
-        Establish context = () => ReferenceLatitude = VSOP87B_EarthPositionSpherical.Earth_L5(Rho);
-        Because of = () => ComputedLatitude = Vsop87OrbitEngine.ComputeVsop87Term(TargetDate, 5.0, Vsop87Data.Vsop87B_Earth_L5);
+        Establish context = () => ReferenceRadius = VSOP87B_EarthPositionSpherical.Earth_L5(Rho);
+        Because of = () => ComputedRadius = Vsop87OrbitEngine.ComputeVsop87Term(TargetDate, 5.0, Vsop87Data.Vsop87B_Earth_L5);
         It should_match_the_reference_implementation =
-            () => ComputedLatitude.ShouldBeCloseTo(ReferenceLatitude, Tolerance);
+            () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
     }
 
     [Subject(typeof(VSOP87B_EarthPositionSpherical), "reference data")]
     public class when_computing_vsop87_latitude_for_earth : with_target_date_2014_jan_29_midday
         {
         Establish context = () =>
-                ReferenceLatitude =
+                ReferenceRadius =
                     VSOP87B_EarthPositionSpherical.Earth_L0(Rho) + VSOP87B_EarthPositionSpherical.Earth_L1(Rho) +
                     VSOP87B_EarthPositionSpherical.Earth_L2(Rho) + VSOP87B_EarthPositionSpherical.Earth_L3(Rho) +
                     VSOP87B_EarthPositionSpherical.Earth_L4(Rho) + VSOP87B_EarthPositionSpherical.Earth_L5(Rho);
-        Because of = () => ComputedLatitude = Vsop87OrbitEngine.ComputeVsop87Series(TargetDate, Vsop87Data.Vsop87B_Earth_Latitude);
+        Because of = () => ComputedRadius = Vsop87OrbitEngine.ComputeVsop87Series(TargetDate, Vsop87Data.Vsop87B_Earth_Latitude);
         It should_match_the_reference_implementation =
-            () => ComputedLatitude.ShouldBeCloseTo(ReferenceLatitude, Tolerance);
+            () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
     }
 
+    [Subject(typeof(Vsop87OrbitEngine), "data loaded from file")]
+    public class when_computing_vsop87_radius_variable_for_earth_with_data_loaded_from_file : with_target_date_2014_jan_29_midday
+        {
+        Establish context = () =>
+            {
+            ReferenceRadius =
+                VSOP87B_EarthPositionSpherical.Earth_R0(Rho) + VSOP87B_EarthPositionSpherical.Earth_R1(Rho) +
+                VSOP87B_EarthPositionSpherical.Earth_R2(Rho) + VSOP87B_EarthPositionSpherical.Earth_R3(Rho) +
+                VSOP87B_EarthPositionSpherical.Earth_R4(Rho) + VSOP87B_EarthPositionSpherical.Earth_R5(Rho);
+            EarthData = Vsop87DataReader.LoadVsop87DataFromFile("VSOP87B.ear");
+            };
+        Because of = () => ComputedRadius = Vsop87OrbitEngine.ComputeVsop87Series(TargetDate, EarthData.VariableData['R']);
+        It should_match_the_reference_implementation =
+            () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
+        static Vsop87Solution EarthData;
+        }
 
-    [Subject(typeof(VSOP87B_EarthPositionSpherical), "reference data")]
+
+    [Subject(typeof(Vsop87DataReader))]
     public class when_reading_earth_vsop87_data_from_a_text_file
     {
         protected const double Tolerance = 0.00000000001;
@@ -66,8 +83,8 @@ namespace TA.Orbits.Specifications
         protected const double Tolerance = 0.0000000000001; // 10E-14
         protected static double Rho;
         protected static double TargetDate;
-        protected static double ReferenceLatitude;
-        protected static double ComputedLatitude;
+        protected static double ReferenceRadius;
+        protected static double ComputedRadius;
         Establish context = () =>
             {
             TargetDate = 2456687; // 29/Jan/2014 midday
