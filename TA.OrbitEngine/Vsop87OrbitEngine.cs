@@ -14,11 +14,6 @@ namespace TA.OrbitEngine.Vsop87
     {
     public class Vsop87OrbitEngine
         {
-        const string Vsop87HeaderRegexPattern =
-            @"^\s*VSOP87 VERSION (?<VsopVersion>\w+)\s+(?<Body>\w+)\s+VARIABLE (?<Variable>\d+)\s+\((?<Variables>\w+)\)\s+\*T\*\*(?<Power>\d+)\s+(?<Terms>\d+)\s+TERMS\s+(?<Description>.*)";
-        const string Vsop87DataRowRegexPattern = @"^(\s+[0-9.]+){16}\s+(?<A>[0-9.]+)\s+(?<B>[0-9.]+)\s+(?<C>[0-9.]+).*$";
-        internal static Regex Vsop87HeaderRegex = new Regex(Vsop87HeaderRegexPattern, RegexOptions.Compiled);
-        internal static Regex Vsop87DataRowRegex = new Regex(Vsop87DataRowRegexPattern, RegexOptions.Compiled);
         public static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
             {
             // Iteratively apply the formula Tn = AT^alpha Cos(B + CT)
@@ -41,11 +36,6 @@ namespace TA.OrbitEngine.Vsop87
                 ++alpha;
                 }
             return sum;
-            }
-
-        public static object LoadVsop87DataFromFile(string filename)
-            {
-
             }
         }
     }

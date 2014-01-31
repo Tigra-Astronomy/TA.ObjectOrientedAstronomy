@@ -37,8 +37,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TiGra.Diagnostics">
+      <HintPath>..\packages\TiGra.Diagnostics.1.1.61\lib\net45\TiGra.Diagnostics.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Vsop87DataReader.cs" />
     <Compile Include="Vsop87OrbitEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vsop87Term.cs" />
@@ -47,61 +51,174 @@
     <Compile Include="Vsop87Data.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="VSOP87_data\example.f" />
-    <None Include="VSOP87_data\README" />
-    <None Include="VSOP87_data\vsop87.chk" />
-    <None Include="VSOP87_data\vsop87.doc" />
-    <None Include="VSOP87_data\VSOP87.emb" />
-    <None Include="VSOP87_data\vsop87.f" />
-    <None Include="VSOP87_data\VSOP87.jup" />
-    <None Include="VSOP87_data\VSOP87.mar" />
-    <None Include="VSOP87_data\VSOP87.mer" />
-    <None Include="VSOP87_data\VSOP87.nep" />
-    <None Include="VSOP87_data\VSOP87.sat" />
-    <None Include="VSOP87_data\VSOP87.ura" />
-    <None Include="VSOP87_data\VSOP87.ven" />
-    <None Include="VSOP87_data\VSOP87A.ear" />
-    <None Include="VSOP87_data\VSOP87A.emb" />
-    <None Include="VSOP87_data\VSOP87A.jup" />
-    <None Include="VSOP87_data\VSOP87A.mar" />
-    <None Include="VSOP87_data\VSOP87A.mer" />
-    <None Include="VSOP87_data\VSOP87A.nep" />
-    <None Include="VSOP87_data\VSOP87A.sat" />
-    <None Include="VSOP87_data\VSOP87A.ura" />
-    <None Include="VSOP87_data\VSOP87A.ven" />
-    <None Include="VSOP87_data\VSOP87B.ear" />
-    <None Include="VSOP87_data\VSOP87B.jup" />
-    <None Include="VSOP87_data\VSOP87B.mar" />
-    <None Include="VSOP87_data\VSOP87B.mer" />
-    <None Include="VSOP87_data\VSOP87B.nep" />
-    <None Include="VSOP87_data\VSOP87B.sat" />
-    <None Include="VSOP87_data\VSOP87B.ura" />
-    <None Include="VSOP87_data\VSOP87B.ven" />
-    <None Include="VSOP87_data\VSOP87C.ear" />
-    <None Include="VSOP87_data\VSOP87C.jup" />
-    <None Include="VSOP87_data\VSOP87C.mar" />
-    <None Include="VSOP87_data\VSOP87C.mer" />
-    <None Include="VSOP87_data\VSOP87C.nep" />
-    <None Include="VSOP87_data\VSOP87C.sat" />
-    <None Include="VSOP87_data\VSOP87C.ura" />
-    <None Include="VSOP87_data\VSOP87C.ven" />
-    <None Include="VSOP87_data\VSOP87D.ear" />
-    <None Include="VSOP87_data\VSOP87D.jup" />
-    <None Include="VSOP87_data\VSOP87D.mar" />
-    <None Include="VSOP87_data\VSOP87D.mer" />
-    <None Include="VSOP87_data\VSOP87D.nep" />
-    <None Include="VSOP87_data\VSOP87D.sat" />
-    <None Include="VSOP87_data\VSOP87D.ura" />
-    <None Include="VSOP87_data\VSOP87D.ven" />
-    <None Include="VSOP87_data\VSOP87E.ear" />
-    <None Include="VSOP87_data\VSOP87E.jup" />
-    <None Include="VSOP87_data\VSOP87E.mar" />
-    <None Include="VSOP87_data\VSOP87E.mer" />
-    <None Include="VSOP87_data\VSOP87E.nep" />
-    <None Include="VSOP87_data\VSOP87E.sat" />
-    <None Include="VSOP87_data\VSOP87E.sun" />
-    <None Include="VSOP87_data\VSOP87E.ura" />
-    <None Include="VSOP87_data\VSOP87E.ven" />
+    <Content Include="VSOP87_data\example.f">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\README">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\vsop87.chk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\vsop87.doc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.emb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\vsop87.f">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.jup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.mar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.mer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.nep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.sat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.ura">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87.ven">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.ear">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.emb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.jup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.mar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.mer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.nep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.sat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.ura">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87A.ven">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.ear">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.jup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.mar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.mer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.nep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.sat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.ura">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87B.ven">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.ear">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.jup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.mar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.mer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.nep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.sat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.ura">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87C.ven">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.ear">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.jup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.mar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.mer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.nep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.sat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.ura">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87D.ven">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.ear">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.jup">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.mar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.mer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.nep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.sat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.sun">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.ura">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VSOP87_data\VSOP87E.ven">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -50,13 +50,14 @@
   <ItemGroup>
     <Compile Include="FirstSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShouldExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TA.OrbitEngine.Vsop87\TA.OrbitEngine.csproj">
+    <ProjectReference Include="..\TA.OrbitEngine\TA.OrbitEngine.csproj">
       <Project>{213D08E9-A266-48BC-992F-CA50591390A7}</Project>
       <Name>TA.OrbitEngine</Name>
     </ProjectReference>

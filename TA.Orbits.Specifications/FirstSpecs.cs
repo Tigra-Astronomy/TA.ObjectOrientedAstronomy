@@ -54,16 +54,16 @@ namespace TA.Orbits.Specifications
     [Subject(typeof(VSOP87B_EarthPositionSpherical), "reference data")]
     public class when_reading_earth_vsop87_data_from_a_text_file
     {
-        Because of = () => EarthData = Vsop87OrbitEngine.LoadVsop87DataFromFile("VSOP87B.ear");
-        It should_be_the_same_as_the_hard_coded_data = () => EarthData.ShouldBeTheSameAs(Vsop87Data.Vsop87B_Earth_Latitude) ;
-        static object EarthData;
-        static Vsop87OrbitEngine OrbitEngine;
+        protected const double Tolerance = 0.00000000001;
+        Because of = () => EarthData = Vsop87DataReader.LoadVsop87DataFromFile("VSOP87B.ear");
+        It should_be_the_same_as_the_hard_coded_data = () => EarthData.VariableData['L'].ShouldBeLikeObjectGraph(Vsop87Data.Vsop87B_Earth_Latitude, Tolerance) ;
+        static Vsop87Solution EarthData;
     }
 
     public class with_target_date_2014_jan_29_midday
         {
         protected const double J2000 = 2451545.0; // Julian date JD 2000.0
-        protected const double Tolerance = 0.00000000000005; // 10E-14
+        protected const double Tolerance = 0.0000000000001; // 10E-14
         protected static double Rho;
         protected static double TargetDate;
         protected static double ReferenceLatitude;
