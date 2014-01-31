@@ -2,16 +2,24 @@
 // 
 // Copyright © 2014 Tigra Astronomy, all rights reserved.
 // 
-// File: OrbitEngine.cs  Last modified: 2014-01-29@05:35 by Tim Long
+// File: Vsop87OrbitEngine.cs  Last modified: 2014-01-29@05:35 by Tim Long
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TA.OrbitEngine.Vsop87
     {
-    public class OrbitEngine
+    public class Vsop87OrbitEngine
         {
-        public double ComputeVsop87Term(double julianDate, double alpha, IList<Vsop87Term> series)
+        const string Vsop87HeaderRegexPattern =
+            @"^\s*VSOP87 VERSION (?<VsopVersion>\w+)\s+(?<Body>\w+)\s+VARIABLE (?<Variable>\d+)\s+\((?<Variables>\w+)\)\s+\*T\*\*(?<Power>\d+)\s+(?<Terms>\d+)\s+TERMS\s+(?<Description>.*)";
+        const string Vsop87DataRowRegexPattern = @"^(\s+[0-9.]+){16}\s+(?<A>[0-9.]+)\s+(?<B>[0-9.]+)\s+(?<C>[0-9.]+).*$";
+        internal static Regex Vsop87HeaderRegex = new Regex(Vsop87HeaderRegexPattern, RegexOptions.Compiled);
+        internal static Regex Vsop87DataRowRegex = new Regex(Vsop87DataRowRegexPattern, RegexOptions.Compiled);
+        public static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
             {
             // Iteratively apply the formula Tn = AT^alpha Cos(B + CT)
             // Sum all Tn and return the sum.
@@ -23,7 +31,7 @@ namespace TA.OrbitEngine.Vsop87
             return sum;
             }
 
-        public double ComputeVsop87Series(double targetDate, List<List<Vsop87Term>> seriesData)
+        public static double ComputeVsop87Series(double targetDate, IEnumerable<IEnumerable<Vsop87Term>> seriesData)
             {
             var alpha = 0;  // series power
             var sum = 0.0;
@@ -35,9 +43,9 @@ namespace TA.OrbitEngine.Vsop87
             return sum;
             }
 
-        public object LoadVsop87DataFromFile(string filename)
+        public static object LoadVsop87DataFromFile(string filename)
             {
-            throw new NotImplementedException();
+
             }
         }
     }

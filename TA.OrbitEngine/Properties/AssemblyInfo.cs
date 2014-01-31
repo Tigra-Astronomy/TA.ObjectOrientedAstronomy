@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TA.OrbitEngine.Vsop87")]
+[assembly: AssemblyTitle("TA.Vsop87OrbitEngine.Vsop87OrbitEngine")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TA.OrbitEngine.Vsop87")]
+[assembly: AssemblyProduct("TA.Vsop87OrbitEngine.Vsop87OrbitEngine")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

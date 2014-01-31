@@ -56,9 +56,9 @@
     <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TA.OrbitEngine.Vsop87\TA.OrbitEngine.Vsop87.csproj">
+    <ProjectReference Include="..\TA.OrbitEngine.Vsop87\TA.OrbitEngine.csproj">
       <Project>{213D08E9-A266-48BC-992F-CA50591390A7}</Project>
-      <Name>TA.OrbitEngine.Vsop87</Name>
+      <Name>TA.OrbitEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj">
       <Project>{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}</Project>

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.Orbits.Specifications", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.Orbits.ReferenceData", "TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj", "{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.OrbitEngine.Vsop87", "TA.OrbitEngine.Vsop87\TA.OrbitEngine.Vsop87.csproj", "{213D08E9-A266-48BC-992F-CA50591390A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.OrbitEngine", "TA.OrbitEngine\TA.OrbitEngine.csproj", "{213D08E9-A266-48BC-992F-CA50591390A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

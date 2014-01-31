@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<RegexProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Regex>^\s*VSOP87 VERSION (?&lt;VsopVersion&gt;\w+)\s+(?&lt;Body&gt;\w+)\s+VARIABLE (?&lt;Variable&gt;\d+)\s+\((?&lt;Variables&gt;\w+)\)\s+\*T\*\*(?&lt;Power&gt;\d+)\s+(?&lt;Terms&gt;\d+)\s+TERMS\s+(?&lt;Description&gt;.*)</Regex>
+  <Input> VSOP87 VERSION B2    EARTH     VARIABLE 1 (LBR)       *T**0    623 TERMS    HELIOCENTRIC DYNAMICAL ECLIPTIC AND EQUINOX J2000      
+</Input>
+  <Options>IgnoreCase Multiline</Options>
+  <FileName>C:\Users\Tim\Documents\Visual Studio 2013\Projects\TA.Orbits\TA.OrbitEngine.Vsop87\Regex\Vsop87 header.express</FileName>
+  <ReplaceString />
+  <InputFilename />
+  <UpdateEventsEnabled>true</UpdateEventsEnabled>
+</RegexProject>

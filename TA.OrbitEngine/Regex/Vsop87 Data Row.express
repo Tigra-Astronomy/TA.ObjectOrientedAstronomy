@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<RegexProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Regex>^(\s+[0-9.]+){16}\s+(?&lt;A&gt;[0-9.]+)\s+(?&lt;B&gt;[0-9.]+)\s+(?&lt;C&gt;[0-9.]+).*$</Regex>
+  <Input> 2310    1  0  0  0  0  0  0  0  0  0  0  0  0  0.00000000000     1.75347045673     1.75347045673 0.00000000000       0.00000000000 
+</Input>
+  <Options>IgnoreCase Multiline IgnorePatternWhitespace</Options>
+  <FileName>C:\Users\Tim\Documents\Visual Studio 2013\Projects\TA.Orbits\TA.OrbitEngine.Vsop87\Regex\Vsop87 Data Row.express</FileName>
+  <ReplaceString />
+  <InputFilename />
+  <UpdateEventsEnabled>true</UpdateEventsEnabled>
+</RegexProject>
