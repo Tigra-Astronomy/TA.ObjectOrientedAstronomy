@@ -8,7 +8,7 @@ using System;
 
 namespace TA.Orbits.ReferenceData
     {
-    internal class VSOP87A_EarthPositionRectangularJ2000
+    public static class VSOP87A_EarthPositionRectangularJ2000
         {
         //   EARTH - VSOP87 Series Version A
         //   HELIOCENTRIC DYNAMICAL ECLIPTIC AND EQUINOX J2000
@@ -41,7 +41,7 @@ namespace TA.Orbits.ReferenceData
 
         // Converted from VB to C# using Telerik Code Converter
 
-        public double Earth_X0(double t)
+        public static double Earth_X0(double t)
             {
             // 843 terms of order 0
 
@@ -892,7 +892,7 @@ namespace TA.Orbits.ReferenceData
             return X0;
             }
 
-        public double Earth_X1(double t)
+        public static double Earth_X1(double t)
             {
             // 491 terms of order 1
 
@@ -1391,7 +1391,7 @@ namespace TA.Orbits.ReferenceData
             return X1*t;
             }
 
-        public double Earth_X2(double t)
+        public static double Earth_X2(double t)
             {
             // 204 terms of order 2
 
@@ -1603,7 +1603,7 @@ namespace TA.Orbits.ReferenceData
             return X2*t*t;
             }
 
-        public double Earth_X3(double t)
+        public static double Earth_X3(double t)
             {
             // 18 terms of order 3
 
@@ -1629,7 +1629,7 @@ namespace TA.Orbits.ReferenceData
             return X3*t*t*t;
             }
 
-        public double Earth_X4(double t)
+        public static double Earth_X4(double t)
             {
             // 15 terms of order 4
 
@@ -1652,7 +1652,7 @@ namespace TA.Orbits.ReferenceData
             return X4*t*t*t*t;
             }
 
-        public double Earth_X5(double t)
+        public static double Earth_X5(double t)
             {
             // 6 terms of order 5
 
@@ -1666,7 +1666,7 @@ namespace TA.Orbits.ReferenceData
             return X5*t*t*t*t*t;
             }
 
-        public double Earth_Y0(double t)
+        public static double Earth_Y0(double t)
             {
             // 854 terms of order 0
 
@@ -2528,7 +2528,7 @@ namespace TA.Orbits.ReferenceData
             return Y0;
             }
 
-        public double Earth_Y1(double t)
+        public static double Earth_Y1(double t)
             {
             // 496 terms of order 1
 
@@ -3032,7 +3032,7 @@ namespace TA.Orbits.ReferenceData
             return Y1*t;
             }
 
-        public double Earth_Y2(double t)
+        public static double Earth_Y2(double t)
             {
             // 202 terms of order 2
 
@@ -3242,7 +3242,7 @@ namespace TA.Orbits.ReferenceData
             return Y2*t*t;
             }
 
-        public double Earth_Y3(double t)
+        public static double Earth_Y3(double t)
             {
             // 17 terms of order 3
 
@@ -3267,7 +3267,7 @@ namespace TA.Orbits.ReferenceData
             return Y3*t*t*t;
             }
 
-        public double Earth_Y4(double t)
+        public static double Earth_Y4(double t)
             {
             // 15 terms of order 4
 
@@ -3290,7 +3290,7 @@ namespace TA.Orbits.ReferenceData
             return Y4*t*t*t*t;
             }
 
-        public double Earth_Y5(double t)
+        public static double Earth_Y5(double t)
             {
             // 6 terms of order 5
 
@@ -3304,7 +3304,7 @@ namespace TA.Orbits.ReferenceData
             return Y5*t*t*t*t*t;
             }
 
-        public double Earth_Z0(double t)
+        public static double Earth_Z0(double t)
             {
             // 178 terms of order 0
 
@@ -3490,7 +3490,7 @@ namespace TA.Orbits.ReferenceData
             return Z0;
             }
 
-        public double Earth_Z1(double t)
+        public static double Earth_Z1(double t)
             {
             // 120 terms of order 1
 
@@ -3618,7 +3618,7 @@ namespace TA.Orbits.ReferenceData
             return Z1*t;
             }
 
-        public double Earth_Z2(double t)
+        public static double Earth_Z2(double t)
             {
             // 53 terms of order 2
 
@@ -3679,7 +3679,7 @@ namespace TA.Orbits.ReferenceData
             return Z2*t*t;
             }
 
-        public double Earth_Z3(double t)
+        public static double Earth_Z3(double t)
             {
             // 12 terms of order 3
 
@@ -3699,7 +3699,7 @@ namespace TA.Orbits.ReferenceData
             return Z3*t*t*t;
             }
 
-        public double Earth_Z4(double t)
+        public static double Earth_Z4(double t)
             {
             // 6 terms of order 4
 
@@ -3713,7 +3713,7 @@ namespace TA.Orbits.ReferenceData
             return Z4*t*t*t*t;
             }
 
-        public double Earth_Z5(double t)
+        public static double Earth_Z5(double t)
             {
             // 2 terms of order 5
 

@@ -16,8 +16,8 @@
 # ToDo List #
 
 
-- Calculate the position in space of Earth using VSOP87 in both spherical and rectangular coordinates
-- Calculate rectangular coordinates
+- ~~Calculate the position in space of Earth using VSOP87 in both spherical and rectangular coordinates~~
+- ~~Calculate rectangular coordinates~~
 - ~~Calculate spherical coordinates~~
  - ~~Calculate the 6 latitude terms, L0 to L5 (L0 done)~~.
  - ~~Make ComputeL0 general purpose by passing in 'alpha' and the VSOP87 data~~.
@@ -29,7 +29,6 @@ for n from 0 to 5~~.
 - How to represent the Sun and Earth?
 - ~~Read the VSOP87 data from a text file instead of having it hard coded.~~
 - ~~Abstract the loading of data away from the user.~~
-- Add an overload of the VSOP87 computation to accept parameters for the target body, coordinate system and reference frame.
 - Delete the obsolete hard-coded data.
 - Download VSOP87 data from the web if needed (maybe?).
 - Caching strategy, so that each VSOP87 file is loaded only once.

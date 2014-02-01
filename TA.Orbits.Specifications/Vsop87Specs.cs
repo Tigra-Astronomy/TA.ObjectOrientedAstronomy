@@ -88,32 +88,41 @@ namespace TA.Orbits.Specifications
 
     [Subject(typeof(Vsop87OrbitEngine), "compute coordinates")]
     public class when_computing_rectangular_j2000_coordinates_for_earth : with_target_date_2014_jan_29_midday
-    {
-        Establish context = () =>
         {
-            var latitude = VSOP87B_EarthPositionSphericalJ2000.Earth_L0(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_L1(Rho) +
-                           VSOP87B_EarthPositionSphericalJ2000.Earth_L2(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_L3(Rho) +
-                           VSOP87B_EarthPositionSphericalJ2000.Earth_L4(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_L5(Rho);
-            var longitude = VSOP87B_EarthPositionSphericalJ2000.Earth_B0(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_B1(Rho) +
-                            VSOP87B_EarthPositionSphericalJ2000.Earth_B2(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_B3(Rho) +
-                            VSOP87B_EarthPositionSphericalJ2000.Earth_B4(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_B5(Rho);
-            var radius = VSOP87B_EarthPositionSphericalJ2000.Earth_R0(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_R1(Rho) +
-                         VSOP87B_EarthPositionSphericalJ2000.Earth_R2(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_R3(Rho) +
-                         VSOP87B_EarthPositionSphericalJ2000.Earth_R4(Rho) + VSOP87B_EarthPositionSphericalJ2000.Earth_R5(Rho);
-            ReferenceCoordinates = new SphericalCoordinates(latitude, longitude, radius);
-        };
+        Establish context = () =>
+            {
+            var x = VSOP87A_EarthPositionRectangularJ2000.Earth_X0(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_X1(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_X2(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_X3(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_X4(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_X5(Rho);
+            var y = VSOP87A_EarthPositionRectangularJ2000.Earth_Y0(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Y1(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Y2(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Y3(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Y4(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Y5(Rho);
+            var z = VSOP87A_EarthPositionRectangularJ2000.Earth_Z0(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Z1(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Z2(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Z3(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Z4(Rho) +
+                    VSOP87A_EarthPositionRectangularJ2000.Earth_Z5(Rho);
+            ReferenceCoordinates = new RectangularCoordinates(x, y, z);
+            };
         Because of = () =>
-            ComputedCoordinates = Vsop87OrbitEngine.ComputeSphericalCoordinates(TargetDate,
+            ComputedCoordinates = Vsop87OrbitEngine.ComputeRectangularCoordinates(TargetDate,
                 SolarSystemBody.Earth,
                 ReferenceFrame.EquinoxJ2000);
-        It should_match_the_reference_latitude =
-            () => ComputedCoordinates.Latitude.ShouldBeCloseTo(ReferenceCoordinates.Latitude, Tolerance);
-        It should_match_the_reference_longitude =
-            () => ComputedCoordinates.Longitude.ShouldBeCloseTo(ReferenceCoordinates.Longitude, Tolerance);
-        It should_match_the_reference_radius =
-            () => ComputedCoordinates.Radius.ShouldBeCloseTo(ReferenceCoordinates.Radius, Tolerance);
-        static SphericalCoordinates ComputedCoordinates;
-        static SphericalCoordinates ReferenceCoordinates;
+        It should_match_the_reference_x =
+            () => ComputedCoordinates.X.ShouldBeCloseTo(ReferenceCoordinates.X, Tolerance);
+        It should_match_the_reference_y =
+            () => ComputedCoordinates.Y.ShouldBeCloseTo(ReferenceCoordinates.Y, Tolerance);
+        It should_match_the_reference_z =
+            () => ComputedCoordinates.Z.ShouldBeCloseTo(ReferenceCoordinates.Z, Tolerance);
+        static RectangularCoordinates ComputedCoordinates;
+        static RectangularCoordinates ReferenceCoordinates;
     }
 
     [Subject(typeof(Vsop87OrbitEngine), "data loaded from file")]

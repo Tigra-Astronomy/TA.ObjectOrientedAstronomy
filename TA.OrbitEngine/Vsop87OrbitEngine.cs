@@ -28,7 +28,7 @@ namespace TA.OrbitEngine.Vsop87
 
         public static double ComputeVsop87Series(double targetDate, IEnumerable<IEnumerable<Vsop87Term>> seriesData)
             {
-            var alpha = 0;  // series power
+            var alpha = 0; // series power
             var sum = 0.0;
             foreach (var term in seriesData)
                 {
@@ -45,8 +45,9 @@ namespace TA.OrbitEngine.Vsop87
         /// <param name="solarSystemBody">The solar system body.</param>
         /// <param name="referenceFrame">The reference frame.</param>
         /// <returns>SphericalCoordinates.</returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public static SphericalCoordinates ComputeSphericalCoordinates(double targetDate, SolarSystemBody solarSystemBody, ReferenceFrame referenceFrame)
+        public static SphericalCoordinates ComputeSphericalCoordinates(double targetDate,
+            SolarSystemBody solarSystemBody,
+            ReferenceFrame referenceFrame)
             {
             var file = Vsop87DataReader.SelectDataFile(solarSystemBody,
                 CoordinateSystem.HeliocentricSphericalCoordinates,
@@ -55,7 +56,29 @@ namespace TA.OrbitEngine.Vsop87
             var latitude = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['L']);
             var longitude = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['B']);
             var radius = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['R']);
-            return new SphericalCoordinates(latitude,longitude,radius);
+            return new SphericalCoordinates(latitude, longitude, radius);
+            }
+
+        /// <summary>
+        /// Computes the rectangular coordinates for a target body at a given date and with the specified reference frame.
+        /// </summary>
+        /// <param name="targetDate">The target date.</param>
+        /// <param name="solarSystemBody">The solar system body.</param>
+        /// <param name="referenceFrame">The reference frame.</param>
+        /// <returns>RectangularCoordinates expressed in Astronomical Units (AU).</returns>
+
+        public static RectangularCoordinates ComputeRectangularCoordinates(double targetDate,
+            SolarSystemBody solarSystemBody,
+            ReferenceFrame referenceFrame)
+            {
+            var file = Vsop87DataReader.SelectDataFile(solarSystemBody,
+                CoordinateSystem.HeliocentricRectangularCoordinates,
+                referenceFrame);
+            var vsop87SolutionData = Vsop87DataReader.LoadVsop87DataFromFile(file);
+            var x = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['X']);
+            var y = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['Y']);
+            var z = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['Z']);
+            return new RectangularCoordinates(x, y, z);
             }
         }
     }
