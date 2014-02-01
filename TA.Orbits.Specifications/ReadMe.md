@@ -22,10 +22,13 @@
  - ~~Compute latitude L in radians as (the sum of the series (Ln*rho^n)) / 100000000.0  
 for n from 0 to 5~~.
  - Calculate Longitude (B) in a similar way
- - Calculate Radius (R) in AU in a similar way
-- Orbit Engine - method is hard coded for Earth. How do we get this to work independent of the body being computed?
+ - ~~Calculate Radius (R) in AU in a similar way~~
+- ~~Orbit Engine - method is hard coded for Earth. How do we get this to work independent of the body being computed?~~
 - How to represent the Sun and Earth?
-- Read the VSOP87 data from a text file instead of having it hard coded.
+- ~~Read the VSOP87 data from a text file instead of having it hard coded.~~
+- Abstract the loading of data away from the user.
+- Add an overload of the VSOP87 computation to accept parameters for the target body, coordinate system and reference frame.
+- Delete the obsolete hard-coded data.
 - Download VSOP87 data from the web if needed.
 
 

@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using TiGra;
 
@@ -105,6 +106,137 @@ namespace TA.OrbitEngine.Vsop87
                 }
             Diagnostics.TraceVerbose("Encountered end-of-stream while reading power series terms");
             return string.Empty;    // At end of stream, no header.
+            }
+
+        /// <summary>
+        /// Selects the VSOP87 data file based on the body required and the type of coordinates required.
+        /// </summary>
+        /// <param name="solarSystemBody">The solar system body.</param>
+        /// <param name="coordinateSystem">The coordinate system.</param>
+        /// <param name="referenceFrame">The reference frame.</param>
+        /// <returns>A string containing the filename and extension (no path) of the VSOP87 data file to use.</returns>
+        internal static string SelectDataFile(SolarSystemBody solarSystemBody, CoordinateSystem coordinateSystem, ReferenceFrame referenceFrame)
+            {
+            string body;
+            string variant;
+            const string fileNameFormat = "VSOP87{0}.{1}";
+            switch (solarSystemBody)
+                {
+                case SolarSystemBody.Sun:
+                    // when the Sun is the target body only barycentric coordinates and equinox J2000 are valid.
+                    if (coordinateSystem != CoordinateSystem.BarycentricRectangularCoordinates ||
+                        referenceFrame != ReferenceFrame.EquinoxJ2000)
+                        throw NotSupportedExceptionBuilder(
+                            "The Sun may only be used with barycentric coordinates and equinox J2000",
+                            solarSystemBody,
+                            coordinateSystem,
+                            referenceFrame);
+                    body = "sun";
+                    break;
+                case SolarSystemBody.Mercury:
+                    body = "mer";
+                    break;
+                case SolarSystemBody.Venus:
+                    body = "ven";
+                    break;
+                case SolarSystemBody.Earth:
+                    // When Earth is the target body, elliptic elements are not valid.
+                    if (coordinateSystem == CoordinateSystem.HeliocentricEllipticElements)
+                        throw NotSupportedExceptionBuilder(
+                            "Earth cannot be used with elliptic elements, please use rectangular or spherical coordinates instead.",
+                            solarSystemBody,
+                            coordinateSystem,
+                            referenceFrame);
+                    body = "ear";
+                    break;
+                case SolarSystemBody.Mars:
+                    body = "mar";
+                    break;
+                case SolarSystemBody.Jupiter:
+                    body = "jup";
+                    break;
+                case SolarSystemBody.Saturn:
+                    body = "sat";
+                    break;
+                case SolarSystemBody.Uranus:
+                    body = "ura";
+                    break;
+                case SolarSystemBody.Neptune:
+                    body = "nep";
+                    break;
+                case SolarSystemBody.EarthMoonBarycentre:
+                    // When Earth-Moon Barycenter is the target body, only elliptical elements or rectangular J2000 coordinates are valid.
+                    if (coordinateSystem == CoordinateSystem.HeliocentricSphericalCoordinates
+                        || referenceFrame == ReferenceFrame.EquinoxJNow ||
+                        coordinateSystem == CoordinateSystem.BarycentricRectangularCoordinates)
+                        throw NotSupportedExceptionBuilder(
+                            "Earth-Moon Barycentre is only valid with equinox J2000 and either elliptic or rectangular coordinates",
+                            solarSystemBody,
+                            coordinateSystem,
+                            referenceFrame);
+                    body = "emb";
+                    break;
+                default:
+                    throw NotSupportedExceptionBuilder("The specified body is not supported by VSOP87",
+                        solarSystemBody,
+                        coordinateSystem,
+                        referenceFrame);
+                }
+
+            switch (coordinateSystem)
+                {
+                    case CoordinateSystem.HeliocentricEllipticElements:
+                    if (referenceFrame == ReferenceFrame.EquinoxJ2000)
+                        {
+                        variant = string.Empty;
+                        }
+                    else
+                        {
+                        throw NotSupportedExceptionBuilder(
+                            "Equinox of date (JNow) is not supported for elliptic elements, please use J2000, rectangular or spherical coordinates instead.",
+                            solarSystemBody,
+                            coordinateSystem,
+                            referenceFrame);
+                        }
+                    break;
+                case CoordinateSystem.HeliocentricRectangularCoordinates:
+                    variant = referenceFrame == ReferenceFrame.EquinoxJ2000 ? "A" : "C";
+                    break;
+                    case CoordinateSystem.HeliocentricSphericalCoordinates:
+                    variant = referenceFrame == ReferenceFrame.EquinoxJ2000 ? "B" : "D";
+                    break;
+                    case CoordinateSystem.BarycentricRectangularCoordinates:
+                    if (referenceFrame==ReferenceFrame.EquinoxJ2000)
+                        {
+                        variant = "E";
+                        }
+                    else
+                        {
+                        throw NotSupportedExceptionBuilder(
+                            "Equinox of date (JNow) is not supported for barycentric coordinates, please use J2000 or heliocentric coordinates instead.",
+                            solarSystemBody,
+                            coordinateSystem,
+                            referenceFrame);
+                        }
+                    break;
+                default:
+                    throw NotSupportedExceptionBuilder("The slected coordinate system is not supported by VSOP87",
+                        solarSystemBody,
+                        coordinateSystem,
+                        referenceFrame);
+                }
+
+            var filename = string.Format(fileNameFormat, variant, body);
+            return filename;
+            }
+
+        static Exception NotSupportedExceptionBuilder(string message, SolarSystemBody solarSystemBody, CoordinateSystem coordinateSystem, ReferenceFrame referenceFrame)
+            {
+            var ex = new NotSupportedException(message);
+            ex.Data.Add("SolarSystemBody", solarSystemBody);
+            ex.Data.Add("CoordinateSystem", coordinateSystem);
+            ex.Data.Add("ReferenceFrame", referenceFrame);
+            return ex;
             }
         }
 
