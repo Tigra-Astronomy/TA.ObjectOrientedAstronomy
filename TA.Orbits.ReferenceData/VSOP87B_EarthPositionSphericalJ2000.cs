@@ -2,7 +2,7 @@
 // 
 // Copyright © 2014 Tigra Astronomy, all rights reserved.
 // 
-// File: VSOP87B_EarthPositionSpherical.cs  Last modified: 2014-01-26@06:19 by Tim Long
+// File: VSOP87B_EarthPositionSphericalJ2000.cs  Last modified: 2014-01-26@06:19 by Tim Long
 
 using System;
 
@@ -41,7 +41,7 @@ namespace TA.Orbits.ReferenceData
 
     // Converted from VB to C# using Telerik Code Converter
 
-    public static class VSOP87B_EarthPositionSpherical
+    public static class VSOP87B_EarthPositionSphericalJ2000
         {
         public static double Earth_L0(double t)
             {

@@ -32,6 +32,7 @@ for n from 0 to 5~~.
 - Add an overload of the VSOP87 computation to accept parameters for the target body, coordinate system and reference frame.
 - Delete the obsolete hard-coded data.
 - Download VSOP87 data from the web if needed (maybe?).
+- Caching strategy, so that each VSOP87 file is loaded only once.
 
 
 
