@@ -37,5 +37,25 @@ namespace TA.OrbitEngine.Vsop87
                 }
             return sum;
             }
+
+        /// <summary>
+        /// Computes the spherical coordinates for a target body at a given date and with the specified reference frame.
+        /// </summary>
+        /// <param name="targetDate">The target date.</param>
+        /// <param name="solarSystemBody">The solar system body.</param>
+        /// <param name="referenceFrame">The reference frame.</param>
+        /// <returns>SphericalCoordinates.</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public static SphericalCoordinates ComputeSphericalCoordinates(double targetDate, SolarSystemBody solarSystemBody, ReferenceFrame referenceFrame)
+            {
+            var file = Vsop87DataReader.SelectDataFile(solarSystemBody,
+                CoordinateSystem.HeliocentricSphericalCoordinates,
+                referenceFrame);
+            var vsop87SolutionData = Vsop87DataReader.LoadVsop87DataFromFile(file);
+            var latitude = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['L']);
+            var longitude = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['B']);
+            var radius = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['R']);
+            return new SphericalCoordinates(latitude,longitude,radius);
+            }
         }
     }

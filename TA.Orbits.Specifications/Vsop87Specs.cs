@@ -56,6 +56,36 @@ namespace TA.Orbits.Specifications
             () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
         }
 
+    [Subject(typeof(Vsop87OrbitEngine), "compute coordinates")]
+    public class when_computing_spherical_j2000_coordinates_for_earth : with_target_date_2014_jan_29_midday
+        {
+        Establish context = () =>
+            {
+            var latitude = VSOP87B_EarthPositionSpherical.Earth_L0(Rho) + VSOP87B_EarthPositionSpherical.Earth_L1(Rho) +
+                           VSOP87B_EarthPositionSpherical.Earth_L2(Rho) + VSOP87B_EarthPositionSpherical.Earth_L3(Rho) +
+                           VSOP87B_EarthPositionSpherical.Earth_L4(Rho) + VSOP87B_EarthPositionSpherical.Earth_L5(Rho);
+            var longitude = VSOP87B_EarthPositionSpherical.Earth_B0(Rho) + VSOP87B_EarthPositionSpherical.Earth_B1(Rho) +
+                            VSOP87B_EarthPositionSpherical.Earth_B2(Rho) + VSOP87B_EarthPositionSpherical.Earth_B3(Rho) +
+                            VSOP87B_EarthPositionSpherical.Earth_B4(Rho) + VSOP87B_EarthPositionSpherical.Earth_B5(Rho);
+            var radius = VSOP87B_EarthPositionSpherical.Earth_R0(Rho) + VSOP87B_EarthPositionSpherical.Earth_R1(Rho) +
+                         VSOP87B_EarthPositionSpherical.Earth_R2(Rho) + VSOP87B_EarthPositionSpherical.Earth_R3(Rho) +
+                         VSOP87B_EarthPositionSpherical.Earth_R4(Rho) + VSOP87B_EarthPositionSpherical.Earth_R5(Rho);
+            ReferenceCoordinates = new SphericalCoordinates(latitude, longitude, radius);
+            };
+        Because of = () =>
+            ComputedCoordinates = Vsop87OrbitEngine.ComputeSphericalCoordinates(TargetDate,
+                SolarSystemBody.Earth,
+                ReferenceFrame.EquinoxJ2000);
+        It should_match_the_reference_latitude =
+            () => ComputedCoordinates.Latitude.ShouldBeCloseTo(ReferenceCoordinates.Latitude, Tolerance);
+        It should_match_the_reference_longitude =
+            () => ComputedCoordinates.Longitude.ShouldBeCloseTo(ReferenceCoordinates.Longitude, Tolerance);
+        It should_match_the_reference_radius =
+            () => ComputedCoordinates.Radius.ShouldBeCloseTo(ReferenceCoordinates.Radius, Tolerance);
+        static SphericalCoordinates ComputedCoordinates;
+        static SphericalCoordinates ReferenceCoordinates;
+        }
+
     [Subject(typeof(Vsop87OrbitEngine), "data loaded from file")]
     public class when_computing_vsop87_radius_variable_for_earth_with_data_loaded_from_file :
         with_target_date_2014_jan_29_midday

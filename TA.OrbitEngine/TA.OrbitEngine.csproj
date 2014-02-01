@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="SphericalCoordinates.cs" />
     <Compile Include="Vsop87DataReader.cs" />
     <Compile Include="Vsop87OrbitEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
