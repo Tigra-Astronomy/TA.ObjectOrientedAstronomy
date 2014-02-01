@@ -29,7 +29,7 @@ for n from 0 to 5~~.
 - How to represent the Sun and Earth?
 - ~~Read the VSOP87 data from a text file instead of having it hard coded.~~
 - ~~Abstract the loading of data away from the user.~~
-- Delete the obsolete hard-coded data.
+- ~~Delete the obsolete hard-coded data.~~
 - Download VSOP87 data from the web if needed (maybe?).
 - Caching strategy, so that each VSOP87 file is loaded only once.
 

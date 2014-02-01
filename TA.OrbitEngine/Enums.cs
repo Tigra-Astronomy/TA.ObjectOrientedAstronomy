@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TA.OrbitEngine
+﻿namespace TA.OrbitEngine
 {
     /// <summary>
     /// Enum SolarSystemBody - enumerates the solar system bodies encompassed by VSOP87

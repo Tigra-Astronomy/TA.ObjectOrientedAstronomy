@@ -6,24 +6,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace TA.OrbitEngine.Vsop87
+namespace TA.OrbitEngine
     {
-    public class Vsop87OrbitEngine
+    public sealed class Vsop87OrbitEngine
         {
-        public static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
+        static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
             {
             // Iteratively apply the formula Tn = AT^alpha Cos(B + CT)
             // Sum all Tn and return the sum.
             var thousandsOfJulianDays = (julianDate - 2451545.0)/365250.0; // Thousands of Julian Days since JD2000.0
             var tjdPowerAlpha = Math.Pow(thousandsOfJulianDays, alpha);
-            var sum = 0.0;
-            foreach (var term in series)
-                sum += term.AmplitudeA*tjdPowerAlpha*Math.Cos(term.PhaseB + term.FrequencyC*thousandsOfJulianDays);
-            return sum;
+            return series.Sum(term => term.AmplitudeA*tjdPowerAlpha*Math.Cos(term.PhaseB + term.FrequencyC*thousandsOfJulianDays));
             }
 
         public static double ComputeVsop87Series(double targetDate, IEnumerable<IEnumerable<Vsop87Term>> seriesData)

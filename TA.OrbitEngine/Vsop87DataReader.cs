@@ -5,23 +5,21 @@
 // File: Vsop87DataReader.cs  Last modified: 2014-01-31@10:46 by Tim Long
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using TiGra;
 
-namespace TA.OrbitEngine.Vsop87
+namespace TA.OrbitEngine
     {
-    public class Vsop87DataReader
+    internal sealed class Vsop87DataReader
         {
         const string Vsop87HeaderRegexPattern =
             @"^\s*VSOP87 VERSION (?<VsopVersion>\w+)\s+(?<Body>\w+)\s+VARIABLE (?<Variable>\d+)\s+\((?<Variables>\w+)\)\s+\*T\*\*(?<Power>\d+)\s+(?<Terms>\d+)\s+TERMS\s+(?<Description>.*)";
         const string Vsop87DataRowRegexPattern = @"^(\s*[+-]*[0-9.]+){16}\s+(?<A>[0-9.]+)\s+(?<B>[0-9.]+)\s+(?<C>[0-9.]+).*$";
-        internal static Regex Vsop87HeaderRegex = new Regex(Vsop87HeaderRegexPattern, RegexOptions.Compiled);
-        internal static Regex Vsop87DataRowRegex = new Regex(Vsop87DataRowRegexPattern, RegexOptions.Compiled);
+        internal static readonly Regex Vsop87HeaderRegex = new Regex(Vsop87HeaderRegexPattern, RegexOptions.Compiled);
+        static readonly Regex Vsop87DataRowRegex = new Regex(Vsop87DataRowRegexPattern, RegexOptions.Compiled);
 
         public static Vsop87Solution LoadVsop87DataFromFile(string filename)
             {
@@ -29,13 +27,12 @@ namespace TA.OrbitEngine.Vsop87
             var dataFile = Path.Combine(@".\Vsop87_data", filename);
             var inputStream = File.OpenText(dataFile);
             var header = inputStream.ReadLine();
-            var currentLine = header;
             var solution = Vsop87Solution.FromHeaderString(header);
             foreach (char variable in solution.Variables)
                 {
                 Diagnostics.TraceVerbose("Loading variable {0}", variable);
                 var variableIndex = solution.Variables.IndexOf(variable);
-                var series = LoadVariableSeries(solution, variableIndex, inputStream);
+                var series = LoadVariableSeries(variableIndex, inputStream);
                 solution.VariableData[variable] = series;
                 }
             return solution;
@@ -44,21 +41,21 @@ namespace TA.OrbitEngine.Vsop87
         /// <summary>
         /// Loads the variable series.
         /// </summary>
-        /// <param name="solution">The solution.</param>
         /// <param name="variableIndex">Index of the variable.</param>
+        /// <param name="inputStream">The input stream.</param>
         /// <returns>IEnumerable{IEnumerable{Vsop87Term}}.</returns>
-        static IEnumerable<IEnumerable<Vsop87Term>> LoadVariableSeries(Vsop87Solution solution, int variableIndex, StreamReader inputStream)
+        static IEnumerable<IEnumerable<Vsop87Term>> LoadVariableSeries(int variableIndex, StreamReader inputStream)
             {
             var majorSeries = new List<List<Vsop87Term>>();
-            int power = 0;
+            int power = 0;  // Used purely for diagnostics
             string currentVariable = (++variableIndex).ToString(CultureInfo.InvariantCulture);
-            string headerVariable = currentVariable;
+            string headerVariable;
             do
                 {
+                Diagnostics.TraceVerbose("Loading terms for series with power={0}", power++);
                 var minorSeries = new List<Vsop87Term>();
                 var header = LoadPowerSeries(minorSeries, inputStream);
                 majorSeries.Add(minorSeries);
-                ++power;
 
                 if (string.IsNullOrEmpty(header))
                     break;  // End of stream
@@ -84,6 +81,8 @@ namespace TA.OrbitEngine.Vsop87
             while (!inputStream.EndOfStream)
                 {
                 var line = inputStream.ReadLine();
+                if (string.IsNullOrEmpty(line))
+                    continue;
                 Diagnostics.TraceVerbose("Read line: {0}", line);
                 var rowMatch = Vsop87DataRowRegex.Match(line);
                 if (rowMatch.Success)
@@ -245,7 +244,7 @@ namespace TA.OrbitEngine.Vsop87
     /// (coordinate system and reference frame). VSOP87 has 6 distinct variants so there
     /// may be up to 6 separate solutions for each body.
     /// </summary>
-    public class Vsop87Solution
+    public sealed class Vsop87Solution
         {
             /// <summary>
             /// Gets the name of the body to which this solution applies.
@@ -278,7 +277,7 @@ namespace TA.OrbitEngine.Vsop87
         /// <value>The variable data.</value>
         public IDictionary<char, IEnumerable<IEnumerable<Vsop87Term>>> VariableData { get; private set; }
 
-        public Vsop87Solution()
+        Vsop87Solution()
             {
             VariableData = new Dictionary<char, IEnumerable<IEnumerable<Vsop87Term>>>();
             }
