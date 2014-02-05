@@ -112,7 +112,7 @@ namespace TA.Orbits.Specifications
             EarthData = Vsop87DataReader.LoadVsop87DataFromFile("VSOP87B.ear");
             };
         Because of =
-            () => ComputedRadius = Vsop87OrbitEngine.ComputeVsop87Series(TargetDate, EarthData.VariableData['R']);
+            () => ComputedRadius = Vsop87OrbitEngine.ComputeVsop87Series(TargetDate, EarthData.CoordinateVariableSeriesData['R']);
         It should_match_the_reference_implementation =
             () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
         static Vsop87Solution EarthData;

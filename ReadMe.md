@@ -32,6 +32,9 @@ for n from 0 to 5~~.
 - ~~Delete the obsolete hard-coded data.~~
 - Download VSOP87 data from the web if needed (maybe?).
 - Caching strategy, so that each VSOP87 file is loaded only once.
+- Position of planets other than Earth
+- Position of other planets relative to Earth (instead of Sun)
+- Position of Planets in horizon-based coordinates
 
 
 

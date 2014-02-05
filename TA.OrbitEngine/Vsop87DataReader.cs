@@ -28,12 +28,12 @@ namespace TA.OrbitEngine
             var inputStream = File.OpenText(dataFile);
             var header = inputStream.ReadLine();
             var solution = Vsop87Solution.FromHeaderString(header);
-            foreach (char variable in solution.Variables)
+            foreach (char variable in solution.CoordinateVariables)
                 {
                 Diagnostics.TraceVerbose("Loading variable {0}", variable);
-                var variableIndex = solution.Variables.IndexOf(variable);
+                var variableIndex = solution.CoordinateVariables.IndexOf(variable);
                 var series = LoadVariableSeries(variableIndex, inputStream);
-                solution.VariableData[variable] = series;
+                solution.CoordinateVariableSeriesData[variable] = series;
                 }
             return solution;
             }
@@ -262,7 +262,7 @@ namespace TA.OrbitEngine
         /// Gets the coordinate variables that can be computed with this data.
         /// </summary>
         /// <value>The variables, one character for each variable, concatenated together in a string.</value>
-        public string Variables { get; private set; }
+        public string CoordinateVariables { get; private set; }
         /// <summary>
         /// Gets the description of the coordinate system and reference frame represented by this data.
         /// </summary>
@@ -275,11 +275,11 @@ namespace TA.OrbitEngine
         /// is the variable name and the value is the series data for that variable.
         /// </summary>
         /// <value>The variable data.</value>
-        public IDictionary<char, IEnumerable<IEnumerable<Vsop87Term>>> VariableData { get; private set; }
+        public IDictionary<char, IEnumerable<IEnumerable<Vsop87Term>>> CoordinateVariableSeriesData { get; private set; }
 
         Vsop87Solution()
             {
-            VariableData = new Dictionary<char, IEnumerable<IEnumerable<Vsop87Term>>>();
+            CoordinateVariableSeriesData = new Dictionary<char, IEnumerable<IEnumerable<Vsop87Term>>>();
             }
         internal static Vsop87Solution FromHeaderString(string header)
             {
@@ -295,7 +295,7 @@ namespace TA.OrbitEngine
                 version,
                 variables,
                 description);
-           return new Vsop87Solution {Body = body, Version = version, Variables = variables, Description = description};
+           return new Vsop87Solution {Body = body, Version = version, CoordinateVariables = variables, Description = description};
             }
         }
     }

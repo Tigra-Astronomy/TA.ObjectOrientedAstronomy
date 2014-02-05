@@ -48,9 +48,9 @@ namespace TA.OrbitEngine
                 CoordinateSystem.HeliocentricSphericalCoordinates,
                 referenceFrame);
             var vsop87SolutionData = Vsop87DataReader.LoadVsop87DataFromFile(file);
-            var latitude = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['L']);
-            var longitude = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['B']);
-            var radius = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['R']);
+            var latitude = ComputeVsop87Series(targetDate, vsop87SolutionData.CoordinateVariableSeriesData['L']);
+            var longitude = ComputeVsop87Series(targetDate, vsop87SolutionData.CoordinateVariableSeriesData['B']);
+            var radius = ComputeVsop87Series(targetDate, vsop87SolutionData.CoordinateVariableSeriesData['R']);
             return new SphericalCoordinates(latitude, longitude, radius);
             }
 
@@ -70,9 +70,9 @@ namespace TA.OrbitEngine
                 CoordinateSystem.HeliocentricRectangularCoordinates,
                 referenceFrame);
             var vsop87SolutionData = Vsop87DataReader.LoadVsop87DataFromFile(file);
-            var x = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['X']);
-            var y = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['Y']);
-            var z = ComputeVsop87Series(targetDate, vsop87SolutionData.VariableData['Z']);
+            var x = ComputeVsop87Series(targetDate, vsop87SolutionData.CoordinateVariableSeriesData['X']);
+            var y = ComputeVsop87Series(targetDate, vsop87SolutionData.CoordinateVariableSeriesData['Y']);
+            var z = ComputeVsop87Series(targetDate, vsop87SolutionData.CoordinateVariableSeriesData['Z']);
             return new RectangularCoordinates(x, y, z);
             }
         }
