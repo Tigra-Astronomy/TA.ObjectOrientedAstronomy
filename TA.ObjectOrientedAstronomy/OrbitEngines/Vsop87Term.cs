@@ -4,7 +4,7 @@
 // 
 // File: Vsop87Term.cs  Last modified: 2014-01-29@03:45 by Tim Long
 
-namespace TA.OrbitEngine
+namespace TA.ObjectOrientedAstronomy.OrbitEngines
     {
     /// <summary>
     ///   Represents a single term for a VSOP87 computation. Each instance of this class corresponds to one record

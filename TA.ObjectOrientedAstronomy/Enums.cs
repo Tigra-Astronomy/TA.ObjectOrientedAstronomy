@@ -1,4 +1,4 @@
-﻿namespace TA.OrbitEngine
+﻿namespace TA.ObjectOrientedAstronomy
 {
     /// <summary>
     /// Enum SolarSystemBody - enumerates the solar system bodies encompassed by VSOP87

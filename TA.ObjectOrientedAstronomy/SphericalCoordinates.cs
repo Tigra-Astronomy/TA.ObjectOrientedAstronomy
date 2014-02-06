@@ -1,4 +1,4 @@
-namespace TA.OrbitEngine
+namespace TA.ObjectOrientedAstronomy
     {
     /// <summary>
     /// Struct SphericalCoordinates - represents a position expressed as a spherical coordinate

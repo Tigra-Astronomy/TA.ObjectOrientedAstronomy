@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TA.OrbitEngine\TA.OrbitEngine.csproj">
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy\TA.ObjectOrientedAstronomy.csproj">
       <Project>{213D08E9-A266-48BC-992F-CA50591390A7}</Project>
-      <Name>TA.OrbitEngine</Name>
+      <Name>TA.ObjectOrientedAstronomy</Name>
     </ProjectReference>
     <ProjectReference Include="..\TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj">
       <Project>{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}</Project>

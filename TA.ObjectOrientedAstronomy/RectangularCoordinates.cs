@@ -1,4 +1,4 @@
-namespace TA.OrbitEngine
+namespace TA.ObjectOrientedAstronomy
     {
     /// <summary>
     /// Struct RectangularCoordinates - represents a 3D cartesian (rectangular) coordinate

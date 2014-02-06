@@ -8,7 +8,8 @@ using System;
 using System.Collections;
 using Machine.Specifications;
 using Machine.Specifications.Annotations;
-using TA.OrbitEngine;
+using TA.ObjectOrientedAstronomy;
+using TA.ObjectOrientedAstronomy.OrbitEngines;
 using TA.Orbits.ReferenceData;
 
 namespace TA.Orbits.Specifications

@@ -11,7 +11,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using TiGra;
 
-namespace TA.OrbitEngine
+namespace TA.ObjectOrientedAstronomy.OrbitEngines
     {
     internal sealed class Vsop87DataReader
         {

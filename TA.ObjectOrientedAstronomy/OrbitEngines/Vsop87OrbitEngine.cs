@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TA.OrbitEngine
+namespace TA.ObjectOrientedAstronomy.OrbitEngines
     {
     public sealed class Vsop87OrbitEngine
         {
