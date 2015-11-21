@@ -36,4 +36,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // For unit test
-[assembly:InternalsVisibleTo("TA.Orbits.Specifications")]
+[assembly:InternalsVisibleTo("TA.ObjectOrientedAstronomy.Specifications")]
