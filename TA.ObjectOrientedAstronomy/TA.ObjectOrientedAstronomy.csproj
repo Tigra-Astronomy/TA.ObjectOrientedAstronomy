@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.2.1\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,12 +41,25 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TiGra.Diagnostics">
-      <HintPath>..\packages\TiGra.Diagnostics.1.1.61\lib\net45\TiGra.Diagnostics.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="FundamentalTypes\AngleBase.cs" />
+    <Compile Include="FundamentalTypes\AstroDateTime.cs" />
+    <Compile Include="FundamentalTypes\Bearing.cs" />
+    <Compile Include="FundamentalTypes\CompassExtensions.cs" />
+    <Compile Include="FundamentalTypes\CompassPoint.cs" />
+    <Compile Include="FundamentalTypes\Declination.cs" />
+    <Compile Include="FundamentalTypes\GeodeticCoordinates.cs" />
+    <Compile Include="FundamentalTypes\HourAngle.cs" />
+    <Compile Include="FundamentalTypes\ISexagesimal.cs" />
+    <Compile Include="FundamentalTypes\Latitude.cs" />
+    <Compile Include="FundamentalTypes\Longitude.cs" />
+    <Compile Include="FundamentalTypes\ProtocolFormatProvider.cs" />
+    <Compile Include="FundamentalTypes\RightAscension.cs" />
+    <Compile Include="FundamentalTypes\SexagesimalFormatter.cs" />
+    <Compile Include="FundamentalTypes\SexagesimalParser.cs" />
+    <Compile Include="FundamentalTypes\ValidationExtensions.cs" />
     <Compile Include="RectangularCoordinates.cs" />
     <Compile Include="SphericalCoordinates.cs" />
     <Compile Include="OrbitEngines\Vsop87DataReader.cs" />

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
-using TiGra;
+using NLog;
 
 namespace TA.ObjectOrientedAstronomy.OrbitEngines
     {
@@ -20,17 +20,18 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
         const string Vsop87DataRowRegexPattern = @"^(\s*[+-]*[0-9.]+){16}\s+(?<A>[0-9.]+)\s+(?<B>[0-9.]+)\s+(?<C>[0-9.]+).*$";
         internal static readonly Regex Vsop87HeaderRegex = new Regex(Vsop87HeaderRegexPattern, RegexOptions.Compiled);
         static readonly Regex Vsop87DataRowRegex = new Regex(Vsop87DataRowRegexPattern, RegexOptions.Compiled);
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public static Vsop87Solution LoadVsop87DataFromFile(string filename)
             {
-            Diagnostics.TraceInfo("Loading VSOP87 solution from {0}", filename);
+            Log.Info("Loading VSOP87 solution from {0}", filename);
             var dataFile = Path.Combine(@".\Vsop87_data", filename);
             var inputStream = File.OpenText(dataFile);
             var header = inputStream.ReadLine();
             var solution = Vsop87Solution.FromHeaderString(header);
             foreach (char variable in solution.CoordinateVariables)
                 {
-                Diagnostics.TraceVerbose("Loading variable {0}", variable);
+                Log.Debug("Loading variable {0}", variable);
                 var variableIndex = solution.CoordinateVariables.IndexOf(variable);
                 var series = LoadVariableSeries(variableIndex, inputStream);
                 solution.CoordinateVariableSeriesData[variable] = series;
@@ -52,7 +53,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
             string headerVariable;
             do
                 {
-                Diagnostics.TraceVerbose("Loading terms for series with power={0}", power++);
+                Log.Debug("Loading terms for series with power={0}", power++);
                 var minorSeries = new List<Vsop87Term>();
                 var header = LoadPowerSeries(minorSeries, inputStream);
                 majorSeries.Add(minorSeries);
@@ -83,7 +84,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
                 var line = inputStream.ReadLine();
                 if (string.IsNullOrEmpty(line))
                     continue;
-                Diagnostics.TraceVerbose("Read line: {0}", line);
+                Log.Debug("Read line: {0}", line);
                 var rowMatch = Vsop87DataRowRegex.Match(line);
                 if (rowMatch.Success)
                     {
@@ -91,19 +92,19 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
                     var termB = double.Parse(rowMatch.Groups["B"].Value, CultureInfo.InvariantCulture);
                     var termC = double.Parse(rowMatch.Groups["C"].Value, CultureInfo.InvariantCulture);
                     var term = new Vsop87Term(termA, termB, termC);
-                    Diagnostics.TraceVerbose("Recognized data row, A={0} B={1} C={2}", termA, termB, termC);
+                    Log.Debug("Recognized data row, A={0} B={1} C={2}", termA, termB, termC);
                     minorSeries.Add(term);
                     continue;
                     }
                 var headerMatch = Vsop87HeaderRegex.Match(line);
                 if (headerMatch.Success)
                     {
-                    Diagnostics.TraceVerbose("Recognized header row");
+                    Log.Debug("Recognized header row");
                     return line;
                     }
                 throw new InvalidOperationException("Data file was not in the expected format (could not recognize a data row or a header row)");
                 }
-            Diagnostics.TraceVerbose("Encountered end-of-stream while reading power series terms");
+            Log.Debug("Encountered end-of-stream while reading power series terms");
             return string.Empty;    // At end of stream, no header.
             }
 
@@ -245,11 +246,12 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
     /// may be up to 6 separate solutions for each body.
     /// </summary>
     public sealed class Vsop87Solution
-        {
-            /// <summary>
-            /// Gets the name of the body to which this solution applies.
-            /// </summary>
-            /// <value>The body name as an upper-case string.</value>
+    {
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        /// <summary>
+        /// Gets the name of the body to which this solution applies.
+        /// </summary>
+        /// <value>The body name as an upper-case string.</value>
         public string Body { get; private set; }
         /// <summary>
         /// Gets the VSOP87 version (variant) represented by this data.
@@ -290,7 +292,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
             var version = matches.Groups["VsopVersion"].Value;
             var variables = matches.Groups["Variables"].Value;
             var description = matches.Groups["Description"].Value;
-            Diagnostics.TraceInfo("Creating VSOP87 solution with Body={0} Version={1} Variables={2} Description={3}",
+            Log.Info("Creating VSOP87 solution with Body={0} Version={1} Variables={2} Description={3}",
                 body,
                 version,
                 variables,
