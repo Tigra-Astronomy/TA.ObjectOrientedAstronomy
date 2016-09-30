@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using NLog;
 
@@ -25,7 +26,8 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
         public static Vsop87Solution LoadVsop87DataFromFile(string filename)
             {
             Log.Info("Loading VSOP87 solution from {0}", filename);
-            var dataFile = Path.Combine(@".\Vsop87_data", filename);
+            var dataDirectory = GetDataDirectory();
+            var dataFile = Path.Combine(dataDirectory, filename);
             var inputStream = File.OpenText(dataFile);
             var header = inputStream.ReadLine();
             var solution = Vsop87Solution.FromHeaderString(header);
@@ -37,6 +39,24 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
                 solution.CoordinateVariableSeriesData[variable] = series;
                 }
             return solution;
+            }
+
+        private static string GetDataDirectory()
+            {
+            var assemblyDirectory = GetAssemblyLocation();
+            var dataDirectory = Path.Combine(assemblyDirectory, "Vsop87_data");
+            return dataDirectory;
+            }
+
+        private static string GetAssemblyLocation()
+            {
+            var me = Assembly.GetExecutingAssembly();
+            var myLocation = me.Location;
+            if (string.IsNullOrEmpty(myLocation))
+                myLocation = ".";
+            var fullyQualifiedLocation = Path.GetFullPath(myLocation);
+            return Path.GetDirectoryName(fullyQualifiedLocation);
+
             }
 
         /// <summary>

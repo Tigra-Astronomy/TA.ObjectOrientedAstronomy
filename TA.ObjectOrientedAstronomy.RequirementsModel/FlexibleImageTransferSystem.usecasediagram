@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="ed84c774-de4c-4a58-a445-07a7d205c477" name="FlexibleImageTransferSystem" linkedPackageId="4de22d87-5d65-4fc1-806d-ee3c825ae921" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="1f64959c-daa1-4d1c-b40a-06254ac2407c">
+      <profileInstance Id="6309de90-f934-4d24-9527-f1a315bd3bba" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="c88dba1d-82c1-46ae-b4b8-93bd95091d1a">
+      <profileInstance Id="2bde5e50-830d-4df9-9ac4-2e28540dee14" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="2816594c-fa70-4ddb-94da-43a1fde5df45" name="User Code" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5a13e011-2d9d-4bc0-b64c-466c7b7d9b48" />
+        <targetEnds>
+          <association Id="5faa7926-dffd-4a4b-9e25-c89fc9931ddf" isDerived="false" sourceEndRoleName="User Code" targetEndRoleName="Read Entire File" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="28e48027-ad81-483a-8172-31cce38ba64f" LastKnownName="Read Entire File" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4e9904f4-640b-4ee9-ad28-71ffce81260b" name="User Code" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="027ecdac-5e09-4f70-b3a5-dac6cbdd3cbf" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1301e7a2-6230-4eb9-b84c-797f89a4f2c5" name="Read Entire File" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="d23a2577-6f6c-4e9d-86ba-accb4679ea66" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="187f589f-efcf-458f-942b-7c5024bb127a" />
+          </association>
+          <association Id="7da019d9-a432-4c4d-a6a7-658b2ae30175" isDerived="false" sourceEndRoleName="User Code" targetEndRoleName="Write File" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="f3a488ee-7636-4aca-bdf1-c04395a6b38d" LastKnownName="Write File" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e0d58654-e7a6-4153-bb68-7111943f5cb6" name="User Code" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="83da3bb1-1ad5-4b7c-b459-58b9a25da5e6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a9b868d8-5a26-4f3c-beb0-37095788bc23" name="Write File" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="48773bba-39b9-4692-b6ce-11d438160ec6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="351fb949-3c33-4f93-bf78-ffd160e990aa" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="28e48027-ad81-483a-8172-31cce38ba64f" name="Read Entire File" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="f2905ea3-5fc7-4755-947f-cf81024106c9" />
+        <additions>
+          <include Id="dc145f47-6149-44e2-9377-543d928a5752">
+            <useCaseMoniker Id="b373f058-6a33-4386-aa25-8c8e2ef20435" LastKnownName="Read HDU" />
+            <elementDefinition Id="0fb81700-c368-4d15-b6f9-d7d46cb6402f" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="b373f058-6a33-4386-aa25-8c8e2ef20435" name="Read HDU" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1a77e724-3a3f-4c77-b883-64ac4fe5d4c8" />
+        <additions>
+          <include Id="d4db246d-d4b9-457c-97c1-9b3241fca372">
+            <useCaseMoniker Id="4f389c5b-e77c-4405-9a1e-cc2b22d1d2d4" LastKnownName="Read Header" />
+            <elementDefinition Id="ce841b64-719c-4f8e-a076-bee56761c0f1" />
+          </include>
+          <include Id="ad1738cf-6822-44d3-94bb-1f8423f089a8">
+            <useCaseMoniker Id="4b552c2b-e407-4033-915e-712da8bc141b" LastKnownName="Read Image Data" />
+            <elementDefinition Id="342345e0-6cdd-4d79-853c-832a01bdefaa" />
+          </include>
+          <include Id="9c5435a4-4835-426a-8d8e-3c71a34c47e4">
+            <useCaseMoniker Id="af0d1953-0e4d-43da-bcbd-83bbb8ea4b11" LastKnownName="Read Table" />
+            <elementDefinition Id="8afc2252-41df-47b7-adae-884d755fc128" />
+          </include>
+          <include Id="ae82374c-356c-4ce8-8aba-6b403d4d1376">
+            <useCaseMoniker Id="507484ac-125e-41c1-b6b2-5026fc3d9d53" LastKnownName="Read Extension" />
+            <elementDefinition Id="93a55c1e-a259-4182-87f0-da5d5ec2610e" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="4f389c5b-e77c-4405-9a1e-cc2b22d1d2d4" name="Read Header" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="353aa230-17dd-4372-bd8c-a21e5d5ff325" />
+        <additions>
+          <include Id="ca3f7fb8-06fd-414a-be17-df7e2e48c528">
+            <useCaseMoniker Id="bbc9dde6-df05-41e1-8a6d-d291af347b68" LastKnownName="Read Record" />
+            <elementDefinition Id="91308272-f807-4d9a-b8fd-cd2667187158" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="4b552c2b-e407-4033-915e-712da8bc141b" name="Read Image Data" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9bd5928a-741a-4fc2-b4ab-8f91c31930ad" />
+        <additions>
+          <include Id="4c020439-276c-4d2d-8a02-7068bf8a442f">
+            <useCaseMoniker Id="bbc9dde6-df05-41e1-8a6d-d291af347b68" LastKnownName="Read Record" />
+            <elementDefinition Id="1c977325-9ee9-4693-b24c-50d43b00e1cf" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="af0d1953-0e4d-43da-bcbd-83bbb8ea4b11" name="Read Table" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="781a5492-5b6e-455a-8106-8aec23492fd8" />
+        <additions>
+          <include Id="a3b3f73a-299e-4f74-9695-2c56f39b386c">
+            <useCaseMoniker Id="bbc9dde6-df05-41e1-8a6d-d291af347b68" LastKnownName="Read Record" />
+            <elementDefinition Id="3415389e-f389-4834-bc3e-4c5334847b50" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="507484ac-125e-41c1-b6b2-5026fc3d9d53" name="Read Extension" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="e3a249c7-7132-4e06-ae2a-ed47ec5d2fcc" />
+        <additions>
+          <include Id="6edb52fa-5201-412a-a076-062bafe2e320">
+            <useCaseMoniker Id="bbc9dde6-df05-41e1-8a6d-d291af347b68" LastKnownName="Read Record" />
+            <elementDefinition Id="84c8f6b7-b906-41b2-ba5a-33f7ff543096" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="bbc9dde6-df05-41e1-8a6d-d291af347b68" name="Read Record" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3cdbbbd5-86a3-4320-97b7-0ffc81513eb3" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="f3a488ee-7636-4aca-bdf1-c04395a6b38d" name="Write File" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6150a184-8d0a-496b-8d85-fe6e050d7702" />
+        <additions>
+          <include Id="ecdc6532-6778-40c7-bc87-2ffcf8a5c267">
+            <useCaseMoniker Id="ded0fec0-1423-4ae1-9ece-c17f1cafb399" LastKnownName="Write HDU" />
+            <elementDefinition Id="310458c3-ad57-46fd-9d47-343949dade0b" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="ded0fec0-1423-4ae1-9ece-c17f1cafb399" name="Write HDU" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d0742126-aaf3-4c69-9434-d517bdd1d6ce" />
+        <additions>
+          <include Id="84eedc0f-3a4e-4396-8859-ff8e040b8b9f">
+            <useCaseMoniker Id="bbfd2d10-78b9-4d0d-8b0b-aa2ece92aa8a" LastKnownName="Write Header" />
+            <elementDefinition Id="97497caf-8936-45f0-a2a2-7c4c31c1e0df" />
+          </include>
+          <include Id="774bb40a-e4b5-4c14-91ea-f7841785bafb">
+            <useCaseMoniker Id="be8840da-9290-4e09-b231-f05e8cf83c48" LastKnownName="Write Image Data" />
+            <elementDefinition Id="e776c47d-9566-4cbc-be07-b4cb656b1534" />
+          </include>
+          <include Id="bf62229c-15a4-4a26-88bd-614a067f45f4">
+            <useCaseMoniker Id="0e846ba7-4e60-4958-a508-85ea26d0f0cf" LastKnownName="Write Table" />
+            <elementDefinition Id="ba32b197-0ccd-4c0f-9078-af43aa2088c9" />
+          </include>
+          <include Id="c089835f-fb5c-4302-9da9-01d6b9a0cea6">
+            <useCaseMoniker Id="8c6a3111-f719-493a-afd1-4a7c93e092c3" LastKnownName="Write Extension" />
+            <elementDefinition Id="356a2140-e274-46b6-848b-c262655082d6" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="bbfd2d10-78b9-4d0d-8b0b-aa2ece92aa8a" name="Write Header" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d4caf47a-ddde-4e68-ad83-fe2eaea738e9" />
+        <additions>
+          <include Id="5cc0bd66-de0a-4179-a6a4-7a1d1ad14da4">
+            <useCaseMoniker Id="9a309b1d-ba2d-4b96-9d2d-48b4615f64ad" LastKnownName="Write Record" />
+            <elementDefinition Id="5fe9618c-cefe-427f-bbf2-306cd999edcc" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="be8840da-9290-4e09-b231-f05e8cf83c48" name="Write Image Data" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c40b34a4-f922-41db-94a9-171d41e753e4" />
+        <additions>
+          <include Id="e20d41d4-a8e2-4fc1-a26c-dc4fe052cbd8">
+            <useCaseMoniker Id="9a309b1d-ba2d-4b96-9d2d-48b4615f64ad" LastKnownName="Write Record" />
+            <elementDefinition Id="53916121-3bcb-4a26-99ac-8c79f643a294" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="0e846ba7-4e60-4958-a508-85ea26d0f0cf" name="Write Table" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="0c83da80-3298-4216-b098-ddf2f6f0f8ce" />
+        <additions>
+          <include Id="6d8da80b-ba37-46bb-8d07-2c5d06613bde">
+            <useCaseMoniker Id="9a309b1d-ba2d-4b96-9d2d-48b4615f64ad" LastKnownName="Write Record" />
+            <elementDefinition Id="c7ef261b-8e44-48db-8b54-85b6db1c3ee0" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="8c6a3111-f719-493a-afd1-4a7c93e092c3" name="Write Extension" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d69371cd-6d23-415b-81f9-2ee3181f1592" />
+        <additions>
+          <include Id="a2e81576-1985-4dd0-8121-774697cfeb00">
+            <useCaseMoniker Id="9a309b1d-ba2d-4b96-9d2d-48b4615f64ad" LastKnownName="Write Record" />
+            <elementDefinition Id="46136d78-3d53-424e-b06a-61ddef981ab9" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="9a309b1d-ba2d-4b96-9d2d-48b4615f64ad" name="Write Record" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9911ed19-778b-4432-a994-b9cf558d264a" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="4de22d87-5d65-4fc1-806d-ee3c825ae921" name="TA.ObjectOrientedAstronomy.RequirementsModel">
+    <elementDefinition Id="f94a2b7d-096b-498a-8edb-2244eda893e1" />
+  </package>
+</useCaseModelRoot>

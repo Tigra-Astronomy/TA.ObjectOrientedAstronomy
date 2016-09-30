@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TA.ObjectOrientedAstronomy.Specifications</RootNamespace>
     <AssemblyName>TA.ObjectOrientedAstronomy.Specifications</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,44 +31,51 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Machine.Specifications, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.0.9.3\lib\net45\Machine.Specifications.dll</HintPath>
+    <Reference Include="Machine.Specifications, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Machine.Specifications.0.11.0\lib\net45\Machine.Specifications.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Machine.Specifications.Clr4, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.0.9.3\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Machine.Specifications.Should, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Machine.Specifications.Should.0.8.0\lib\net45\Machine.Specifications.Should.dll</HintPath>
+    <Reference Include="Machine.Specifications.Should, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Machine.Specifications.Should.0.11.0\lib\net45\Machine.Specifications.Should.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.2.1\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AssemblySetup.cs" />
     <Compile Include="BearingSpecs.cs" />
     <Compile Include="DeclinationSpecs.cs" />
     <Compile Include="DenebRightAscension.cs" />
+    <Compile Include="Builders\FitsBuilder.cs" />
+    <Compile Include="FitsStreamBuilder.cs" />
+    <Compile Include="FlexibleImageTransportSystemSpecs.cs" />
     <Compile Include="HourAngleSpecs.cs" />
     <Compile Include="LatitudeSpecs.cs" />
+    <Compile Include="TaskExtensions.cs" />
     <Compile Include="Vsop87Specs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShouldExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem\TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.csproj">
+      <Project>{c7a50ea5-cfff-4f33-ba9d-4b07e78edfb3}</Project>
+      <Name>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TA.ObjectOrientedAstronomy\TA.ObjectOrientedAstronomy.csproj">
       <Project>{213D08E9-A266-48BC-992F-CA50591390A7}</Project>
       <Name>TA.ObjectOrientedAstronomy</Name>
@@ -77,6 +85,22 @@
       <Name>TA.Orbits.ReferenceData</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="SampleData\Fits\DDTSUVDATA.fits" />
+    <EmbeddedResource Include="SampleData\Fits\EUVEngc4151imgx.fits" />
+    <EmbeddedResource Include="SampleData\Fits\FGSf64y0106m_a1f.fits" />
+    <EmbeddedResource Include="SampleData\Fits\FOCx38i0101t_c0f.fits" />
+    <EmbeddedResource Include="SampleData\Fits\FOSy19g0309t_c2f.fits" />
+    <EmbeddedResource Include="SampleData\Fits\HRSz0yd020fm_c2f.fits" />
+    <EmbeddedResource Include="SampleData\Fits\IUElwp25637mxlo.fits" />
+    <EmbeddedResource Include="SampleData\Fits\NICMOSn4hk12010_mos.fits" />
+    <None Include="SampleData\Fits\ReadMe.md" />
+    <EmbeddedResource Include="SampleData\Fits\UITfuv2582gc.fits" />
+    <EmbeddedResource Include="SampleData\Fits\WFPC2ASSNu5780205bx.fits" />
+    <EmbeddedResource Include="SampleData\Fits\WFPC2u5780205r_c0fx.fits" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

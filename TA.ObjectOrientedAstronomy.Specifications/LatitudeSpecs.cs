@@ -13,7 +13,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
     #region Value coersion
 
     [Subject(typeof(Latitude), "coersion")]
-    class when_when_creating_a_latitude_of_91
+    class when_creating_a_latitude_of_91
     {
         Because of = () => UUT = new Latitude(91.0);
         It should_coerce_to_89 = () => UUT.Value.ShouldBeCloseTo(89.0);
