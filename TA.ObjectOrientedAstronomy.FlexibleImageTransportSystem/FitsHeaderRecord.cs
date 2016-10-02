@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsHeaderRecord.cs  Last modified: 2016-09-30@01:36 by Tim Long
+// File: FitsHeaderRecord.cs  Last modified: 2016-10-02@03:49 by Tim Long
 
 using System.Text.RegularExpressions;
 
@@ -43,6 +43,11 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             header.Value = matches.Groups["Value"].Value.Trim() ?? string.Empty;
             header.Comment = matches.Groups["Comment"].Value.Trim() ?? string.Empty;
             return header;
+            }
+
+        public override string ToString()
+            {
+            return $"{Keyword} = {Value} / {Comment}";
             }
         }
     }

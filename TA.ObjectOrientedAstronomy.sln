@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.Orbits.ReferenceData", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26312736-84E8-40E0-BA25-539F7537AD0C}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
 		ReadMe.md = ReadMe.md
 		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json

@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -80,7 +81,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 }
             return builder.ToString();
             }
-
+        
         private char[] DecodeAsciiFromCurrentBlock(int characterCount)
             {
             if (characterCount > BlockBytesRemaining)
@@ -88,6 +89,42 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     $"{characterCount} characters were requested but there are only {BlockBytesRemaining} in the block buffer");
             var decodedCharacters = Encoding.ASCII.GetChars(CurrentBlock, blockIndex, characterCount);
             return decodedCharacters;
+            }
+
+        /// <summary>
+        /// Moves to block boundary. If the read pointer is already at a block boundary, nothing happens.
+        /// </summary>
+        public void MoveToBlockBoundary()
+            {
+            if (!BlockIsEmpty)
+                FillCurrentBlock();
+            }
+
+        private async Task<byte[]> BlockReadBytes(int byteCount)
+            {
+            var bytesOutstanding = byteCount;
+            var bufferIndex = 0;
+            var buffer = new byte[byteCount];
+            while (bytesOutstanding > 0)
+                {
+                if (BlockIsEmpty)
+                    await FillCurrentBlock().ConfigureAwait(false);
+                if (BlockBytesRemaining >= bytesOutstanding)
+                    {
+                    Array.ConstrainedCopy(CurrentBlock, blockIndex, buffer, bufferIndex, bytesOutstanding);
+                    blockIndex += bytesOutstanding;
+                    bufferIndex += bytesOutstanding;
+                    bytesOutstanding = 0;
+                    return buffer;
+                    }
+                // BlockBytesRemaining < bytesOutstanding
+                Array.ConstrainedCopy(CurrentBlock, blockIndex, buffer, bufferIndex, BlockBytesRemaining);
+                bufferIndex += BlockBytesRemaining;
+                bytesOutstanding -= BlockBytesRemaining;
+                blockIndex += BlockBytesRemaining;
+                blockIndex += BlockBytesRemaining;
+                }
+            return buffer;
             }
 
         private async Task FillCurrentBlock()
@@ -145,6 +182,43 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     }
                 } while (currentRecord.Keyword != Constants.EndKeyword);
             return result;
+            }
+
+        public async Task<FitsHeaderDataUnit> ReadPrimaryHeaderDataUnit()
+            {
+            var hdu = new FitsHeaderDataUnit();
+            hdu.Header = await ReadPrimaryHeader().ConfigureAwait(false);
+            hdu.MandatoryKeywords = hdu.Header.BindProperties<FitsPrimaryHduMandatoryKeywords>();
+            MoveToBlockBoundary();
+            if (hdu.MandatoryKeywords.NumberOfAxes == 0)
+                {
+                hdu.DataType = FitsDataType.None;
+                hdu.DataArrayLengthBits = 0;
+                hdu.RawData = new byte[0];
+                return hdu;
+                }
+            var dataArrayBits = ComputeDataArrayBitLength(hdu.MandatoryKeywords);
+            var dataArrayBytes = dataArrayBits / 8;
+            hdu.RawData = await BlockReadBytes(dataArrayBytes).ConfigureAwait(false);
+            hdu.DataArrayLengthBits = dataArrayBits;
+            hdu.DataType = FitsDataType.Image;
+            return hdu;
+            }
+
+        /// <summary>
+        /// Computes the length of the data array, in bits, using the formula:
+        /// <c>Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)</c>
+        /// </summary>
+        /// <param name="headerValues">The mandatory FITS header values which specify the type and size of the data array.</param>
+        /// <returns>The number of bits contained in the data array.</returns>
+        private static int ComputeDataArrayBitLength(FitsMandatoryKeywords headerValues)
+            {
+            var dataArrayBits = Math.Abs(headerValues.BitsPerPixel);
+            foreach (var axisLength in headerValues.LengthOfAxis)
+                {
+                dataArrayBits *= axisLength;
+                }
+            return dataArrayBits;
             }
         }
     }
