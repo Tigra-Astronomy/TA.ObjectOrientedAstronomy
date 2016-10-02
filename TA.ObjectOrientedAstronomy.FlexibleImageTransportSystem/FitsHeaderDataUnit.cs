@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsHeaderDataUnit.cs  Last modified: 2016-10-02@07:33 by Tim Long
+// File: FitsHeaderDataUnit.cs  Last modified: 2016-10-02@08:31 by Tim Long
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -42,7 +42,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public byte[] RawData { get; set; }
 
         /// <summary>
-        /// Gets or sets the data array length bits.
+        ///     Gets or sets the data array length bits.
         /// </summary>
         /// <value>The data array length bits.</value>
         public int DataArrayLengthBits { get; set; }
