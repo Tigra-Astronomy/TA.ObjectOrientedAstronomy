@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BitmapConverter.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FitsDataType.cs" />
     <Compile Include="FitsHeader.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="FitsHeaderRecord.cs" />
     <Compile Include="FitsMandatoryKeywords.cs" />
     <Compile Include="FitsPrimaryHduMandatoryKeywords.cs" />
+    <Compile Include="ImageKind.cs" />
     <Compile Include="PropertyBinder\FitsPropertyBinder.cs" />
     <Compile Include="FitsReader.cs" />
     <Compile Include="FitsRecord.cs" />

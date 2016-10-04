@@ -2,9 +2,11 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-02@08:10 by Tim Long
+// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-02@21:16 by Tim Long
 
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using Machine.Specifications;
@@ -137,15 +139,34 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         static FitsPrimaryHduMandatoryKeywords MandatoryKeywords;
         }
 
-    [Subject(typeof(FitsReader))]
+    [Subject(typeof(FitsReader), "Read primary HDU")]
     class when_reading_the_complete_primary_header_data_unit : with_fits_reader
         {
         Establish context = () => FitsReader = ContextBuilder.FromEmbeddedResource("FOSy19g0309t_c2f.fits").Build();
         Because of = () => hdu = FitsReader.ReadPrimaryHeaderDataUnit().WaitFoResult();
         It should_compute_the_correct_data_array_bit_length = () => hdu.DataArrayLengthBits.ShouldEqual(32 * 2 * 2064);
-        It should_compute_the_correct_data_array_byte_length = () => hdu.DataArrayLengthBytes.ShouldEqual(hdu.DataArrayLengthBits / 8);
+        It should_compute_the_correct_data_array_byte_length =
+            () => hdu.DataArrayLengthBytes.ShouldEqual(hdu.DataArrayLengthBits / 8);
         It should_populate_the_data_array = () => hdu.RawData.Length.ShouldEqual(hdu.DataArrayLengthBytes);
         It should_set_the_data_type_to_image = () => hdu.DataType.ShouldEqual(FitsDataType.Image);
+        static FitsHeaderDataUnit hdu;
+        }
+
+    [Subject(typeof(FitsReader))]
+    class when_converting_monocrome_image_data_to_a_windows_bitmap : with_fits_reader
+        {
+        Establish context = () =>
+            {
+            FitsReader = ContextBuilder.FromEmbeddedResource("WFPC2ASSNu5780205bx.fits").Build();
+            hdu = FitsReader.ReadPrimaryHeaderDataUnit().WaitFoResult();
+            };
+        Because of = () => bitmap = hdu.ToWindowsBitmap();
+        It should_produce_a_bitmap_with_the_expected_x_dimension =
+            () => bitmap.Width.ShouldEqual(hdu.MandatoryKeywords.LengthOfAxis[0]);
+        It should_produce_a_bitmap_with_the_expected_y_dimension =
+            () => bitmap.Height.ShouldEqual(hdu.MandatoryKeywords.LengthOfAxis[1]);
+        It should_produce_a_greyscale_image = () => bitmap.PixelFormat.ShouldEqual(PixelFormat.Format16bppGrayScale);
+        static Bitmap bitmap;
         static FitsHeaderDataUnit hdu;
         }
     }

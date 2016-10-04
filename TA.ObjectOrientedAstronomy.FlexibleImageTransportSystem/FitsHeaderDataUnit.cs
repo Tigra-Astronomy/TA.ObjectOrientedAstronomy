@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsHeaderDataUnit.cs  Last modified: 2016-10-02@08:31 by Tim Long
+// File: FitsHeaderDataUnit.cs  Last modified: 2016-10-03@22:00 by Tim Long
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
