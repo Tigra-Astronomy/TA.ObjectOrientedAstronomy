@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsPropertyBinder.cs  Last modified: 2016-10-02@07:23 by Tim Long
+// File: FitsPropertyBinder.cs  Last modified: 2016-10-07@03:18 by Tim Long
 
 using System;
 using System.Collections;
@@ -111,7 +111,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder
                 }
             catch (InvalidOperationException ex)
                 {
-                log.Error($"Type conversion failed for property {property.Name}");
+                log.Error(ex, $"Type conversion failed for property {property.Name}");
                 // We don't fail, the property is just left unset.
                 }
             }

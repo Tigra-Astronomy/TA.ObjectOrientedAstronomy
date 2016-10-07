@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsReader.cs  Last modified: 2016-09-30@02:10 by Tim Long
+// File: FitsReader.cs  Last modified: 2016-10-07@03:21 by Tim Long
 
 using System;
 using System.IO;
@@ -47,7 +47,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             var buffer = new byte[Constants.FitsBlockLength];
             var bytesRead = await sourceStream.ReadAsync(buffer, 0, Constants.FitsBlockLength).ConfigureAwait(false);
             if (bytesRead != Constants.FitsBlockLength)
-                throw new IOException($"Unable to read a complete FITS block of {Constants.FitsBlockLength} bytes");
+                throw new FitsIncompleteBlockException();
             return buffer;
             }
 
@@ -81,7 +81,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 }
             return builder.ToString();
             }
-        
+
         private char[] DecodeAsciiFromCurrentBlock(int characterCount)
             {
             if (characterCount > BlockBytesRemaining)
@@ -92,12 +92,12 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             }
 
         /// <summary>
-        /// Moves to block boundary. If the read pointer is already at a block boundary, nothing happens.
+        ///     Moves to block boundary. If the read pointer is already at a block boundary, nothing happens.
         /// </summary>
-        public void MoveToBlockBoundary()
+        private async Task MoveToBlockBoundary()
             {
             if (!BlockIsEmpty)
-                FillCurrentBlock();
+                await FillCurrentBlock().ConfigureAwait(false);
             }
 
         private async Task<byte[]> BlockReadBytes(int byteCount)
@@ -146,7 +146,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public async Task<FitsRecord> ReadRecord()
             {
             var record = await BlockReadExactly(Constants.FitsRecordLength).ConfigureAwait(false);
-            Log.Debug($"Read record: [{record}]");
+            NLog.Fluent.Log.Debug($"Read record: [{record}]");
             if (record.Length != Constants.FitsRecordLength)
                 {
                 throw new InvalidOperationException(
@@ -189,7 +189,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             var hdu = new FitsHeaderDataUnit();
             hdu.Header = await ReadPrimaryHeader().ConfigureAwait(false);
             hdu.MandatoryKeywords = hdu.Header.BindProperties<FitsPrimaryHduMandatoryKeywords>();
-            MoveToBlockBoundary();
+            await MoveToBlockBoundary().ConfigureAwait(false);
             if (hdu.MandatoryKeywords.NumberOfAxes == 0)
                 {
                 hdu.DataType = FitsDataType.None;
@@ -206,8 +206,8 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             }
 
         /// <summary>
-        /// Computes the length of the data array, in bits, using the formula:
-        /// <c>Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)</c>
+        ///     Computes the length of the data array, in bits, using the formula:
+        ///     <c>Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)</c>
         /// </summary>
         /// <param name="headerValues">The mandatory FITS header values which specify the type and size of the data array.</param>
         /// <returns>The number of bits contained in the data array.</returns>

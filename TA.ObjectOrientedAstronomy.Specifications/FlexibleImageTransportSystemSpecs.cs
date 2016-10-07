@@ -2,12 +2,11 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-02@21:16 by Tim Long
+// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-07@03:03 by Tim Long
 
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem;
@@ -45,7 +44,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
             var block = FitsReader.ReadBlock().WaitFoResult();
             var first = block.First();
             });
-        It should_throw = () => Exception.ShouldBeOfExactType<IOException>();
+        It should_throw = () => Exception.ShouldBeOfExactType<FitsIncompleteBlockException>();
         static Exception Exception;
         }
 
@@ -165,7 +164,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
             () => bitmap.Width.ShouldEqual(hdu.MandatoryKeywords.LengthOfAxis[0]);
         It should_produce_a_bitmap_with_the_expected_y_dimension =
             () => bitmap.Height.ShouldEqual(hdu.MandatoryKeywords.LengthOfAxis[1]);
-        It should_produce_a_greyscale_image = () => bitmap.PixelFormat.ShouldEqual(PixelFormat.Format16bppGrayScale);
+        It should_produce_an_rgb_48bpp_image = () => bitmap.PixelFormat.ShouldEqual(PixelFormat.Format48bppRgb);
         static Bitmap bitmap;
         static FitsHeaderDataUnit hdu;
         }

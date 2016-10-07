@@ -71,9 +71,11 @@
     <Compile Include="FitsHeader.cs" />
     <Compile Include="FitsHeaderDataUnit.cs" />
     <Compile Include="FitsHeaderRecord.cs" />
+    <Compile Include="FitsIncompleteBlockException.cs" />
     <Compile Include="FitsMandatoryKeywords.cs" />
     <Compile Include="FitsPrimaryHduMandatoryKeywords.cs" />
     <Compile Include="ImageKind.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="PropertyBinder\FitsPropertyBinder.cs" />
     <Compile Include="FitsReader.cs" />
     <Compile Include="FitsRecord.cs" />
