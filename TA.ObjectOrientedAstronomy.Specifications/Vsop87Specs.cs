@@ -1,31 +1,50 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015 Tigra Astronomy, all rights reserved.
+// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Vsop87Specs.cs  Last modified: 2015-11-21@16:45 by Tim Long
+// File: Vsop87Specs.cs  Last modified: 2016-10-08@18:49 by Tim Long
 
 using System;
 using System.Collections;
 using Machine.Specifications;
 using Machine.Specifications.Annotations;
+using TA.ObjectOrientedAstronomy.FundamentalTypes;
 using TA.ObjectOrientedAstronomy.OrbitEngines;
+using TA.ObjectOrientedAstronomy.VSOP87;
 using TA.Orbits.ReferenceData;
 
 namespace TA.ObjectOrientedAstronomy.Specifications
-{
+    {
+
+    #region  Context base classes
+    public class with_target_date_2014_jan_29_midday
+        {
+        [UsedImplicitly] Establish context = () =>
+            {
+            TargetDate = 2456687; // 29/Jan/2014 midday
+            Rho = (TargetDate - J2000) / 365250.0;
+            };
+        protected static double ComputedRadius;
+        protected static double ReferenceRadius;
+        protected static double Rho;
+        protected static double TargetDate;
+        protected const double J2000 = 2451545.0; // Julian date JD 2000.0
+        protected const double Tolerance = 0.0000000000001; // 10E-14
+        }
+    #endregion
     /*
-     * Calculate the position in space of the Earth relative to the Sun for a given date, time
-     * Give the answer in both cartesian coordinates (X,Y,Z)
-     * and spherical coordinates (Latitude, Longitude and Radius).
-     * 
-     * Use a reference implementation to verify the results.
-     */
+    * Calculate the position in space of the Earth relative to the Sun for a given date, time
+    * Give the answer in both cartesian coordinates (X,Y,Z)
+    * and spherical coordinates (Latitude, Longitude and Radius).
+    * 
+    * Use a reference implementation to verify the results.
+    */
 
     [Subject(typeof(Vsop87OrbitEngine), "compute coordinates")]
     public class when_computing_spherical_j2000_coordinates_for_earth : with_target_date_2014_jan_29_midday
-    {
-        Establish context = () =>
         {
+        Establish context = () =>
+            {
             var latitude = VSOP87B_EarthPositionSphericalJ2000.Earth_L0(Rho)
                            + VSOP87B_EarthPositionSphericalJ2000.Earth_L1(Rho)
                            + VSOP87B_EarthPositionSphericalJ2000.Earth_L2(Rho)
@@ -45,7 +64,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                          + VSOP87B_EarthPositionSphericalJ2000.Earth_R4(Rho)
                          + VSOP87B_EarthPositionSphericalJ2000.Earth_R5(Rho);
             ReferenceCoordinates = new SphericalCoordinates(latitude, longitude, radius);
-        };
+            };
         Because of =
             () =>
                 ComputedCoordinates =
@@ -59,13 +78,13 @@ namespace TA.ObjectOrientedAstronomy.Specifications
             () => ComputedCoordinates.Radius.ShouldBeCloseTo(ReferenceCoordinates.Radius, Tolerance);
         static SphericalCoordinates ComputedCoordinates;
         static SphericalCoordinates ReferenceCoordinates;
-    }
+        }
 
     [Subject(typeof(Vsop87OrbitEngine), "compute coordinates")]
     public class when_computing_rectangular_j2000_coordinates_for_earth : with_target_date_2014_jan_29_midday
-    {
-        Establish context = () =>
         {
+        Establish context = () =>
+            {
             var x = VSOP87A_EarthPositionRectangularJ2000.Earth_X0(Rho)
                     + VSOP87A_EarthPositionRectangularJ2000.Earth_X1(Rho)
                     + VSOP87A_EarthPositionRectangularJ2000.Earth_X2(Rho)
@@ -85,7 +104,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                     + VSOP87A_EarthPositionRectangularJ2000.Earth_Z4(Rho)
                     + VSOP87A_EarthPositionRectangularJ2000.Earth_Z5(Rho);
             ReferenceCoordinates = new RectangularCoordinates(x, y, z);
-        };
+            };
         Because of =
             () =>
                 ComputedCoordinates =
@@ -96,14 +115,14 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_match_the_reference_z = () => ComputedCoordinates.Z.ShouldBeCloseTo(ReferenceCoordinates.Z, Tolerance);
         static RectangularCoordinates ComputedCoordinates;
         static RectangularCoordinates ReferenceCoordinates;
-    }
+        }
 
     [Subject(typeof(Vsop87OrbitEngine), "data loaded from file")]
     public class when_computing_vsop87_radius_variable_for_earth_with_data_loaded_from_file
         : with_target_date_2014_jan_29_midday
-    {
-        Establish context = () =>
         {
+        Establish context = () =>
+            {
             ReferenceRadius = VSOP87B_EarthPositionSphericalJ2000.Earth_R0(Rho)
                               + VSOP87B_EarthPositionSphericalJ2000.Earth_R1(Rho)
                               + VSOP87B_EarthPositionSphericalJ2000.Earth_R2(Rho)
@@ -111,59 +130,53 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                               + VSOP87B_EarthPositionSphericalJ2000.Earth_R4(Rho)
                               + VSOP87B_EarthPositionSphericalJ2000.Earth_R5(Rho);
             EarthData = Vsop87DataReader.LoadVsop87DataFromFile("VSOP87B.ear");
-        };
+            };
         Because of =
             () =>
                 ComputedRadius =
                     Vsop87OrbitEngine.ComputeVsop87Series(TargetDate, EarthData.CoordinateVariableSeriesData['R']);
         It should_match_the_reference_implementation = () => ComputedRadius.ShouldBeCloseTo(ReferenceRadius, Tolerance);
         static Vsop87Solution EarthData;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "Data file selection")]
     public class when_selecting_a_data_file
-    {
+        {
         It should_be_variant_base_emb_for_earth_moon_barycentre_j2000_elliptic_elements =
             () =>
-                Machine.Specifications.ShouldExtensionMethods.ShouldEqual(
-                    Vsop87DataReader.SelectDataFile(
-                        SolarSystemBody.EarthMoonBarycentre, CoordinateSystem.HeliocentricEllipticElements,
-                        ReferenceFrame.EquinoxJ2000), "VSOP87.emb");
+                Vsop87DataReader.SelectDataFile(
+                    SolarSystemBody.EarthMoonBarycentre, CoordinateSystem.HeliocentricEllipticElements,
+                    ReferenceFrame.EquinoxJ2000).ShouldEqual("VSOP87.emb");
         It should_be_variant_a_mer_for_mercury_j2000_rectangular =
             () =>
-                Machine.Specifications.ShouldExtensionMethods.ShouldEqual(
-                    Vsop87DataReader.SelectDataFile(
-                        SolarSystemBody.Mercury, CoordinateSystem.HeliocentricRectangularCoordinates,
-                        ReferenceFrame.EquinoxJ2000), "VSOP87A.mer");
+                Vsop87DataReader.SelectDataFile(
+                    SolarSystemBody.Mercury, CoordinateSystem.HeliocentricRectangularCoordinates,
+                    ReferenceFrame.EquinoxJ2000).ShouldEqual("VSOP87A.mer");
         It should_be_variant_b_ven_for_venus_j2000_spherical =
             () =>
-                Machine.Specifications.ShouldExtensionMethods.ShouldEqual(
-                    Vsop87DataReader.SelectDataFile(
-                        SolarSystemBody.Venus, CoordinateSystem.HeliocentricSphericalCoordinates,
-                        ReferenceFrame.EquinoxJ2000), "VSOP87B.ven");
+                Vsop87DataReader.SelectDataFile(
+                    SolarSystemBody.Venus, CoordinateSystem.HeliocentricSphericalCoordinates,
+                    ReferenceFrame.EquinoxJ2000).ShouldEqual("VSOP87B.ven");
         It should_be_variant_c_nep_for_neptune_jnow_rectangular =
             () =>
-                Machine.Specifications.ShouldExtensionMethods.ShouldEqual(
-                    Vsop87DataReader.SelectDataFile(
-                        SolarSystemBody.Neptune, CoordinateSystem.HeliocentricRectangularCoordinates,
-                        ReferenceFrame.EquinoxJNow), "VSOP87C.nep");
+                Vsop87DataReader.SelectDataFile(
+                    SolarSystemBody.Neptune, CoordinateSystem.HeliocentricRectangularCoordinates,
+                    ReferenceFrame.EquinoxJNow).ShouldEqual("VSOP87C.nep");
         It should_be_variant_d_ear_for_earth_jnow_spherical =
             () =>
-                Machine.Specifications.ShouldExtensionMethods.ShouldEqual(
-                    Vsop87DataReader.SelectDataFile(
-                        SolarSystemBody.Earth, CoordinateSystem.HeliocentricSphericalCoordinates,
-                        ReferenceFrame.EquinoxJNow), "VSOP87D.ear");
+                Vsop87DataReader.SelectDataFile(
+                    SolarSystemBody.Earth, CoordinateSystem.HeliocentricSphericalCoordinates,
+                    ReferenceFrame.EquinoxJNow).ShouldEqual("VSOP87D.ear");
         It should_be_variant_e_sat_for_saturn_j2000_barycentric =
             () =>
-                Machine.Specifications.ShouldExtensionMethods.ShouldEqual(
-                    Vsop87DataReader.SelectDataFile(
-                        SolarSystemBody.Saturn, CoordinateSystem.BarycentricRectangularCoordinates,
-                        ReferenceFrame.EquinoxJ2000), "VSOP87E.sat");
-    }
+                Vsop87DataReader.SelectDataFile(
+                    SolarSystemBody.Saturn, CoordinateSystem.BarycentricRectangularCoordinates,
+                    ReferenceFrame.EquinoxJ2000).ShouldEqual("VSOP87E.sat");
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_barycentric_coordinates_and_jnow
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -182,11 +195,11 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJNow));
         static Exception Thrown;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_elliptic_elements_and_jnow
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -205,11 +218,11 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJNow));
         static Exception Thrown;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_the_sun_and_non_barycentric_coordinates
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -228,11 +241,11 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJ2000));
         static Exception Thrown;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_earth_moon_barycentre_and_jnow
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -251,11 +264,11 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJNow));
         static Exception Thrown;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_earth_moon_barycentre_and_spherical_coordinates
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -274,11 +287,11 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJ2000));
         static Exception Thrown;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_earth_moon_barycentre_and_barycentric_coordinates
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -297,11 +310,11 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJ2000));
         static Exception Thrown;
-    }
+        }
 
     [Subject(typeof(Vsop87DataReader), "data file selection")]
     public class when_selecting_an_unsupported_configuration_of_earth_and_elliptic_elements
-    {
+        {
         Because of =
             () =>
                 Thrown =
@@ -320,24 +333,5 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         It should_contain_the_reference_frame =
             () => Thrown.Data.ShouldContain(new DictionaryEntry("ReferenceFrame", ReferenceFrame.EquinoxJ2000));
         static Exception Thrown;
+        }
     }
-
-    #region Context Base Classes
-
-    public class with_target_date_2014_jan_29_midday
-    {
-        protected const double J2000 = 2451545.0; // Julian date JD 2000.0
-        protected const double Tolerance = 0.0000000000001; // 10E-14
-        protected static double Rho;
-        protected static double TargetDate;
-        protected static double ReferenceRadius;
-        protected static double ComputedRadius;
-        [UsedImplicitly] Establish context = () =>
-        {
-            TargetDate = 2456687; // 29/Jan/2014 midday
-            Rho = (TargetDate - J2000) / 365250.0;
-        };
-    }
-
-    #endregion Context Base Classes
-}

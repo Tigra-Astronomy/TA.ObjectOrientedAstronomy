@@ -91,9 +91,13 @@
       <Project>{c7a50ea5-cfff-4f33-ba9d-4b07e78edfb3}</Project>
       <Name>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TA.ObjectOrientedAstronomy\TA.ObjectOrientedAstronomy.csproj">
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj">
+      <Project>{483E1BC4-8B68-45B4-8487-E8F081885F58}</Project>
+      <Name>TA.ObjectOrientedAstronomy.FundamentalTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy\TA.ObjectOrientedAstronomy.OrbitEngines.csproj">
       <Project>{213D08E9-A266-48BC-992F-CA50591390A7}</Project>
-      <Name>TA.ObjectOrientedAstronomy</Name>
+      <Name>TA.ObjectOrientedAstronomy.OrbitEngines</Name>
     </ProjectReference>
     <ProjectReference Include="..\TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj">
       <Project>{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}</Project>

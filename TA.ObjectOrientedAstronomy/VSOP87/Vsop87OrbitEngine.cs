@@ -1,24 +1,30 @@
-// This file is part of the TA.Orbits project
+// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2014 Tigra Astronomy, all rights reserved.
+// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Vsop87OrbitEngine.cs  Last modified: 2014-01-29@05:35 by Tim Long
+// File: Vsop87OrbitEngine.cs  Last modified: 2016-10-08@18:57 by Tim Long
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TA.ObjectOrientedAstronomy.FundamentalTypes;
+using TA.ObjectOrientedAstronomy.VSOP87;
 
 namespace TA.ObjectOrientedAstronomy.OrbitEngines
     {
     public sealed class Vsop87OrbitEngine
         {
-        static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
+        private static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
             {
             // Iteratively apply the formula Tn = AT^alpha Cos(B + CT)
             // Sum all Tn and return the sum.
-            var thousandsOfJulianDays = (julianDate - 2451545.0)/365250.0; // Thousands of Julian Days since JD2000.0
+            var thousandsOfJulianDays = (julianDate - 2451545.0) / 365250.0; // Thousands of Julian Days since JD2000.0
             var tjdPowerAlpha = Math.Pow(thousandsOfJulianDays, alpha);
-            return series.Sum(term => term.AmplitudeA*tjdPowerAlpha*Math.Cos(term.PhaseB + term.FrequencyC*thousandsOfJulianDays));
+            return
+                series.Sum(
+                    term =>
+                        term.AmplitudeA * tjdPowerAlpha *
+                        Math.Cos(term.PhaseB + term.FrequencyC * thousandsOfJulianDays));
             }
 
         public static double ComputeVsop87Series(double targetDate, IEnumerable<IEnumerable<Vsop87Term>> seriesData)
@@ -34,7 +40,8 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
             }
 
         /// <summary>
-        /// Computes the spherical coordinates for a target body at a given date and with the specified reference frame.
+        ///     Computes the spherical coordinates for a target body at a given date and with the specified reference
+        ///     frame.
         /// </summary>
         /// <param name="targetDate">The target date.</param>
         /// <param name="solarSystemBody">The solar system body.</param>
@@ -55,13 +62,12 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines
             }
 
         /// <summary>
-        /// Computes the rectangular coordinates for a target body at a given date and with the specified reference frame.
+        ///     Computes the rectangular coordinates for a target body at a given date and with the specified reference frame.
         /// </summary>
         /// <param name="targetDate">The target date.</param>
         /// <param name="solarSystemBody">The solar system body.</param>
         /// <param name="referenceFrame">The reference frame.</param>
         /// <returns>RectangularCoordinates expressed in Astronomical Units (AU).</returns>
-
         public static RectangularCoordinates ComputeRectangularCoordinates(double targetDate,
             SolarSystemBody solarSystemBody,
             ReferenceFrame referenceFrame)

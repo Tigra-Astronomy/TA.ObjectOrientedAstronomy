@@ -1,4 +1,4 @@
-namespace TA.ObjectOrientedAstronomy
+namespace TA.ObjectOrientedAstronomy.FundamentalTypes
     {
     /// <summary>
     /// Struct RectangularCoordinates - represents a 3D cartesian (rectangular) coordinate

@@ -1,4 +1,4 @@
-namespace TA.ObjectOrientedAstronomy
+namespace TA.ObjectOrientedAstronomy.FundamentalTypes
     {
     /// <summary>
     /// Struct SphericalCoordinates - represents a position expressed as a spherical coordinate

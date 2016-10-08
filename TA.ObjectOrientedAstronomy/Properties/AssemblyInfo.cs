@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: AssemblyInfo.cs  Last modified: 2016-09-29@01:43 by Tim Long
+// File: AssemblyInfo.cs  Last modified: 2016-10-08@18:58 by Tim Long
 
 using System;
 using System.Reflection;
