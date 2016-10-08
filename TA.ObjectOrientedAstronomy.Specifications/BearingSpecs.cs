@@ -2,14 +2,16 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: BearingSpecs.cs  Last modified: 2016-10-08@18:57 by Tim Long
+// File: BearingSpecs.cs  Last modified: 2016-10-08@23:49 by Tim Long
 
 using Machine.Specifications;
+using Machine.Specifications.Annotations;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
 namespace TA.ObjectOrientedAstronomy.Specifications
     {
     [Subject(typeof(Bearing), "coersion")]
+    [UsedImplicitly]
     class when_creating_a_bearing_of_360
         {
         Because of = () => UUT = new Bearing(360.0);
@@ -61,6 +63,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         }
 
     [Subject(typeof(Bearing), "sexagesimal")]
+    [UsedImplicitly]
     class when_converting_to_sexagesimal
         {
         Because of = () =>

@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <SkipPostSharp>True</SkipPostSharp>
+    <NoWarn>CS0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -95,7 +97,7 @@
       <Project>{483E1BC4-8B68-45B4-8487-E8F081885F58}</Project>
       <Name>TA.ObjectOrientedAstronomy.FundamentalTypes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TA.ObjectOrientedAstronomy\TA.ObjectOrientedAstronomy.OrbitEngines.csproj">
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.OrbitEngines\TA.ObjectOrientedAstronomy.OrbitEngines.csproj">
       <Project>{213D08E9-A266-48BC-992F-CA50591390A7}</Project>
       <Name>TA.ObjectOrientedAstronomy.OrbitEngines</Name>
     </ProjectReference>

@@ -2,15 +2,14 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Vsop87Specs.cs  Last modified: 2016-10-08@18:49 by Tim Long
+// File: Vsop87Specs.cs  Last modified: 2016-10-08@23:31 by Tim Long
 
 using System;
 using System.Collections;
 using Machine.Specifications;
 using Machine.Specifications.Annotations;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
-using TA.ObjectOrientedAstronomy.OrbitEngines;
-using TA.ObjectOrientedAstronomy.VSOP87;
+using TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87;
 using TA.Orbits.ReferenceData;
 
 namespace TA.ObjectOrientedAstronomy.Specifications
@@ -32,6 +31,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         protected const double Tolerance = 0.0000000000001; // 10E-14
         }
     #endregion
+
     /*
     * Calculate the position in space of the Earth relative to the Sun for a given date, time
     * Give the answer in both cartesian coordinates (X,Y,Z)

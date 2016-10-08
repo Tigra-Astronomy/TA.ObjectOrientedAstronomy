@@ -2,15 +2,14 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Vsop87OrbitEngine.cs  Last modified: 2016-10-08@18:57 by Tim Long
+// File: Vsop87OrbitEngine.cs  Last modified: 2016-10-08@23:27 by Tim Long
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
-using TA.ObjectOrientedAstronomy.VSOP87;
 
-namespace TA.ObjectOrientedAstronomy.OrbitEngines
+namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
     {
     public sealed class Vsop87OrbitEngine
         {

@@ -92,6 +92,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="ReferenceDocumentation\fits_standard40draft1.pdf" />
+    <None Include="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.nuspec" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

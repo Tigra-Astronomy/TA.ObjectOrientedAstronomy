@@ -2,9 +2,10 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: LatitudeSpecs.cs  Last modified: 2016-10-08@18:57 by Tim Long
+// File: LatitudeSpecs.cs  Last modified: 2016-10-08@23:49 by Tim Long
 
 using Machine.Specifications;
+using Machine.Specifications.Annotations;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
 namespace TA.ObjectOrientedAstronomy.Specifications
@@ -63,6 +64,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         }
 
     [Subject(typeof(Latitude), "coersion")]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     class when_creating_equivalent_angles_in_various_quadrants
         {
         Because of = () => { };
@@ -72,6 +74,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         }
 
     [Subject(typeof(Latitude), "sexagesimal")]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     class when_converting_latitude_to_sexagesimal
         {
         Because of = () =>
@@ -85,6 +88,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         }
 
     [Subject(typeof(Latitude), "Hemisphere")]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     class when_testing_the_hemisphere_of_a_latitude
         {
         Because of = () => { };
@@ -101,7 +105,6 @@ namespace TA.ObjectOrientedAstronomy.Specifications
     [Subject(typeof(Latitude), "Formatting")]
     class when_formatting_a_positive_latitude
         {
-        Establish context;
         Because of = () => Latitude = new Latitude(+89.5);
         It should_format_correctly = () => Latitude.ToString().ShouldEqual("N 89°30'00\"");
         static Latitude Latitude;
@@ -110,7 +113,6 @@ namespace TA.ObjectOrientedAstronomy.Specifications
     [Subject(typeof(Latitude), "Formatting")]
     class when_formatting_a_negative_latitude
         {
-        Establish context;
         Because of = () => Latitude = new Latitude(-89.5);
         It should_format_correctly = () => Latitude.ToString().ShouldEqual("S 89°30'00\"");
         It should_have_a_negative_sign = () => Latitude.Sign.ShouldEqual(-1);

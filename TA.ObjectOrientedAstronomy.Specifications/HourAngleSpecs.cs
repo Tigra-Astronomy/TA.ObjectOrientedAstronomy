@@ -2,9 +2,10 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: HourAngleSpecs.cs  Last modified: 2016-10-08@18:57 by Tim Long
+// File: HourAngleSpecs.cs  Last modified: 2016-10-08@23:49 by Tim Long
 
 using Machine.Specifications;
+using Machine.Specifications.Annotations;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
 namespace TA.ObjectOrientedAstronomy.Specifications
@@ -50,6 +51,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         }
 
     [Subject(typeof(HourAngle), "sexagesimal")]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     class when_converting_hour_angle_to_sexagesimal
         {
         Because of = () =>

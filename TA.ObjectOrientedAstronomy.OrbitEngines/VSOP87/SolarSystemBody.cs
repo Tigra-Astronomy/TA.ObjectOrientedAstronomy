@@ -2,9 +2,9 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: SolarSystemBody.cs  Last modified: 2016-10-08@18:49 by Tim Long
+// File: SolarSystemBody.cs  Last modified: 2016-10-08@23:28 by Tim Long
 
-namespace TA.ObjectOrientedAstronomy.VSOP87
+namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
     {
     /// <summary>
     ///     Enum SolarSystemBody - enumerates the solar system bodies encompassed by VSOP87

@@ -11,9 +11,8 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using NLog;
-using TA.ObjectOrientedAstronomy.VSOP87;
 
-namespace TA.ObjectOrientedAstronomy.OrbitEngines
+namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
     {
     internal sealed class Vsop87DataReader
         {
