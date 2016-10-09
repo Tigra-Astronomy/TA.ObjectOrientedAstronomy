@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		Package-Solution.ps1 = Package-Solution.ps1
 		postsharp.config = postsharp.config
 		ReadMe.md = ReadMe.md
 		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
