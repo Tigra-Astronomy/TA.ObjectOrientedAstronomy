@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsReader.cs  Last modified: 2016-10-13@00:29 by Tim Long
+// File: FitsReader.cs  Last modified: 2016-10-13@23:19 by Tim Long
 
 using System;
 using System.IO;
@@ -157,7 +157,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public async Task<FitsHeaderRecord> ReadHeaderRecord()
             {
             var rawRecord = await ReadRecord().ConfigureAwait(false);
-            return FitsHeaderRecord.FromString(rawRecord.Text);
+            return FitsHeaderRecord.FromRecordText(rawRecord.Text);
             }
 
         /// <summary>

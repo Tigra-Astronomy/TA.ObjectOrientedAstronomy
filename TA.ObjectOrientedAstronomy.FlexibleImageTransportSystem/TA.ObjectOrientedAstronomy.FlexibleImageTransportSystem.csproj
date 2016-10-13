@@ -68,9 +68,11 @@
     <Compile Include="BitmapConverter.cs" />
     <Compile Include="FitsFormat.cs" />
     <Compile Include="FitsDataType.cs" />
+    <Compile Include="FitsFormatException.cs" />
     <Compile Include="FitsHeader.cs" />
     <Compile Include="FitsHeaderDataUnit.cs" />
     <Compile Include="FitsHeaderRecord.cs" />
+    <Compile Include="FitsHeaderRecordExtensions.cs" />
     <Compile Include="FitsIncompleteBlockException.cs" />
     <Compile Include="FitsMandatoryKeywords.cs" />
     <Compile Include="FitsPrimaryHduMandatoryKeywords.cs" />
@@ -94,7 +96,12 @@
     <None Include="ReferenceDocumentation\fits_standard40draft1.pdf" />
     <None Include="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.nuspec" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj">
+      <Project>{483E1BC4-8B68-45B4-8487-E8F081885F58}</Project>
+      <Name>TA.ObjectOrientedAstronomy.FundamentalTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\PostSharp.4.3.21\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.4.3.21\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">

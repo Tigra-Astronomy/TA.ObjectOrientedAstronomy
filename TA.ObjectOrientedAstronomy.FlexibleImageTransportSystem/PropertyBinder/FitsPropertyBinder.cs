@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsPropertyBinder.cs  Last modified: 2016-10-13@00:59 by Tim Long
+// File: FitsPropertyBinder.cs  Last modified: 2016-10-13@01:03 by Tim Long
 
 using System;
 using System.Collections;
