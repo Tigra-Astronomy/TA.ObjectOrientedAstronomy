@@ -9,4 +9,3 @@ using System.Reflection;
 
 [assembly: AssemblyTitle("TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem")]
 [assembly: AssemblyDescription("Supports reading and writing of NASA FITS data")]
-[assembly: CLSCompliant(true)] // Library code should be language agnostic

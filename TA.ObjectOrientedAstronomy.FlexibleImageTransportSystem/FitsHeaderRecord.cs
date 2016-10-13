@@ -2,15 +2,15 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsHeaderRecord.cs  Last modified: 2016-10-02@03:49 by Tim Long
+// File: FitsHeaderRecord.cs  Last modified: 2016-10-12@23:53 by Tim Long
 
 using System.Text.RegularExpressions;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
-    public class FitsHeaderRecord : FitsRecord
+    public sealed class FitsHeaderRecord : FitsRecord
         {
-        private static readonly Regex headerParser = new Regex(Constants.FitsHeaderRecordPattern, RegexOptions.Compiled);
+        private static readonly Regex headerParser = new Regex(FitsFormat.FitsHeaderRecordPattern, RegexOptions.Compiled);
 
         private FitsHeaderRecord(string record)
             {
@@ -24,16 +24,17 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
         public string Comment { get; set; }
 
-        public static FitsHeaderRecord Empty { get; } = new FitsHeaderRecord(new string(' ', Constants.FitsRecordLength))
+        public static FitsHeaderRecord Empty { get; } =
+            new FitsHeaderRecord(new string(' ', FitsFormat.FitsRecordLength))
             ;
 
         /// <summary>
         ///     Creates a new <see cref="FitsHeaderRecord" /> from record text in the supplied string.
         /// </summary>
-        /// <param name="record">The raw record text, <see cref="Constants.FitsRecordLength" /> characters.</param>
+        /// <param name="record">The raw record text, <see cref="FitsFormat.FitsRecordLength" /> characters.</param>
         /// <returns>A new <c>FitsHeaderRecord</c> initialized with values parsed from the source record.</returns>
         /// <exception cref="InvalidHeaderRecordException">Unable to parse</exception>
-        public static FitsHeaderRecord FromString(string record)
+        public new static FitsHeaderRecord FromString(string record)
             {
             var header = new FitsHeaderRecord(record);
             var matches = headerParser.Match(record);

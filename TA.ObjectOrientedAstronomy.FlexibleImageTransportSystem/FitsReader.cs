@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsReader.cs  Last modified: 2016-10-07@03:21 by Tim Long
+// File: FitsReader.cs  Last modified: 2016-10-13@00:29 by Tim Long
 
 using System;
 using System.IO;
@@ -16,13 +16,12 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     /// <summary>
     ///     An implementation of <see cref="StreamReader" /> that is useful for reading NASA FITS files.
     /// </summary>
-    [CLSCompliant(true)]
     public class FitsReader
         {
         private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
         private readonly Stream sourceStream;
-        private int blockIndex = Constants.FitsBlockLength + 1;
-        private byte[] CurrentBlock = new byte[0];
+        private int blockIndex = FitsFormat.FitsBlockLength + 1;
+        private byte[] currentBlock = new byte[0];
 
         public FitsReader(Stream sourceStream)
             {
@@ -31,22 +30,22 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
         private bool BlockIsEmpty
             =>
-            blockIndex >= Constants.FitsBlockLength || blockIndex < 0 ||
-            CurrentBlock.Length != Constants.FitsBlockLength;
+            blockIndex >= FitsFormat.FitsBlockLength || blockIndex < 0 ||
+            currentBlock.Length != FitsFormat.FitsBlockLength;
 
-        internal int BlockBytesRemaining => BlockIsEmpty ? 0 : Constants.FitsBlockLength - blockIndex;
+        internal int BlockBytesRemaining => BlockIsEmpty ? 0 : FitsFormat.FitsBlockLength - blockIndex;
 
         /// <summary>
         ///     Reads one block from the source stream and verifies that a complete block was read.
         /// </summary>
         /// <returns>
-        ///     An array of ASCII-encoded bytes which will always be exactly <see cref="Constants.FitsBlockLength" /> bytes.
+        ///     An array of ASCII-encoded bytes which will always be exactly <see cref="FitsFormat.FitsBlockLength" /> bytes.
         /// </returns>
         public async Task<byte[]> ReadBlock()
             {
-            var buffer = new byte[Constants.FitsBlockLength];
-            var bytesRead = await sourceStream.ReadAsync(buffer, 0, Constants.FitsBlockLength).ConfigureAwait(false);
-            if (bytesRead != Constants.FitsBlockLength)
+            var buffer = new byte[FitsFormat.FitsBlockLength];
+            var bytesRead = await sourceStream.ReadAsync(buffer, 0, FitsFormat.FitsBlockLength).ConfigureAwait(false);
+            if (bytesRead != FitsFormat.FitsBlockLength)
                 throw new FitsIncompleteBlockException();
             return buffer;
             }
@@ -87,7 +86,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             if (characterCount > BlockBytesRemaining)
                 throw new ArgumentOutOfRangeException("characterCount", characterCount,
                     $"{characterCount} characters were requested but there are only {BlockBytesRemaining} in the block buffer");
-            var decodedCharacters = Encoding.ASCII.GetChars(CurrentBlock, blockIndex, characterCount);
+            var decodedCharacters = Encoding.ASCII.GetChars(currentBlock, blockIndex, characterCount);
             return decodedCharacters;
             }
 
@@ -111,14 +110,14 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     await FillCurrentBlock().ConfigureAwait(false);
                 if (BlockBytesRemaining >= bytesOutstanding)
                     {
-                    Array.ConstrainedCopy(CurrentBlock, blockIndex, buffer, bufferIndex, bytesOutstanding);
+                    Array.ConstrainedCopy(currentBlock, blockIndex, buffer, bufferIndex, bytesOutstanding);
                     blockIndex += bytesOutstanding;
                     bufferIndex += bytesOutstanding;
                     bytesOutstanding = 0;
                     return buffer;
                     }
                 // BlockBytesRemaining < bytesOutstanding
-                Array.ConstrainedCopy(CurrentBlock, blockIndex, buffer, bufferIndex, BlockBytesRemaining);
+                Array.ConstrainedCopy(currentBlock, blockIndex, buffer, bufferIndex, BlockBytesRemaining);
                 bufferIndex += BlockBytesRemaining;
                 bytesOutstanding -= BlockBytesRemaining;
                 blockIndex += BlockBytesRemaining;
@@ -129,7 +128,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
         private async Task FillCurrentBlock()
             {
-            CurrentBlock = await ReadBlock().ConfigureAwait(false);
+            currentBlock = await ReadBlock().ConfigureAwait(false);
             blockIndex = 0;
             }
 
@@ -145,12 +144,12 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// </remarks>
         public async Task<FitsRecord> ReadRecord()
             {
-            var record = await BlockReadExactly(Constants.FitsRecordLength).ConfigureAwait(false);
+            var record = await BlockReadExactly(FitsFormat.FitsRecordLength).ConfigureAwait(false);
             NLog.Fluent.Log.Debug($"Read record: [{record}]");
-            if (record.Length != Constants.FitsRecordLength)
+            if (record.Length != FitsFormat.FitsRecordLength)
                 {
                 throw new InvalidOperationException(
-                    $"Tried to read an {Constants.FitsRecordLength}-byte record but received {record.Length} bytes");
+                    $"Tried to read an {FitsFormat.FitsRecordLength}-byte record but received {record.Length} bytes");
                 }
             return FitsRecord.FromString(record);
             }
@@ -180,7 +179,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     {
                     Log.Warn(ex, $"ignoring invalid header record: [{ex.Record}]");
                     }
-                } while (currentRecord.Keyword != Constants.EndKeyword);
+                } while (currentRecord.Keyword != FitsFormat.EndKeyword);
             return result;
             }
 
@@ -188,7 +187,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             {
             var hdu = new FitsHeaderDataUnit();
             hdu.Header = await ReadPrimaryHeader().ConfigureAwait(false);
-            hdu.MandatoryKeywords = hdu.Header.BindProperties<FitsPrimaryHduMandatoryKeywords>();
+            hdu.MandatoryKeywords = hdu.Header.HeaderRecords.BindProperties<FitsPrimaryHduMandatoryKeywords>();
             await MoveToBlockBoundary().ConfigureAwait(false);
             if (hdu.MandatoryKeywords.NumberOfAxes == 0)
                 {

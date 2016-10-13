@@ -63,10 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>GlobalAssemblyInfo.cs</Link>
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BitmapConverter.cs" />
-    <Compile Include="Constants.cs" />
+    <Compile Include="FitsFormat.cs" />
     <Compile Include="FitsDataType.cs" />
     <Compile Include="FitsHeader.cs" />
     <Compile Include="FitsHeaderDataUnit.cs" />

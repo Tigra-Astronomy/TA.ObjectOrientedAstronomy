@@ -1,24 +1,25 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015 Tigra Astronomy, all rights reserved.
+// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Bearing.cs  Last modified: 2015-11-21@16:44 by Tim Long
+// File: Bearing.cs  Last modified: 2016-10-09@03:50 by Tim Long
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
 
 namespace TA.ObjectOrientedAstronomy.FundamentalTypes
-{
+    {
     /// <summary>
     ///     Implements a Compass bearing (i.e. an angle greater than or equal to zero but less than 360 degrees). Angles
     ///     are stored internally as double precision floating point, values are always positive, in the range 0 to 360
     ///     degrees. The angle can be initialised or set to a negative value, but it is always reduced to an equivalent
-    ///     positive angle before it is stored. Thus, the retrieved value must always be positive and in the range 0 &lt;=
-    ///     x &lt; 360
+    ///     positive angle before it is stored. Thus, the retrieved value must always be positive and in the range 0 ≤ x
+    ///     &lt; 360
     /// </summary>
     public class Bearing : AngleBase
-    {
-        const int FullCircle = 360;
+        {
+        private const int FullCircle = 360;
 
         /// <summary>
         ///     Construct a bearing from decimal degrees.
@@ -28,9 +29,9 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// </summary>
         /// <param name="angle">The angle value in decimal degrees.</param>
         public Bearing(double angle)
-        {
+            {
             Value = angle;
-        }
+            }
 
         /// <summary>
         ///     Construct a bearing from degrees, minutes and seconds.
@@ -48,13 +49,13 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     [0..59].
         /// </exception>
         public Bearing(int degrees, uint minutes, uint seconds)
-        {
+            {
             if (minutes > 59)
                 throw new ArgumentOutOfRangeException("minutes", minutes, "Value out of range (0..59)");
             if (seconds > 59)
                 throw new ArgumentOutOfRangeException("seconds", seconds, "Value out of range (0..59)");
             Value = Normalize(FromDms(degrees, minutes, seconds));
-        }
+            }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Bearing" /> class.
@@ -65,7 +66,10 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     Gets the minimum allowed value. <see cref="AngleBase.Value" /> must be greater than or equal to MinValue.
         /// </summary>
         /// <value>The minimum value allowed by this angular measurement.</value>
-        public override double MinValue { get { return 0.0; } }
+        public override double MinValue
+            {
+            get { return 0.0; }
+            }
 
         /// <summary>
         ///     Gets the maximum allowed value that can be internally stored as a bearing.
@@ -76,7 +80,10 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     Note that <c>MaxValue</c> is slightly less than 360 degrees, because 360 degrees is actually an invalid value for a
         ///     bearing.
         /// </remarks>
-        public override double MaxValue { get { return 360.0 - double.Epsilon; } }
+        public override double MaxValue
+            {
+            get { return 360.0 - double.Epsilon; }
+            }
 
         /// <summary>
         ///     Gets the minutes component of the angle.
@@ -90,13 +97,13 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     A Bearing with Value=10.525 would return 15 seconds.
         /// </remarks>
         public override uint Minutes
-        {
-            get
             {
+            get
+                {
                 var positiveSeconds = Math.Abs(TotalSeconds);
                 return (uint) (Truncate(positiveSeconds / 60) % 60);
+                }
             }
-        }
 
         /// <summary>
         ///     Gets the fractional part of the angle expressed as whole seconds.
@@ -110,28 +117,28 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     An Bearing with Value=10.55 would return 30 minutes.
         /// </remarks>
         public override uint Seconds
-        {
-            get
             {
+            get
+                {
                 var positiveSeconds = Math.Abs(TotalSeconds);
                 return (uint) (positiveSeconds % 60);
+                }
             }
-        }
 
         /// <summary>
         ///     Gets the absolute number of whole degrees as an integer in the range 0..360.
         /// </summary>
         [XmlIgnore]
         public override uint Degrees
-        {
-            get
             {
+            get
+                {
                 // Return the degrees, truncated towards zero.
                 // Bearings cannot have negative values, but the functionality is provided
                 // here for classes that inherit from Bearing.
                 return (uint) Truncate(Math.Abs(Value));
+                }
             }
-        }
 
         /// <summary>
         ///     Takes an angle (which can be any double number) and returns the
@@ -141,14 +148,14 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <exception cref="ArgumentException">Thrown if <paramref name="degrees" /> is Infinity or NaN.</exception>
         /// <returns>Equivalent angle in the range +0.0 to +360.0</returns>
         public override double Normalize(double degrees)
-        {
+            {
             if (double.IsInfinity(degrees) || double.IsNaN(degrees))
                 throw new ArgumentException("Value must not be Infinity or NaN", "degrees");
             degrees %= FullCircle;
             if (degrees < MinValue)
                 degrees = FullCircle + degrees;
             return degrees;
-        }
+            }
 
         /// <summary>
         ///     Takes an angle expressed as a signed integer in degrees, and returns the
@@ -157,25 +164,24 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <param name="degrees">An angle in degrees</param>
         /// <returns>Equivalent positive angle in the range [0..360]</returns>
         public override int Normalize(int degrees)
-        {
+            {
             degrees %= FullCircle;
             if (degrees < 0)
                 degrees = FullCircle + degrees;
             return degrees; // All angles are modulo 360 degrees.
-        }
+            }
 
         /// <summary>
         ///     Output the compass bearing as a string ddd°mm'ss"
         /// </summary>
         /// <returns>string containing formatted result</returns>
         public override string ToString()
-        {
+            {
             var strBearing = Degrees.ToString("D3") + "°" + Minutes.ToString("D2") + "'" + Seconds.ToString("D2") + "\"";
             return strBearing;
-        }
+            }
 
         #region Operators
-
         /// <summary>
         ///     Implements the operator +.
         /// </summary>
@@ -183,9 +189,11 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <param name="second">The second operand.</param>
         /// <returns>The result of the addition of the two operands, as a new <see cref="Bearing" />.</returns>
         public static Bearing operator +(Bearing first, Bearing second)
-        {
+            {
+            Contract.Requires(first != null);
+            Contract.Requires(second != null);
             return new Bearing(first.Value + second.Value);
-        }
+            }
 
         /// <summary>
         ///     Implements the operator -.
@@ -194,10 +202,9 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <param name="second">The second operand.</param>
         /// <returns>The result of the subtraction of the second operand from the first, as a new <see cref="Bearing" />.</returns>
         public static Bearing operator -(Bearing first, Bearing second)
-        {
+            {
             return new Bearing(first.Value - second.Value);
-        }
-
+            }
         #endregion
+        }
     }
-}

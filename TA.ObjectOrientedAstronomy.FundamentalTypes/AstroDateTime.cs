@@ -5,6 +5,7 @@
 // File: AstroDateTime.cs  Last modified: 2015-11-21@16:44 by Tim Long
 
 using System;
+using System.Diagnostics.Contracts;
 
 namespace TA.ObjectOrientedAstronomy.FundamentalTypes
 {
@@ -69,6 +70,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <param name="lnSite">The geographic longitude.</param>
         public AstroDateTime(Longitude lnSite)
         {
+        Contract.Requires(lnSite!=null);
             longitude = lnSite.Value;
             siteGmstOffsetHours = longitude / 15.0;
             UtcDateTime = DateTime.UtcNow;
@@ -82,6 +84,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <param name="dtUtc">The dt UTC.</param>
         public AstroDateTime(Longitude lnSite, DateTime dtUtc)
         {
+            Contract.Requires(lnSite != null);
             longitude = lnSite.Value;
             siteGmstOffsetHours = longitude / 15.0;
             UtcDateTime = dtUtc;

@@ -2,9 +2,10 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-07@03:03 by Tim Long
+// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-13@00:49 by Tim Long
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
     class when_reading_a_block_from_a_stream_containing_less_than_a_block_of_data : with_fits_reader
         {
         Establish context =
-            () => FitsReader = ContextBuilder.FromString(new string(' ', Constants.FitsBlockLength - 1)).Build();
+            () => FitsReader = ContextBuilder.FromString(new string(' ', FitsFormat.FitsBlockLength - 1)).Build();
         Because of = () => Exception = Catch.Exception(() =>
             {
             var block = FitsReader.ReadBlock().WaitFoResult();
@@ -52,9 +53,9 @@ namespace TA.ObjectOrientedAstronomy.Specifications
     class when_reading_a_block_from_a_stream_containing_at_least_a_block_of_data : with_fits_reader
         {
         Establish context =
-            () => FitsReader = ContextBuilder.FromString(new string(' ', Constants.FitsBlockLength + 1)).Build();
+            () => FitsReader = ContextBuilder.FromString(new string(' ', FitsFormat.FitsBlockLength + 1)).Build();
         Because of = () => block = FitsReader.ReadBlock().WaitFoResult();
-        It should_read_a_block_of_the_correct_size = () => block.Length.ShouldEqual(Constants.FitsBlockLength);
+        It should_read_a_block_of_the_correct_size = () => block.Length.ShouldEqual(FitsFormat.FitsBlockLength);
         static byte[] block;
         }
 
@@ -65,7 +66,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         Because of = () => record = FitsReader.ReadRecord().WaitFoResult();
         It should_populate_the_record_with_exactly_80_characters = () => record.Text.ShouldEqual(ExpectedRecord);
         It should_read_an_entire_block =
-            () => FitsReader.BlockBytesRemaining.ShouldEqual(Constants.FitsBlockLength - Constants.FitsRecordLength);
+            () => FitsReader.BlockBytesRemaining.ShouldEqual(FitsFormat.FitsBlockLength - FitsFormat.FitsRecordLength);
         static FitsRecord record;
         //   0        1         2         3         4         5         6         7         8
         //   12345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -117,7 +118,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         Because of = () => header = FitsReader.ReadPrimaryHeader().WaitFoResult();
         It should_read_the_expected_number_of_records = () => header.HeaderRecords.Count().ShouldEqual(164);
         It should_have_end_as_the_last_keyword =
-            () => header.HeaderRecords.Last().Keyword.ShouldEqual(Constants.EndKeyword);
+            () => header.HeaderRecords.Last().Keyword.ShouldEqual(FitsFormat.EndKeyword);
         static FitsHeader header;
         }
 
@@ -129,13 +130,33 @@ namespace TA.ObjectOrientedAstronomy.Specifications
             FitsReader = ContextBuilder.FromEmbeddedResource("FOSy19g0309t_c2f.fits").Build();
             header = FitsReader.ReadPrimaryHeader().WaitFoResult();
             };
-        Because of = () => MandatoryKeywords = header.BindProperties<FitsPrimaryHduMandatoryKeywords>();
+        Because of = () => MandatoryKeywords = header.HeaderRecords.BindProperties<FitsPrimaryHduMandatoryKeywords>();
         It should_be_a_simple_fits = () => MandatoryKeywords.Simple.ShouldBeTrue();
         It should_have_2_axes = () => MandatoryKeywords.NumberOfAxes.ShouldEqual(2);
         It should_populate_the_list_of_axes_with_2_entries = () => MandatoryKeywords.LengthOfAxis.Count.ShouldEqual(2);
         It should_have_the_expected_pixel_depth = () => MandatoryKeywords.BitsPerPixel.ShouldEqual(-32);
         static FitsHeader header;
         static FitsPrimaryHduMandatoryKeywords MandatoryKeywords;
+        }
+
+    [Subject(typeof(FitsPropertyBinder), "Multiple appearance keywords")]
+    class when_binding_to_keywords_with_multiple_occurrences : with_fits_reader
+        {
+        Establish context = () =>
+            {
+            FitsReader = ContextBuilder.FromEmbeddedResource("WFPC2ASSNu5780205bx.fits").Build();
+            header = FitsReader.ReadPrimaryHeader().WaitFoResult();
+            };
+        Because of = () => History = header.HeaderRecords.BindProperties<HistoryLog>();
+        It should_retrieve_all_history_records = () => History.ModificationHistory.Count.ShouldBeGreaterThan(1);
+        static FitsHeader header;
+        static HistoryLog History;
+
+        class HistoryLog
+            {
+            [FitsKeyword("HISTORY")]
+            public List<string> ModificationHistory { get; set; }
+            }
         }
 
     [Subject(typeof(FitsReader), "Read primary HDU")]

@@ -2,11 +2,11 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsBuilder.cs  Last modified: 2016-09-30@02:51 by Tim Long
+// File: FitsBuilder.cs  Last modified: 2016-10-12@23:52 by Tim Long
 
 using System;
 using System.Text;
-using static TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.Constants;
+using static TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat;
 
 namespace TA.ObjectOrientedAstronomy.Specifications.Builders
     {

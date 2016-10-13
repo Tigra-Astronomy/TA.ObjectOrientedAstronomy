@@ -44,7 +44,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
         private static Bitmap ImageDataToRgbBitmap(FitsHeaderDataUnit hdu)
             {
-            var pixelScale = hdu.Header.BindProperties<PixelScale>();
+            var pixelScale = hdu.Header.HeaderRecords.BindProperties<PixelScale>();
             var bitDepth = hdu.MandatoryKeywords.BitsPerPixel;
             // FITS section 3.3.2 lowest numbered axis varies most rapidly
             var xAxis = hdu.MandatoryKeywords.LengthOfAxis[0];

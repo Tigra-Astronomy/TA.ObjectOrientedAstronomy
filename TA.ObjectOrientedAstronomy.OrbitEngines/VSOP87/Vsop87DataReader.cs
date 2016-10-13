@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -26,6 +27,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
 
         public static Vsop87Solution LoadVsop87DataFromFile(string filename)
             {
+            Contract.Requires(filename!=null);
             Log.Info("Loading VSOP87 solution from {0}", filename);
             var dataDirectory = GetDataDirectory();
             var dataFile = Path.Combine(dataDirectory, filename);
@@ -68,6 +70,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
         private static IEnumerable<IEnumerable<Vsop87Term>> LoadVariableSeries(int variableIndex,
             StreamReader inputStream)
             {
+            Contract.Requires(inputStream!=null);
             var majorSeries = new List<List<Vsop87Term>>();
             var power = 0; // Used purely for diagnostics
             var currentVariable = (++variableIndex).ToString(CultureInfo.InvariantCulture);
@@ -102,6 +105,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
         /// </exception>
         private static string LoadPowerSeries(List<Vsop87Term> minorSeries, StreamReader inputStream)
             {
+            Contract.Requires(inputStream != null);
             while (!inputStream.EndOfStream)
                 {
                 var line = inputStream.ReadLine();
@@ -316,6 +320,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
 
         internal static Vsop87Solution FromHeaderString(string header)
             {
+            Contract.Requires(header != null);
             var matches = Vsop87DataReader.Vsop87HeaderRegex.Match(header);
             if (!matches.Success)
                 throw new ArgumentException("The supplied header was invalid", "header");

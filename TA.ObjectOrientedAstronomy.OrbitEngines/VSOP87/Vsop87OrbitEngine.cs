@@ -1,11 +1,12 @@
 // This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
+// Copyright Â© 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Vsop87OrbitEngine.cs  Last modified: 2016-10-08@23:27 by Tim Long
+// File: Vsop87OrbitEngine.cs  Last modified: 2016-10-09@03:33 by Tim Long
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
@@ -15,6 +16,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
         {
         private static double ComputeVsop87Term(double julianDate, double alpha, IEnumerable<Vsop87Term> series)
             {
+            Contract.Requires(series != null);
             // Iteratively apply the formula Tn = AT^alpha Cos(B + CT)
             // Sum all Tn and return the sum.
             var thousandsOfJulianDays = (julianDate - 2451545.0) / 365250.0; // Thousands of Julian Days since JD2000.0
@@ -28,6 +30,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
 
         public static double ComputeVsop87Series(double targetDate, IEnumerable<IEnumerable<Vsop87Term>> seriesData)
             {
+            Contract.Requires(seriesData != null);
             var alpha = 0; // series power
             var sum = 0.0;
             foreach (var term in seriesData)

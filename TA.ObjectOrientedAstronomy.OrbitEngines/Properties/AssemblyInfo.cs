@@ -2,11 +2,9 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: AssemblyInfo.cs  Last modified: 2016-10-08@18:58 by Tim Long
+// File: AssemblyInfo.cs  Last modified: 2016-10-09@03:20 by Tim Long
 
-using System;
 using System.Reflection;
 
 [assembly: AssemblyTitle("TA.Vsop87OrbitEngine.Vsop87OrbitEngine")]
 [assembly: AssemblyDescription("VSOP87 Orbit Engine")]
-[assembly: CLSCompliant(true)] // Library code should be language agnostic
