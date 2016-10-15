@@ -5,6 +5,7 @@
 // File: CompassExtensions.cs  Last modified: 2015-11-21@16:44 by Tim Long
 
 using System;
+using System.Diagnostics.Contracts;
 
 namespace TA.ObjectOrientedAstronomy.FundamentalTypes
 {
@@ -77,11 +78,15 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
             return angle;
         }
 
-        /// <summary>
-        ///     Converts the enumerated <see cref="CompassPoint" /> to a <see cref="Bearing" /> object.
-        /// </summary>
-        /// <param name="point">The enumerated compass point.</param>
-        /// <returns></returns>
-        public static Bearing ToBearing(this CompassPoint point) { return new Bearing(point.ToAngle()); }
+    /// <summary>
+    ///     Converts the enumerated <see cref="CompassPoint" /> to a <see cref="Bearing" /> object.
+    /// </summary>
+    /// <param name="point">The enumerated compass point.</param>
+    /// <returns></returns>
+    public static Bearing ToBearing(this CompassPoint point)
+        {
+        Contract.Ensures(Contract.Result<Bearing>() != null);
+        return new Bearing(point.ToAngle());
+        }
     }
 }

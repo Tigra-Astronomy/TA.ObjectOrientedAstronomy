@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: Bearing.cs  Last modified: 2016-10-09@03:50 by Tim Long
+// File: Bearing.cs  Last modified: 2016-10-15@04:14 by Tim Long
 
 using System;
 using System.Diagnostics.Contracts;
@@ -66,10 +66,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     Gets the minimum allowed value. <see cref="AngleBase.Value" /> must be greater than or equal to MinValue.
         /// </summary>
         /// <value>The minimum value allowed by this angular measurement.</value>
-        public override double MinValue
-            {
-            get { return 0.0; }
-            }
+        public override double MinValue => 0.0;
 
         /// <summary>
         ///     Gets the maximum allowed value that can be internally stored as a bearing.
@@ -192,6 +189,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
             {
             Contract.Requires(first != null);
             Contract.Requires(second != null);
+            Contract.Ensures(Contract.Result<Bearing>() != null);
             return new Bearing(first.Value + second.Value);
             }
 
@@ -203,6 +201,9 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <returns>The result of the subtraction of the second operand from the first, as a new <see cref="Bearing" />.</returns>
         public static Bearing operator -(Bearing first, Bearing second)
             {
+            Contract.Requires(first != null);
+            Contract.Requires(second != null);
+            Contract.Ensures(Contract.Result<Bearing>() != null);
             return new Bearing(first.Value - second.Value);
             }
         #endregion

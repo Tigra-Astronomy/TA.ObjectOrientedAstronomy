@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("0.0.*")]
 [assembly: AssemblyFileVersion("0.0.0.0")]
-[assembly: AssemblyInformationalVersion("0.0.0-uncontrolled")]
+[assembly: AssemblyInformationalVersion("0.0.1-uncontrolled")]
 
 // For unit test
 

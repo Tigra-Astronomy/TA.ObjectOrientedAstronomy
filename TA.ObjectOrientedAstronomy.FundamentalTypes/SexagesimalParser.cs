@@ -2,9 +2,10 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: SexagesimalParser.cs  Last modified: 2016-10-08@19:49 by Tim Long
+// File: SexagesimalParser.cs  Last modified: 2016-10-15@04:14 by Tim Long
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 using NLog;
 
@@ -116,6 +117,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <exception cref="ArgumentNullException"><paramref name="sg" /> is null.</exception>
         public static bool IsValid(string sg)
             {
+            Contract.Requires(sg != null);
             return RegexSexagesimal.IsMatch(sg);
             }
         }

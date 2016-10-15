@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: StringExtensions.cs  Last modified: 2016-10-13@22:58 by Tim Long
+// File: StringExtensions.cs  Last modified: 2016-10-15@04:16 by Tim Long
 
 using System;
 using System.Diagnostics.Contracts;
@@ -16,8 +16,8 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
     ///     String extension methods.
     /// </summary>
     /// <remarks>
-    ///     Internal use only. Driver and application developers should not rely on this class, because the interface and
-    ///     method signatures may change at any time.
+    ///     Internal use only. Driver and application developers should not rely on this class, because the interface
+    ///     and method signatures may change at any time.
     /// </remarks>
     public static class StringExtensions
         {
@@ -208,6 +208,8 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// </returns>
         public static bool ContainsCaseInsensitive(this string containingString, string substring)
             {
+            Contract.Requires(containingString != null);
+            Contract.Requires(substring != null);
             return containingString.IndexOf(substring, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
         }

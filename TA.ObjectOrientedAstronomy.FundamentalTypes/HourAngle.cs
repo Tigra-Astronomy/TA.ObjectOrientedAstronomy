@@ -49,22 +49,22 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         ///     Gets the minimum allowed value. <see cref="AngleBase.Value" /> will always be greater than or equal to MinValue.
         /// </summary>
         /// <value>The minimum value allowed by this angular measurement.</value>
-        public override double MinValue { get { return 0.0; } }
+        public override double MinValue => 0.0;
 
-        /// <summary>
+    /// <summary>
         ///     Gets the maximum allowed value.
         ///     <see cref="MinValue" /> ? <see cref="AngleBase.Value" /> ? <see cref="MaxValue" />.
         /// </summary>
         /// <value>The maximum allowed value.</value>
-        public override double MaxValue { get { return 24.0 - double.Epsilon; } }
+        public override double MaxValue => 24.0 - double.Epsilon;
 
-        /// <summary>
+    /// <summary>
         ///     Gets the whole degrees. The value is truncated to the nearest integer towards zero.
         /// </summary>
         /// <value>The whole degrees.</value>
-        public override uint Degrees { get { return (uint) Truncate(Math.Abs(Value) * 15); } }
+        public override uint Degrees => (uint) Truncate(Math.Abs(Value) * 15);
 
-        /// <summary>
+    /// <summary>
         ///     Gets the minutes component of the angle.
         ///     The value returned is truncated to the nearest integer towards zero.
         /// </summary>
@@ -138,20 +138,14 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <param name="first">The first hour angle.</param>
         /// <param name="second">The second hour angle.</param>
         /// <returns>The result of the addition of the two hour angles, as a new HourAngle instance.</returns>
-        public static HourAngle operator +(HourAngle first, HourAngle second)
-        {
-            return new HourAngle(first.Value + second.Value);
-        }
+        public static HourAngle operator +(HourAngle first, HourAngle second) => new HourAngle(first.Value + second.Value);
 
-        /// <summary>
+    /// <summary>
         ///     Implements the operator -.
         /// </summary>
         /// <param name="first">The first hour angle.</param>
         /// <param name="second">The second hour angle.</param>
         /// <returns>The result of the second operand from the first, as a new HourAngle instance.</returns>
-        public static HourAngle operator -(HourAngle first, HourAngle second)
-        {
-            return new HourAngle(first.Value - second.Value);
-        }
+        public static HourAngle operator -(HourAngle first, HourAngle second) => new HourAngle(first.Value - second.Value);
     }
 }
