@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: StringExtensions.cs  Last modified: 2016-10-15@04:16 by Tim Long
+// File: StringExtensions.cs  Last modified: 2016-10-17@22:49 by Tim Long
 
 using System;
 using System.Diagnostics.Contracts;
@@ -37,7 +37,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
             Contract.Requires(source != null);
             Contract.Requires(length <= source.Length,
                 "The specified length is greater than the length of the string.");
-            Contract.Requires<ArgumentOutOfRangeException>(length >= 0, "The specified length must be positive");
+            Contract.Requires(length >= 0, "The specified length must be positive");
             Contract.Ensures(Contract.Result<string>() != null);
             return source.Substring(0, length);
             }
