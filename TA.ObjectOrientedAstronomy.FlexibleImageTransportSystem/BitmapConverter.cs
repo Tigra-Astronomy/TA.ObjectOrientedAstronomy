@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: BitmapConverter.cs  Last modified: 2016-10-07@05:21 by Tim Long
+// File: BitmapConverter.cs  Last modified: 2016-10-17@21:26 by Tim Long
 
 using System;
 using System.Drawing;
@@ -28,21 +28,24 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             switch (bitmapKind)
                 {
                     case ImageKind.Monocrome:
-                        return ImageDataToRgbBitmap(hdu);
+                        return SingleImagePlaneToRgbBitmap(hdu);
                     case ImageKind.RGB:
-                        return ToRgbBitmap(hdu);
+                        throw new NotSupportedException(
+                            "Currently only monochrome images are supported. Feel free to clone the code and add this feature.");
                     default:
                         throw new NotSupportedException(
                             "Unknown image type - only single layer (monochrome) and triple layer (RGB) images are supported");
                 }
             }
 
-        private static Bitmap ToRgbBitmap(FitsHeaderDataUnit hdu)
+        private static Bitmap TripleImagePlaneToRgbBitmap(FitsHeaderDataUnit hdu)
             {
+            // ToDo
             return null;
             }
 
-        private static Bitmap ImageDataToRgbBitmap(FitsHeaderDataUnit hdu)
+        //ToDo: Clean Code violation - method too long
+        private static Bitmap SingleImagePlaneToRgbBitmap(FitsHeaderDataUnit hdu)
             {
             var pixelScale = hdu.Header.HeaderRecords.BindProperties<PixelScale>();
             var bitDepth = hdu.MandatoryKeywords.BitsPerPixel;
@@ -53,6 +56,8 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
             var bytesPerPixel = 6; // 48 bits per pixel, 16, 16, 16 RGB
             var pixelData = new byte[yAxis * xAxis * bytesPerPixel];
+            var blackPixel = ushort.MinValue;
+            var whitePixel = ushort.MaxValue;
             using (var outStream = new MemoryStream(pixelData, writable: true))
             using (var writer = new BinaryWriter(outStream))
             using (var inStream = new MemoryStream(hdu.RawData, writable: false))
@@ -61,12 +66,26 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     {
                     for (var x = 0; x < xAxis; x++)
                         {
-                        var physicalValue = readPixel(reader);
-                        var scaledValue = pixelScale.ZeroOffset + pixelScale.Scale * physicalValue;
-                        var luminosity = (short) scaledValue.Constrain(0, short.MaxValue);
-                        writer.Write(luminosity); // Red channel
-                        writer.Write(luminosity); // Green channel
-                        writer.Write(luminosity); // Blue channel
+                        /*
+                         * Pixels are transformed from raw data to displayable pixels as follows:
+                         * - The raw value is read from the file in a manner consistent with BITPIX.
+                         * - The original physical sensor value (in ADUs) is recovered by applying BZERO and BSCALE. 16 and 32-bit integer array
+                         *   values are always signed integers, whereas sensor data is typically unsigned. Therefore the data
+                         *   is typically stored with BSCALE=1.0 and BZERO=-32767, but any values are possible.
+                         * - The sensor value is constrained by the Black Point (CBLACK) and White Point (CWHITE).
+                         * - The constrained value is "stretched" to cover the full luminosity spectrum of the display
+                         * - finally the luminance value is cast to an Int16/short and written to each colour channel of the screen pixel.
+                         */
+                        var arrayValue = readPixel(reader);
+                        var physicalValue = pixelScale.ZeroOffset + pixelScale.Scale * arrayValue;
+                        var constrainedValue = physicalValue.Constrain(pixelScale.BlackPoint, pixelScale.WhitePoint);
+                        // ToDo: A more sophisticated stretching algorithm is needed that takes account of CSTRETCH
+                        var displayValue = constrainedValue.MapToRange(pixelScale.BlackPoint, pixelScale.WhitePoint,
+                            short.MinValue, short.MaxValue);
+                        var luminance = (short) displayValue;
+                        writer.Write(luminance); // Red channel
+                        writer.Write(luminance); // Green channel
+                        writer.Write(luminance); // Blue channel
                         }
                     }
             var bitmap = ByteToImage48bpp(xAxis, yAxis, pixelData);
