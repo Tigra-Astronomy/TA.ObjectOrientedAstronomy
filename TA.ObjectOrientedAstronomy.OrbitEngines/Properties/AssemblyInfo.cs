@@ -2,9 +2,9 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: AssemblyInfo.cs  Last modified: 2016-10-09@03:20 by Tim Long
+// File: AssemblyInfo.cs  Last modified: 2016-10-17@12:55 by Tim Long
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("TA.Vsop87OrbitEngine.Vsop87OrbitEngine")]
-[assembly: AssemblyDescription("VSOP87 Orbit Engine")]
+[assembly: AssemblyTitle("TA.ObjectOrientedAstronomy.OrbitEngines")]
+[assembly: AssemblyDescription("Engines for computing the position of planets and other orbital bodies")]
