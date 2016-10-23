@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
@@ -13,5 +13,9 @@
     <releaseNotes>This is a pre-release project and the API is not stable.</releaseNotes>
     <copyright>Copyright 2015-2016 Tigra Astronomy</copyright>
     <tags>astronomy astrophysics astrometry space foss</tags>
+  <dependencies>
+    <dependency id="TA.ObjectOrientedAstronomy.FundamentalTypes" version="0.0.0"/>
+    <dependency id="NLog" version="4.3.10" />
+  </dependencies>
   </metadata>
 </package>
