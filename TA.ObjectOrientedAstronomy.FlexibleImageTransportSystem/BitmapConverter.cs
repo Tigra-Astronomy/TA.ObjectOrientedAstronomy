@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using JetBrains.Annotations;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+//MiscUtil is licensed under the Apache 2.0 License (see LibraryLicenses folder). This project is NOT a derivative work via the standard Apache 2.0 License exemption.
+using MiscUtil;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -61,7 +63,9 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             using (var outStream = new MemoryStream(pixelData, writable: true))
             using (var writer = new BinaryWriter(outStream))
             using (var inStream = new MemoryStream(hdu.RawData, writable: false))
-            using (var reader = new BinaryReader(inStream, Encoding.ASCII))
+
+            //MiscUtil is licensed under the Apache 2.0 License (see LibraryLicenses folder). This project is NOT a derivative work via the standard Apache 2.0 License exemption.
+            using (var reader = new MiscUtil.IO.EndianBinaryReader(MiscUtil.Conversion.BigEndianBitConverter.Big, inStream))
                 for (var y = 0; y < yAxis; y++)
                     {
                     for (var x = 0; x < xAxis; x++)
@@ -111,7 +115,8 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             return bitmap;
             }
 
-        private static Func<BinaryReader, double> GetPixelReader(int bitsPerPixel)
+        //MiscUtil is licensed under the Apache 2.0 License (see LibraryLicenses folder). This project is NOT a derivative work via the standard Apache 2.0 License exemption.
+        private static Func<MiscUtil.IO.EndianBinaryReader, double> GetPixelReader(int bitsPerPixel)
             {
             switch (bitsPerPixel)
                 {
