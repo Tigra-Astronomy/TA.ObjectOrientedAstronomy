@@ -8,6 +8,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using JetBrains.Annotations;
@@ -46,60 +47,44 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             return null;
             }
 
-        //ToDo: Clean Code violation - method too long
         private static Bitmap SingleImagePlaneToRgbBitmap(FitsHeaderDataUnit hdu)
             {
-            var pixelScale = hdu.Header.HeaderRecords.BindProperties<PixelScale>();
-            var bitDepth = hdu.MandatoryKeywords.BitsPerPixel;
             // FITS section 3.3.2 lowest numbered axis varies most rapidly
             var xAxis = hdu.MandatoryKeywords.LengthOfAxis[0];
             var yAxis = hdu.MandatoryKeywords.LengthOfAxis[1];
-            var readPixel = GetPixelReader(hdu.MandatoryKeywords.BitsPerPixel);
 
-            var bytesPerPixel = 6; // 48 bits per pixel, 16, 16, 16 RGB
+            var bytesPerPixel = 3; // 24 bits per pixel, 8, 8, 8 RGB
             var pixelData = new byte[yAxis * xAxis * bytesPerPixel];
-            var blackPixel = ushort.MinValue;
-            var whitePixel = ushort.MaxValue;
+
+            var dataArray = PrimaryDataExtractor.ExtractDataArray(hdu);
+
+            double min = dataArray.Cast<double>().Min();
+            double max = dataArray.Cast<double>().Max();
+
             using (var outStream = new MemoryStream(pixelData, writable: true))
             using (var writer = new BinaryWriter(outStream))
-            using (var inStream = new MemoryStream(hdu.RawData, writable: false))
 
-            //MiscUtil is licensed under the Apache 2.0 License (see LibraryLicenses folder). This project is NOT a derivative work via the standard Apache 2.0 License exemption.
-            using (var reader = new MiscUtil.IO.EndianBinaryReader(MiscUtil.Conversion.BigEndianBitConverter.Big, inStream))
                 for (var y = 0; y < yAxis; y++)
-                    {
+                {
                     for (var x = 0; x < xAxis; x++)
-                        {
-                        /*
-                         * Pixels are transformed from raw data to displayable pixels as follows:
-                         * - The raw value is read from the file in a manner consistent with BITPIX.
-                         * - The original physical sensor value (in ADUs) is recovered by applying BZERO and BSCALE. 16 and 32-bit integer array
-                         *   values are always signed integers, whereas sensor data is typically unsigned. Therefore the data
-                         *   is typically stored with BSCALE=1.0 and BZERO=-32767, but any values are possible.
-                         * - The sensor value is constrained by the Black Point (CBLACK) and White Point (CWHITE).
-                         * - The constrained value is "stretched" to cover the full luminosity spectrum of the display
-                         * - finally the luminance value is cast to an Int16/short and written to each colour channel of the screen pixel.
-                         */
-                        var arrayValue = readPixel(reader);
-                        var physicalValue = pixelScale.ZeroOffset + pixelScale.Scale * arrayValue;
-                        var constrainedValue = physicalValue.Constrain(pixelScale.BlackPoint, pixelScale.WhitePoint);
-                        // ToDo: A more sophisticated stretching algorithm is needed that takes account of CSTRETCH
-                        var displayValue = constrainedValue.MapToRange(pixelScale.BlackPoint, pixelScale.WhitePoint,
-                            short.MinValue, short.MaxValue);
-                        var luminance = (short) displayValue;
-                        writer.Write(luminance); // Red channel
-                        writer.Write(luminance); // Green channel
-                        writer.Write(luminance); // Blue channel
-                        }
+                    {
+                        var displayValue = (byte) dataArray[x, y].MapToRange(min, max,
+                           byte.MinValue, byte.MaxValue);
+
+                        writer.Write(displayValue); // Red channel
+                        writer.Write(displayValue); // Green channel
+                        writer.Write(displayValue); // Blue channel
                     }
-            var bitmap = ByteToImage48bpp(xAxis, yAxis, pixelData);
+                }
+                    
+            var bitmap = ByteToImage24bpp(xAxis, yAxis, pixelData);
             return bitmap;
             }
 
-        private static Bitmap ByteToImage48bpp(int width, int height, byte[] pixels)
+        private static Bitmap ByteToImage24bpp(int width, int height, byte[] pixels)
             {
-            var bitmap = new Bitmap(width, height, PixelFormat.Format48bppRgb);
-            byte bytesPerPixel = 6;
+            var bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            byte bytesPerPixel = 3;
             var boundingRectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
             var bitmapData = bitmap.LockBits(boundingRectangle,
                 ImageLockMode.WriteOnly,
@@ -115,34 +100,24 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             return bitmap;
             }
 
-        //MiscUtil is licensed under the Apache 2.0 License (see LibraryLicenses folder). This project is NOT a derivative work via the standard Apache 2.0 License exemption.
-        private static Func<MiscUtil.IO.EndianBinaryReader, double> GetPixelReader(int bitsPerPixel)
-            {
-            switch (bitsPerPixel)
-                {
-                    case -32:
-                        return reader => reader.ReadSingle();
-                    case -64:
-                        return reader => reader.ReadDouble();
-                    case 8:
-                        return reader => reader.ReadByte();
-                    case 16:
-                        return reader => reader.ReadInt16();
-                    case 32:
-                        return reader => reader.ReadInt32();
-                    case 64:
-                        return reader => reader.ReadInt64();
-                    default:
-                        throw new NotSupportedException(
-                            $"BITPIX was {bitsPerPixel} which is not a recognized FITS format");
-                }
-            }
-
-        private static short ReadIeeeDoublePrecision(BinaryReader reader)
-            {
-            return (short) reader.ReadDouble();
-            }
-
+        private static Bitmap ByteToImage48bpp(int width, int height, byte[] pixels)
+        {
+            var bitmap = new Bitmap(width, height, PixelFormat.Format48bppRgb);
+            byte bytesPerPixel = 6;
+            var boundingRectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            var bitmapData = bitmap.LockBits(boundingRectangle,
+                ImageLockMode.WriteOnly,
+                bitmap.PixelFormat);
+            /*
+             * copy line by line, compensating for the difference between
+             * width * bytesPerPixel and bitmapData.Stride
+             */
+            for (var y = 0; y < height; y++)
+                Marshal.Copy(pixels, y * width * bytesPerPixel, bitmapData.Scan0 + bitmapData.Stride * y,
+                    width * bytesPerPixel);
+            bitmap.UnlockBits(bitmapData);
+            return bitmap;
+        }
 
         private static ImageKind DetermineBitmapKind(FitsHeaderDataUnit hdu)
             {
@@ -155,25 +130,6 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     default:
                         return ImageKind.Unknown;
                 }
-            }
-
-        private class PixelScale
-            {
-            [FitsKeyword("BZERO")]
-            [UsedImplicitly]
-            public double ZeroOffset { get; set; }
-
-            [FitsKeyword("BSCALE")]
-            [UsedImplicitly]
-            public double Scale { get; set; } = 1.0;
-
-            [FitsKeyword("CBLACK")]
-            [UsedImplicitly]
-            public double BlackPoint { get; set; }
-
-            [FitsKeyword("CWHITE")]
-            [UsedImplicitly]
-            public double WhitePoint { get; set; } = short.MaxValue;
             }
         }
     }
