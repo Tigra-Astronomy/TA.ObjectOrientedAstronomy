@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsFormatException.cs  Last modified: 2016-10-13@22:51 by Tim Long
+// File: FitsFormatException.cs  Last modified: 2016-10-28@15:08 by Tim Long
 
 using System;
 using JetBrains.Annotations;
@@ -16,7 +16,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     ///     This exception does not have any custom properties, thus it does not implement ISerializable.
     /// </remarks>
     [Serializable]
-    public sealed class FitsFormatException : Exception
+    public class FitsFormatException : Exception
         {
         /// <summary>
         ///     Initializes a new instance of the <see cref="FitsFormatException" /> class.

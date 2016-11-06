@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsIncompleteBlockException.cs  Last modified: 2016-10-12@23:53 by Tim Long
+// File: FitsIncompleteBlockException.cs  Last modified: 2016-10-28@15:08 by Tim Long
 
 using System;
 using System.Runtime.Serialization;
@@ -15,7 +15,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     /// </summary>
     /// <seealso cref="System.Exception" />
     [Serializable]
-    public class FitsIncompleteBlockException : Exception
+    public class FitsIncompleteBlockException : FitsFormatException
         {
         private static readonly string defaultMessage =
             $"Unable to read a complete FITS block of {FitsFormat.FitsBlockLength} bytes. The FITS specification states that all FITS files must contain an integer number of blocks each of {FitsFormat.FitsBlockLength} bytes. Header and Data Units should be padded if necessary to form whole blocks, including at the end of the file. This may be an indication of file corruption or an application that does not properly conform to the FITS standard. It may be safe to ignore this error if it is at the end of the file.";
