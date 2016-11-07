@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: BitmapConverter.cs  Last modified: 2016-10-17@21:26 by Tim Long
+// File: BitmapConverter.cs  Last modified: 2016-11-07@19:43 by Tim Long
 
 using System;
 using System.Drawing;
@@ -10,11 +10,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using JetBrains.Annotations;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+
 //MiscUtil is licensed under the Apache 2.0 License (see LibraryLicenses folder). This project is NOT a derivative work via the standard Apache 2.0 License exemption.
-using MiscUtil;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -58,25 +56,31 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
             var dataArray = PrimaryDataExtractor.ExtractDataArray(hdu);
 
-            double min = dataArray.Cast<double>().Min();
-            double max = dataArray.Cast<double>().Max();
+            /*
+             * Establish the range of values for the histogram stretch.
+             * Use the Black Point and White Point from the FITS header if present,
+             * otherwise use the minimum and maximum data values in the data array.
+             */
+            var pixelScale = hdu.Header.HeaderRecords.BindProperties<PixelScale>();
+            if (!hdu.Header.HeaderRecords.Any(p => p.Keyword == "CBLACK"))
+                pixelScale.BlackPoint = dataArray.Cast<double>().Min();
+            if (!hdu.Header.HeaderRecords.Any(p => p.Keyword == "CWHITE"))
+                pixelScale.WhitePoint = dataArray.Cast<double>().Max();
 
             using (var outStream = new MemoryStream(pixelData, writable: true))
             using (var writer = new BinaryWriter(outStream))
-
                 for (var y = 0; y < yAxis; y++)
-                {
-                    for (var x = 0; x < xAxis; x++)
                     {
-                        var displayValue = (byte) dataArray[x, y].MapToRange(min, max,
-                           byte.MinValue, byte.MaxValue);
-
+                    for (var x = 0; x < xAxis; x++)
+                        {
+                        var displayValue = (byte) dataArray[x, y]
+                            .Constrain(pixelScale.BlackPoint, pixelScale.WhitePoint)
+                            .MapToRange(pixelScale.BlackPoint, pixelScale.WhitePoint, byte.MinValue, byte.MaxValue);
                         writer.Write(displayValue); // Red channel
                         writer.Write(displayValue); // Green channel
                         writer.Write(displayValue); // Blue channel
+                        }
                     }
-                }
-                    
             var bitmap = ByteToImage24bpp(xAxis, yAxis, pixelData);
             return bitmap;
             }
@@ -101,7 +105,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             }
 
         private static Bitmap ByteToImage48bpp(int width, int height, byte[] pixels)
-        {
+            {
             var bitmap = new Bitmap(width, height, PixelFormat.Format48bppRgb);
             byte bytesPerPixel = 6;
             var boundingRectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
@@ -117,7 +121,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     width * bytesPerPixel);
             bitmap.UnlockBits(bitmapData);
             return bitmap;
-        }
+            }
 
         private static ImageKind DetermineBitmapKind(FitsHeaderDataUnit hdu)
             {

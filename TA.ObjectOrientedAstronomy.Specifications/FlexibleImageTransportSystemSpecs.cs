@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-10-13@00:49 by Tim Long
+// File: FlexibleImageTransportSystemSpecs.cs  Last modified: 2016-11-07@19:12 by Tim Long
 
 using System;
 using System.Collections.Generic;
