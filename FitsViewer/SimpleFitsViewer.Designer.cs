@@ -61,7 +61,7 @@
             // FitsFileOpener
             // 
             this.FitsFileOpener.DefaultExt = "fits";
-            this.FitsFileOpener.Filter = "FITS files|*.fits;*.fts|All files|*.*";
+            this.FitsFileOpener.Filter = "FITS files|*.fits;*.fts;*.fit|All files|*.*";
             this.FitsFileOpener.ReadOnlyChecked = true;
             this.FitsFileOpener.SupportMultiDottedExtensions = true;
             this.FitsFileOpener.Title = "Browse for FITS image file";

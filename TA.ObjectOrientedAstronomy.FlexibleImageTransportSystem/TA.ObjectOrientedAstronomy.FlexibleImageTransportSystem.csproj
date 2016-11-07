@@ -82,6 +82,8 @@
     <Compile Include="FitsPrimaryHduMandatoryKeywords.cs" />
     <Compile Include="ImageKind.cs" />
     <Compile Include="MathExtensions.cs" />
+    <Compile Include="PixelScale.cs" />
+    <Compile Include="PrimaryDataExtractor.cs" />
     <Compile Include="PropertyBinder\FitsPropertyBinder.cs" />
     <Compile Include="FitsReader.cs" />
     <Compile Include="FitsRecord.cs" />
