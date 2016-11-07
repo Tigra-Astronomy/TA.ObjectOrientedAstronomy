@@ -2,10 +2,10 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsFormatException.cs  Last modified: 2016-10-28@15:08 by Tim Long
+// File: FitsFormatException.cs  Last modified: 2016-11-07@19:07 by Tim Long
 
 using System;
-using JetBrains.Annotations;
+using System.Runtime.Serialization;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -21,11 +21,6 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// <summary>
         ///     Initializes a new instance of the <see cref="FitsFormatException" /> class.
         /// </summary>
-        public FitsFormatException() : base("The FITS data was in an invalid format") {}
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="FitsFormatException" /> class.
-        /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
         public FitsFormatException(string message, Exception innerException) : base(message, innerException) {}
@@ -36,12 +31,25 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// <param name="message">The message.</param>
         public FitsFormatException(string message) : base(message) {}
 
-        [StringFormatMethod("message")]
-        public FitsFormatException(string message, string keyword) : base(message)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FitsFormatException" /> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="keyword">The FITS header keyword related to the exception.</param>
+        public FitsFormatException(string message, string keyword) : base($"[{keyword}]: {message}")
             {
             Keyword = keyword;
             Data["Keyword"] = keyword;
             }
+
+        /// <summary>
+        ///     Serialization constructor, used by the system when an exception must be passed across a remoting channel.
+        ///     This is not expected to be called by the user and therefore is protected.
+        /// </summary>
+        /// <param name="info">The serialization information.</param>
+        /// <param name="context">The serialization context.</param>
+        protected FitsFormatException(SerializationInfo info, StreamingContext context) : base(info, context) {}
+
 
         public string File { get; set; }
 

@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: FitsIncompleteBlockException.cs  Last modified: 2016-10-28@15:08 by Tim Long
+// File: FitsIncompleteBlockException.cs  Last modified: 2016-11-07@19:09 by Tim Long
 
 using System;
 using System.Runtime.Serialization;
@@ -20,10 +20,24 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         private static readonly string defaultMessage =
             $"Unable to read a complete FITS block of {FitsFormat.FitsBlockLength} bytes. The FITS specification states that all FITS files must contain an integer number of blocks each of {FitsFormat.FitsBlockLength} bytes. Header and Data Units should be padded if necessary to form whole blocks, including at the end of the file. This may be an indication of file corruption or an application that does not properly conform to the FITS standard. It may be safe to ignore this error if it is at the end of the file.";
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FitsIncompleteBlockException" /> class.
+        /// </summary>
         public FitsIncompleteBlockException() : base(defaultMessage) {}
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FitsIncompleteBlockException" /> class by wrapping an inner
+        ///     exception.
+        /// </summary>
+        /// <param name="inner">The inner exception.</param>
         public FitsIncompleteBlockException(Exception inner) : base(defaultMessage, inner) {}
 
+        /// <summary>
+        ///     Serialization constructor, used by the system when an exception must be passed across a remoting channel.
+        ///     This is not expected to be called by the user and therefore is protected.
+        /// </summary>
+        /// <param name="info">The serialization information.</param>
+        /// <param name="context">The serialization context.</param>
         protected FitsIncompleteBlockException(
             SerializationInfo info,
             StreamingContext context) : base(info, context) {}

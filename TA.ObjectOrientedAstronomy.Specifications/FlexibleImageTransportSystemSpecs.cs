@@ -185,7 +185,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications
             () => bitmap.Width.ShouldEqual(hdu.MandatoryKeywords.LengthOfAxis[0]);
         It should_produce_a_bitmap_with_the_expected_y_dimension =
             () => bitmap.Height.ShouldEqual(hdu.MandatoryKeywords.LengthOfAxis[1]);
-        It should_produce_an_rgb_48bpp_image = () => bitmap.PixelFormat.ShouldEqual(PixelFormat.Format48bppRgb);
+        It should_produce_an_rgb_24bpp_image = () => bitmap.PixelFormat.ShouldEqual(PixelFormat.Format24bppRgb);
         static Bitmap bitmap;
         static FitsHeaderDataUnit hdu;
         }
