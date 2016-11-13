@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: GlobalAssemblyInfo.cs  Last modified: 2016-10-23@22:36 by Tim Long
+// File: GlobalAssemblyInfo.cs  Last modified: 2016-11-13@19:44 by Tim Long
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("0.0.*")]
 [assembly: AssemblyFileVersion("0.0.0.0")]
-[assembly: AssemblyInformationalVersion("0.0.2-integration")]
+[assembly: AssemblyInformationalVersion("0.0.3-integration")]
 
 // For unit test
 

@@ -2,7 +2,7 @@
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
-// File: BitmapConverter.cs  Last modified: 2016-11-07@19:43 by Tim Long
+// File: BitmapConverter.cs  Last modified: 2016-11-13@20:00 by Tim Long
 
 using System;
 using System.Drawing;
@@ -21,15 +21,22 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// <summary>
         ///     Converts the data array in this HDU to a Windows bitmap.
         /// </summary>
+        /// <param name="hdu">The hdu.</param>
+        /// <param name="histogram">
+        ///     The histogram stretch configuration. Optional. If this parameter is provided, then it is used to stretch
+        ///     the histogram of the displayed image. If not provided, then the FITS header will be examined for CBLACK
+        ///     and CWHITE keywords and those will be used if present. If none of the above is found, then the default
+        ///     is to use the minimum and maximum data values obtained from the data array.
+        /// </param>
         /// <returns>Bitmap.</returns>
         /// <exception cref="NotSupportedException">Thrown if the image is neither greyscale or RGB</exception>
-        public static Bitmap ToWindowsBitmap(this FitsHeaderDataUnit hdu)
+        public static Bitmap ToWindowsBitmap(this FitsHeaderDataUnit hdu, HistogramStretch histogram = null)
             {
             var bitmapKind = DetermineBitmapKind(hdu);
             switch (bitmapKind)
                 {
                     case ImageKind.Monocrome:
-                        return SingleImagePlaneToRgbBitmap(hdu);
+                        return SingleImagePlaneToRgbBitmap(hdu, histogram);
                     case ImageKind.RGB:
                         throw new NotSupportedException(
                             "Currently only monochrome images are supported. Feel free to clone the code and add this feature.");
@@ -45,7 +52,8 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             return null;
             }
 
-        private static Bitmap SingleImagePlaneToRgbBitmap(FitsHeaderDataUnit hdu)
+        private static Bitmap SingleImagePlaneToRgbBitmap(FitsHeaderDataUnit hdu,
+            HistogramStretch histogramStretch = null)
             {
             // FITS section 3.3.2 lowest numbered axis varies most rapidly
             var xAxis = hdu.MandatoryKeywords.LengthOfAxis[0];
@@ -58,14 +66,19 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
             /*
              * Establish the range of values for the histogram stretch.
-             * Use the Black Point and White Point from the FITS header if present,
-             * otherwise use the minimum and maximum data values in the data array.
+             * Use the values passed in via histogramStretch if they were provided.
+             * Otherwise, if there is Blacnlpoint and WhitePoint information in the FITS header, use that.
+             * Otherwise, using the Minimum and Maximum data values obtained from the data array.
              */
-            var pixelScale = hdu.Header.HeaderRecords.BindProperties<PixelScale>();
-            if (!hdu.Header.HeaderRecords.Any(p => p.Keyword == "CBLACK"))
-                pixelScale.BlackPoint = dataArray.Cast<double>().Min();
-            if (!hdu.Header.HeaderRecords.Any(p => p.Keyword == "CWHITE"))
-                pixelScale.WhitePoint = dataArray.Cast<double>().Max();
+
+            var histogram = histogramStretch ?? hdu.Header.HeaderRecords.BindProperties<HistogramStretch>();
+            if (histogramStretch == null)
+                {
+                if (!hdu.Header.HeaderRecords.Any(p => p.Keyword == "CBLACK"))
+                    histogram.BlackPoint = dataArray.Cast<double>().Min();
+                if (!hdu.Header.HeaderRecords.Any(p => p.Keyword == "CWHITE"))
+                    histogram.WhitePoint = dataArray.Cast<double>().Max();
+                }
 
             using (var outStream = new MemoryStream(pixelData, writable: true))
             using (var writer = new BinaryWriter(outStream))
@@ -73,9 +86,10 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     {
                     for (var x = 0; x < xAxis; x++)
                         {
+                        //ToDo: only linear histogram stretch currently supported. In future support other histogram shapes.
                         var displayValue = (byte) dataArray[x, y]
-                            .Constrain(pixelScale.BlackPoint, pixelScale.WhitePoint)
-                            .MapToRange(pixelScale.BlackPoint, pixelScale.WhitePoint, byte.MinValue, byte.MaxValue);
+                            .Constrain(histogram.BlackPoint, histogram.WhitePoint)
+                            .MapToRange(histogram.BlackPoint, histogram.WhitePoint, byte.MinValue, byte.MaxValue);
                         writer.Write(displayValue); // Red channel
                         writer.Write(displayValue); // Green channel
                         writer.Write(displayValue); // Blue channel

@@ -80,6 +80,8 @@
     <Compile Include="FitsIncompleteBlockException.cs" />
     <Compile Include="FitsMandatoryKeywords.cs" />
     <Compile Include="FitsPrimaryHduMandatoryKeywords.cs" />
+    <Compile Include="HistogramShape.cs" />
+    <Compile Include="HistogramStretch.cs" />
     <Compile Include="ImageKind.cs" />
     <Compile Include="MathExtensions.cs" />
     <Compile Include="PixelScale.cs" />
