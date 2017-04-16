@@ -12,7 +12,7 @@ If(!(test-path $output))
 
 # Rebuild the solution Release configuration, Any CPU platform
 
-Invoke-MSBuild -configuration Release -platform "Any CPU" -targets Rebuild
+# Invoke-MSBuild -configuration Release -platform "Any CPU" -targets Rebuild
 
 # Package each project
 
@@ -21,5 +21,5 @@ foreach ($package in $projects_to_pack)
     $projectName = $rootNamespace + $package
     $projectFile = $projectName + ".csproj"
     $projectLocation = [System.IO.Path]::Combine($projectName, $projectFile)
-    &$nuget Pack $projectLocation -OutputDirectory $output -Symbols -Properties Configuration=Release -ApiKey $apiKey
+    &$nuget Pack $projectLocation -OutputDirectory $output -Symbols -Properties Configuration=Release
 }
