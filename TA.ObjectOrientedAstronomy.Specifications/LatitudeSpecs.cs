@@ -1,11 +1,11 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
+// Copyright © 2015-2018 Tigra Astronomy, all rights reserved.
 // 
-// File: LatitudeSpecs.cs  Last modified: 2016-10-08@23:49 by Tim Long
+// File: LatitudeSpecs.cs  Last modified: 2018-07-12@05:48 by Tim Long
 
+using JetBrains.Annotations;
 using Machine.Specifications;
-using Machine.Specifications.Annotations;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
 namespace TA.ObjectOrientedAstronomy.Specifications

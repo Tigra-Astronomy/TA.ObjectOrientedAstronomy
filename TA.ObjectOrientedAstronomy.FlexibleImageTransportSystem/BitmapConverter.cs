@@ -1,8 +1,8 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
+// Copyright © 2015-2018 Tigra Astronomy, all rights reserved.
 // 
-// File: BitmapConverter.cs  Last modified: 2016-11-13@20:00 by Tim Long
+// File: BitmapConverter.cs  Last modified: 2018-07-11@23:34 by Tim Long
 
 using System;
 using System.Drawing;
@@ -82,19 +82,19 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
             using (var outStream = new MemoryStream(pixelData, writable: true))
             using (var writer = new BinaryWriter(outStream))
+                {
                 for (var y = 0; y < yAxis; y++)
+                for (var x = 0; x < xAxis; x++)
                     {
-                    for (var x = 0; x < xAxis; x++)
-                        {
-                        //ToDo: only linear histogram stretch currently supported. In future support other histogram shapes.
-                        var displayValue = (byte) dataArray[x, y]
-                            .Constrain(histogram.BlackPoint, histogram.WhitePoint)
-                            .MapToRange(histogram.BlackPoint, histogram.WhitePoint, byte.MinValue, byte.MaxValue);
-                        writer.Write(displayValue); // Red channel
-                        writer.Write(displayValue); // Green channel
-                        writer.Write(displayValue); // Blue channel
-                        }
+                    //ToDo: only linear histogram stretch currently supported. In future support other histogram shapes.
+                    var displayValue = (byte) dataArray[x, y]
+                        .Constrain(histogram.BlackPoint, histogram.WhitePoint)
+                        .MapToRange(histogram.BlackPoint, histogram.WhitePoint, byte.MinValue, byte.MaxValue);
+                    writer.Write(displayValue); // Red channel
+                    writer.Write(displayValue); // Green channel
+                    writer.Write(displayValue); // Blue channel
                     }
+                }
             var bitmap = ByteToImage24bpp(xAxis, yAxis, pixelData);
             return bitmap;
             }

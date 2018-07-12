@@ -1,20 +1,19 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
+// Copyright © 2015-2018 Tigra Astronomy, all rights reserved.
 // 
-// File: Vsop87Specs.cs  Last modified: 2016-10-08@23:31 by Tim Long
+// File: Vsop87Specs.cs  Last modified: 2018-07-12@05:45 by Tim Long
 
 using System;
 using System.Collections;
+using JetBrains.Annotations;
 using Machine.Specifications;
-using Machine.Specifications.Annotations;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 using TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87;
 using TA.Orbits.ReferenceData;
 
 namespace TA.ObjectOrientedAstronomy.Specifications
     {
-
     #region  Context base classes
     public class with_target_date_2014_jan_29_midday
         {
@@ -110,9 +109,12 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                 ComputedCoordinates =
                     Vsop87OrbitEngine.ComputeRectangularCoordinates(
                         TargetDate, SolarSystemBody.Earth, ReferenceFrame.EquinoxJ2000);
-        It should_match_the_reference_x = () => ComputedCoordinates.X.ShouldBeCloseTo(ReferenceCoordinates.X, Tolerance);
-        It should_match_the_reference_y = () => ComputedCoordinates.Y.ShouldBeCloseTo(ReferenceCoordinates.Y, Tolerance);
-        It should_match_the_reference_z = () => ComputedCoordinates.Z.ShouldBeCloseTo(ReferenceCoordinates.Z, Tolerance);
+        It should_match_the_reference_x =
+            () => ComputedCoordinates.X.ShouldBeCloseTo(ReferenceCoordinates.X, Tolerance);
+        It should_match_the_reference_y =
+            () => ComputedCoordinates.Y.ShouldBeCloseTo(ReferenceCoordinates.Y, Tolerance);
+        It should_match_the_reference_z =
+            () => ComputedCoordinates.Z.ShouldBeCloseTo(ReferenceCoordinates.Z, Tolerance);
         static RectangularCoordinates ComputedCoordinates;
         static RectangularCoordinates ReferenceCoordinates;
         }
@@ -252,11 +254,13 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                     Catch.Exception(
                         () =>
                             Vsop87DataReader.SelectDataFile(
-                                SolarSystemBody.EarthMoonBarycentre, CoordinateSystem.HeliocentricRectangularCoordinates,
+                                SolarSystemBody.EarthMoonBarycentre,
+                                CoordinateSystem.HeliocentricRectangularCoordinates,
                                 ReferenceFrame.EquinoxJNow));
         It should_throw_not_supported_exception = () => Thrown.ShouldBeOfExactType<NotSupportedException>();
         It should_contain_the_body =
-            () => Thrown.Data.ShouldContain(new DictionaryEntry("SolarSystemBody", SolarSystemBody.EarthMoonBarycentre));
+            () => Thrown.Data.ShouldContain(new DictionaryEntry("SolarSystemBody",
+                SolarSystemBody.EarthMoonBarycentre));
         It should_contain_the_coordinate_system =
             () =>
                 Thrown.Data.ShouldContain(
@@ -279,7 +283,8 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                                 ReferenceFrame.EquinoxJ2000));
         It should_throw_not_supported_exception = () => Thrown.ShouldBeOfExactType<NotSupportedException>();
         It should_contain_the_body =
-            () => Thrown.Data.ShouldContain(new DictionaryEntry("SolarSystemBody", SolarSystemBody.EarthMoonBarycentre));
+            () => Thrown.Data.ShouldContain(new DictionaryEntry("SolarSystemBody",
+                SolarSystemBody.EarthMoonBarycentre));
         It should_contain_the_coordinate_system =
             () =>
                 Thrown.Data.ShouldContain(
@@ -302,7 +307,8 @@ namespace TA.ObjectOrientedAstronomy.Specifications
                                 ReferenceFrame.EquinoxJ2000));
         It should_throw_not_supported_exception = () => Thrown.ShouldBeOfExactType<NotSupportedException>();
         It should_contain_the_body =
-            () => Thrown.Data.ShouldContain(new DictionaryEntry("SolarSystemBody", SolarSystemBody.EarthMoonBarycentre));
+            () => Thrown.Data.ShouldContain(new DictionaryEntry("SolarSystemBody",
+                SolarSystemBody.EarthMoonBarycentre));
         It should_contain_the_coordinate_system =
             () =>
                 Thrown.Data.ShouldContain(

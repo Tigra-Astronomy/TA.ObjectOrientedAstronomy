@@ -1,131 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</RootNamespace>
-    <AssemblyName>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <DontImportPostSharp>True</DontImportPostSharp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MiscUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3c42c4bfacf7596, processorArchitecture=MSIL">
-      <HintPath>..\packages\JonSkeet.MiscUtil.0.1\lib\net35-Client\MiscUtil.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.10\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PostSharp, Version=4.3.22.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <HintPath>..\packages\PostSharp.4.3.22\lib\net35-client\PostSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PostSharp.Patterns.Common, Version=4.3.22.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
-      <HintPath>..\packages\PostSharp.Patterns.Common.4.3.22\lib\net45\PostSharp.Patterns.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PostSharp.Patterns.Threading, Version=4.3.22.0, Culture=neutral, PublicKeyToken=e7f631e6ce13f078, processorArchitecture=MSIL">
-      <HintPath>..\packages\PostSharp.Patterns.Threading.4.3.22\lib\net45\PostSharp.Patterns.Threading.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="BitmapConverter.cs" />
-    <Compile Include="FitsFormat.cs" />
-    <Compile Include="FitsDataType.cs" />
-    <Compile Include="FitsFormatException.cs" />
-    <Compile Include="FitsHeader.cs" />
-    <Compile Include="FitsHeaderDataUnit.cs" />
-    <Compile Include="FitsHeaderRecord.cs" />
-    <Compile Include="FitsHeaderRecordExtensions.cs" />
-    <Compile Include="FitsIncompleteBlockException.cs" />
-    <Compile Include="FitsMandatoryKeywords.cs" />
-    <Compile Include="FitsPrimaryHduMandatoryKeywords.cs" />
-    <Compile Include="HistogramShape.cs" />
-    <Compile Include="HistogramStretch.cs" />
-    <Compile Include="ImageKind.cs" />
-    <Compile Include="MathExtensions.cs" />
-    <Compile Include="PixelScale.cs" />
-    <Compile Include="PrimaryDataExtractor.cs" />
-    <Compile Include="PropertyBinder\FitsPropertyBinder.cs" />
-    <Compile Include="FitsReader.cs" />
-    <Compile Include="FitsRecord.cs" />
-    <Compile Include="PropertyBinder\FitsKeywordAttribute.cs" />
-    <Compile Include="InvalidHeaderRecordException.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyBinder\IKeywordLookup.cs" />
-    <Compile Include="PropertyBinder\Maybe.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Diagrams\FITS.cd" />
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-    <None Include="ReferenceDocumentation\fits_standard40draft1.pdf" />
-    <None Include="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj">
-      <Project>{483E1BC4-8B68-45B4-8487-E8F081885F58}</Project>
-      <Name>TA.ObjectOrientedAstronomy.FundamentalTypes</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="LibraryLicenses\JonSkeet.MiscUtil.License.txt" />
-    <Content Include="LibraryLicenses\Note.txt" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\PostSharp.4.3.22\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.4.3.22\tools\PostSharp.targets')" />
-  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
-    <Error Condition="!Exists('..\packages\PostSharp.4.3.22\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
-    <Error Condition="Exists('..\packages\PostSharp.4.3.22\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>0.0.3-Integration</Version>
+        <Authors>Tim Long, Tigra Astronomy</Authors>
+        <Company>Tigra Astronomy</Company>
+        <Product>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</Product>
+        <Description>Routines for reading and manipulating NASA FITS (Flexible Image Transport System) files</Description>
+        <Copyright>Copyright © 2016-18 Tigra Astronomy, all rights reserved</Copyright>
+        <PackageLicenseUrl>http://tigra.mit-license.org/</PackageLicenseUrl>
+        <PackageProjectUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</PackageProjectUrl>
+        <RepositoryUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageTags>astronomy, FITS, NASA FITS, Flexible Image Transport System</PackageTags>
+        <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
+    </PropertyGroup>
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+      <PackageReference Include="NLog" Version="4.5.6" />
+      <PackageReference Include="PostSharp.Patterns.Model" Version="6.0.18" />
+      <PackageReference Include="PostSharp.Patterns.Threading" Version="6.0.18" />
+      <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
+    </ItemGroup>
 </Project>
