@@ -12,7 +12,7 @@
         <RepositoryType>Git</RepositoryType>
         <PackageTags>astronomy.C#,Tigra Astronomy</PackageTags>
         <PackageReleaseNotes>This is a pre-release project and the API is not stable.</PackageReleaseNotes>
-        <Version>0.0.3-Integration</Version>
+        <Version>0.0.4-Beta</Version>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />

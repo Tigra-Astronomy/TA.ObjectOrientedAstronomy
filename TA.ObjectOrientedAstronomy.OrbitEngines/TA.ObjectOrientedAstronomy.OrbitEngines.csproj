@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.3-Integration</Version>
+        <Version>0.0.4-Beta</Version>
         <Authors>Tim Long, Tigra Astronomy</Authors>
         <Company>Tigra Astronomy</Company>
         <Description>Engines for computing the position of planets and other orbital bodies</Description>
