@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Authors>Tim Long, Tigra Astronomy</Authors>
+        <Company>Tigra Astronomy</Company>
+        <Description>Fundamental types for representing astronomical quantities and general utilities</Description>
+        <Copyright>Copyright © 2016-18 Tigra Astronomy, all rights reserved</Copyright>
+        <PackageLicenseUrl>http://tigra.mit-license.org</PackageLicenseUrl>
+        <PackageProjectUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</PackageProjectUrl>
+        <RepositoryUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy/src/master/</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageTags>astronomy.C#,Tigra Astronomy</PackageTags>
+        <PackageReleaseNotes>This is a pre-release project and the API is not stable.</PackageReleaseNotes>
+        <Version>0.0.4-Beta</Version>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+      <PackageReference Include="NLog" Version="4.5.6" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+</Project>

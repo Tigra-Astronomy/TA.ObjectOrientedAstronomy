@@ -1,18 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27729.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.Orbits.ReferenceData", "TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj", "{CC3492E3-46BA-40DC-BA11-5312E7DF5B21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26312736-84E8-40E0-BA25-539F7537AD0C}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		Package-Solution.ps1 = Package-Solution.ps1
+		postsharp.config = postsharp.config
 		ReadMe.md = ReadMe.md
+		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.ObjectOrientedAstronomy", "TA.ObjectOrientedAstronomy\TA.ObjectOrientedAstronomy.csproj", "{213D08E9-A266-48BC-992F-CA50591390A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA.ObjectOrientedAstronomy.OrbitEngines", "TA.ObjectOrientedAstronomy.OrbitEngines\TA.ObjectOrientedAstronomy.OrbitEngines.csproj", "{213D08E9-A266-48BC-992F-CA50591390A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.ObjectOrientedAstronomy.Specifications", "TA.ObjectOrientedAstronomy.Specifications\TA.ObjectOrientedAstronomy.Specifications.csproj", "{7E27D00C-0320-43D9-AA0B-62159E16CE16}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem", "TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem\TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.csproj", "{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample Applications", "Sample Applications", "{F279BBE5-C02E-4052-AC74-DF0290708202}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitsViewer", "FitsViewer\FitsViewer.csproj", "{90C50B6F-CED8-4BDD-9374-5EDD89B94EB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA.ObjectOrientedAstronomy.FundamentalTypes", "TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj", "{483E1BC4-8B68-45B4-8487-E8F081885F58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +45,26 @@ Global
 		{7E27D00C-0320-43D9-AA0B-62159E16CE16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E27D00C-0320-43D9-AA0B-62159E16CE16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E27D00C-0320-43D9-AA0B-62159E16CE16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90C50B6F-CED8-4BDD-9374-5EDD89B94EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C50B6F-CED8-4BDD-9374-5EDD89B94EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C50B6F-CED8-4BDD-9374-5EDD89B94EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C50B6F-CED8-4BDD-9374-5EDD89B94EB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{90C50B6F-CED8-4BDD-9374-5EDD89B94EB2} = {F279BBE5-C02E-4052-AC74-DF0290708202}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A729347-8716-41C7-9041-D4168AEFC712}
 	EndGlobalSection
 EndGlobal

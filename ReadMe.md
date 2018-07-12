@@ -1,4 +1,26 @@
     
+# FITS Reader/Writer #
+A set of classes for reading, writing and manipulating **NASA Flexible Image Transport System** (FITS) files.
+
+The aim is ultimately to be able to read and write all of the header and data array formats
+that are set out in the latest
+[FITS standard documentation](http://fits.gsfc.nasa.gov/fits_documentation.html "NASA FITS Documentation"). 
+At the time of writing, this was
+[FITS v4.0 July 2016 DRAFT](http://fits.gsfc.nasa.gov/fits_documentation.html "PDF Document").
+
+
+Initially, we will concentrate on building a `FitsReader` class and  being able to read a
+Primary HDU containing a single image data array ("SIF" of Single Image FITS format).
+
+Next we'll add the ability to transform the raw data array into a `Bitmap` so it can be
+more easily displayed and manipulated.
+
+Then we will add the ability to modify and create new files and write them out to disk
+with a `FitsWriter` class.
+
+Once we can both read and write SIF files, we'll add additional data array types and
+the ability to work with multiple Extensions/HDUs.
+
 # Orbit Engine #
 
 ## Problem Statement ##
@@ -37,4 +59,9 @@ for n from 0 to 5~~.
 - Position of Planets in horizon-based coordinates
 
 
+# License #
+
+This project is licensed under the [Tigra Astronomy MIT License](https://tigra.mit-license.org/ "MIT open source license").
+Essentially, "Anyone can do anything at all with the software without restriction, 
+but whatever happens it's not our fault".
 

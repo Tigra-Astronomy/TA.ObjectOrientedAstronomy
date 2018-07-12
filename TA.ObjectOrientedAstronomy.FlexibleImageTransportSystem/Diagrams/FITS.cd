@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit">
+    <Position X="8.25" Y="1" Width="4" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAIAAIAEAAAAAAAAAAAAAAAAAAAAgAAAIAAAAA=</HashCode>
+      <FileName>FitsHeaderDataUnit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DataType" />
+      <Property Name="Header" />
+      <Property Name="MandatoryKeywords" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader">
+    <Position X="0.5" Y="0.5" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAQCCAQAAAQMAAAAAAAAARgCAAgAAAAAAAACAMg=</HashCode>
+      <FileName>FitsReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder">
+    <Position X="0.5" Y="6" Width="6.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAKABAAIAEAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>PropertyBinder\FitsPropertyBinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader">
+    <Position X="13.5" Y="1" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAACAgAAAIAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>FitsHeader.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="HeaderRecords" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords">
+    <Position X="9.25" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAACAAAABAAAAAAAAA=</HashCode>
+      <FileName>FitsMandatoryKeywords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsPrimaryHduMandatoryKeywords">
+    <Position X="9.25" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FitsPrimaryHduMandatoryKeywords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord">
+    <Position X="14.25" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAEAAAAAAAEEAIAAAAAAAAAAQAAAAAgAAAAAAA=</HashCode>
+      <FileName>FitsHeaderRecord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.IKeywordLookup&lt;TKey, TValue&gt;">
+    <Position X="14.25" Y="7.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PropertyBinder\IKeywordLookup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType">
+    <Position X="6" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAQAAQAAAAAAAABAAAAAAAAEAAAA=</HashCode>
+      <FileName>FitsDataType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,1 @@
+Note: these need to be deployed with the binaries. They only cover the libraries listed in the file names, not the TA.ObjectOrientedAstronomy code, binaries or projects.

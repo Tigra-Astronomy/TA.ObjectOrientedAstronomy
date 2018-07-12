@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Tim Long, Tigra Astronomy</authors>
+    <owners>Tigra Astronomy</owners>
+    <licenseUrl>http://tigra.mit-license.org/</licenseUrl>
+    <projectUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>This is a pre-release project and the API is not stable.</releaseNotes>
+    <copyright>Copyright 2015-2016 Tigra Astronomy</copyright>
+    <tags>astronomy astrophysics astrometry space foss</tags>
+  <dependencies>
+    <dependency id="TA.ObjectOrientedAstronomy.FundamentalTypes" version="0.0.0"/>
+    <dependency id="NLog" version="4.3.10" />
+  </dependencies>
+  </metadata>
+</package>
