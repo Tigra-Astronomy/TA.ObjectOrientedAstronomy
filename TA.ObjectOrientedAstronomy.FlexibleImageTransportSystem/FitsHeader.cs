@@ -9,6 +9,7 @@ using System.Linq;
 using PostSharp.Patterns.Model;
 using PostSharp.Patterns.Threading;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+using TA.Utils.Core;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -26,7 +27,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// <param name="keyword">The FITS header keyword.</param>
         /// <returns>The value field of the first found match, or <see cref="string.Empty" />.</returns>
         public Maybe<string> this[string keyword]
-            => Maybe<string>.FromValue(records.Values.FirstOrDefault(p => p.Keyword == keyword)?.Value);
+            => Maybe<string>.From(records.Values.FirstOrDefault(p => p.Keyword == keyword)?.Value);
 
         [Writer]
         public int AppendHeaderRecord(FitsHeaderRecord record)

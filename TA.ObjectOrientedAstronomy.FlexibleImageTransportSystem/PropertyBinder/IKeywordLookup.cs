@@ -4,6 +4,8 @@
 // 
 // File: IKeywordLookup.cs  Last modified: 2016-10-02@02:13 by Tim Long
 
+using TA.Utils.Core;
+
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder
     {
     /// <summary>
@@ -14,7 +16,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder
     public interface IKeywordLookup<in TKey, TValue>
         {
         /// <summary>
-        ///     Looks up the specified keyword and returns the value as a <see cref="Maybe{TValue}" />. If no match was
+        ///     Looks up the specified keyword and returns the value as a <see cref="Maybe{T}" />. If no match was
         ///     found, then <see cref="Maybe{T}.Empty" /> is returned.
         /// </summary>
         /// <param name="keyword">The keyword to be looked up.</param>

@@ -1,15 +1,15 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
-// 
+//
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
-// 
+//
 // File: FitsReader.cs  Last modified: 2016-10-13@23:19 by Tim Long
 
 using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using NLog;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+using TA.Utils.Core.Diagnostics;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -18,14 +18,15 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     /// </summary>
     public class FitsReader
         {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
         private readonly Stream sourceStream;
+        private readonly ILog log;
         private int blockIndex = FitsFormat.FitsBlockLength + 1;
         private byte[] currentBlock = new byte[0];
 
-        public FitsReader(Stream sourceStream)
+        public FitsReader(Stream sourceStream, ILog log = null)
             {
             this.sourceStream = sourceStream;
+            this.log = log ?? new DegenerateLoggerService();
             }
 
         private bool BlockIsEmpty
@@ -145,7 +146,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public async Task<FitsRecord> ReadRecord()
             {
             var record = await BlockReadExactly(FitsFormat.FitsRecordLength).ConfigureAwait(false);
-            NLog.Fluent.Log.Debug($"Read record: [{record}]");
+            log.Debug().Message("Read record: [{record}]", record).Write();
             if (record.Length != FitsFormat.FitsRecordLength)
                 {
                 throw new InvalidOperationException(
@@ -157,7 +158,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public async Task<FitsHeaderRecord> ReadHeaderRecord()
             {
             var rawRecord = await ReadRecord().ConfigureAwait(false);
-            return FitsHeaderRecord.FromRecordText(rawRecord.Text);
+            return FitsHeaderRecord.FromRecordText(rawRecord.Text, log);
             }
 
         /// <summary>
@@ -177,9 +178,10 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     }
                 catch (InvalidHeaderRecordException ex)
                     {
-                    Log.Warn(ex, $"ignoring invalid header record: [{ex.Record}]");
+                    log.Warn().Message("ignoring invalid header record: [{record}]", ex.Record).Exception(ex);
                     }
                 } while (currentRecord.Keyword != FitsFormat.EndKeyword);
+            log.Debug().Message("Read FITS header").Property("header",result).Write();
             return result;
             }
 

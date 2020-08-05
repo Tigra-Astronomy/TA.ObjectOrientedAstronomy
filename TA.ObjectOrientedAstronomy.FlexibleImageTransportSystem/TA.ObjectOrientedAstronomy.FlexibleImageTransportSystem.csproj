@@ -26,6 +26,7 @@
       <PackageReference Include="PostSharp.Patterns.Model" Version="6.0.18" />
       <PackageReference Include="PostSharp.Patterns.Threading" Version="6.0.18" />
       <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+      <PackageReference Include="TA.Utils.Core" Version="1.1.1" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />

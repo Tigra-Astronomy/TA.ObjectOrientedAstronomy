@@ -7,15 +7,14 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NLog;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
+using TA.Utils.Core.Diagnostics;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
     public sealed class FitsHeaderRecord : FitsRecord
         {
         private static readonly Regex headerParser = new Regex(FitsFormat.FitsHeaderRecordPattern, RegexOptions.Compiled);
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
         private FitsHeaderRecord(string record)
             {
@@ -43,11 +42,11 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// </summary>
         /// <param name="text">The record text, which must contain exactly 80 permitted ASCII characters.</param>
         /// <returns>A new instance of <see cref="FitsHeaderRecord" /> initialized from the record text.</returns>
-        public static FitsHeaderRecord FromRecordText(string text)
+        public static FitsHeaderRecord FromRecordText(string text, ILog log = null)
             {
             Contract.Requires(!string.IsNullOrEmpty(text));
             Contract.Ensures(Contract.Result<FitsHeaderRecord>() != null);
-            Log.Info("Parsing FITS Header Record: {0}", text);
+            log?.Info().Message("Parsing FITS Header Record: {text}", text).Write();
             if (text.Length != 80)
                 throw new FitsFormatException(
                     $"Found {text.Length} characters. FITS records must contain exactly 80 characters")

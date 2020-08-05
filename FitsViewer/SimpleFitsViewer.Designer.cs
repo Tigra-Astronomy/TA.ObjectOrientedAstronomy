@@ -79,6 +79,7 @@
             // 
             // SimpleFitsViewer
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1221, 671);
@@ -87,6 +88,8 @@
             this.Controls.Add(this.FitsImage);
             this.Name = "SimpleFitsViewer";
             this.Text = "Simple Fits Viewer";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.SimpleFitsViewer_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.SimpleFitsViewer_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.FitsImage)).EndInit();
             this.ResumeLayout(false);
 
