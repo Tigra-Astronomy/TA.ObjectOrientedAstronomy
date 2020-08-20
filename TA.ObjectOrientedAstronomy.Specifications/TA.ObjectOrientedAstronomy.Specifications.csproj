@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FakeItEasy" Version="6.2.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.10.1" />
     <PackageReference Include="Machine.Specifications.Should" Version="1.0.0" />

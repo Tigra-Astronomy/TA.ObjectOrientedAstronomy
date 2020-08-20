@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.4-Beta</Version>
+        <Version>0.0.0-unversioned</Version>
         <Authors>Tim Long, Tigra Astronomy</Authors>
         <Company>Tigra Astronomy</Company>
         <Product>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</Product>
@@ -15,11 +15,15 @@
         <PackageTags>astronomy, FITS, NASA FITS, Flexible Image Transport System</PackageTags>
         <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
     </PropertyGroup>
-    <ItemGroup>
-      <Compile Remove="Properties\**" />
-      <EmbeddedResource Remove="Properties\**" />
-      <None Remove="Properties\**" />
-    </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+      <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
+      <DefineConstants>DEBUG;TRACE</DefineConstants>
+      <DebugType>pdbonly</DebugType>
+      <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+      <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
+    </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
       <PackageReference Include="NLog" Version="4.5.6" />

@@ -37,8 +37,9 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
         public static FitsRecord FromString(string source)
             {
-            if (source.Length != FitsRecordLength)
-                throw new ArgumentException($"The supplied string must be exactly {FitsRecordLength} characters",
+            var sourceLength = source.Length;
+            if (sourceLength != FitsRecordLength)
+                throw new ArgumentException($"The supplied string must be exactly {FitsRecordLength} characters but was {sourceLength}",
                     nameof(source));
             return new FitsRecord {Text = source};
             }

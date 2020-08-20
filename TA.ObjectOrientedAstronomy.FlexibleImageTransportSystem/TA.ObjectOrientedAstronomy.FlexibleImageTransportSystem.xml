@@ -1,0 +1,1470 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</name>
+    </assembly>
+    <members>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.BitmapConverter.ToWindowsBitmap(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit,TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramStretch)">
+            <summary>
+                Converts the data array in this HDU to a Windows bitmap.
+            </summary>
+            <param name="hdu">The hdu.</param>
+            <param name="histogram">
+                The histogram stretch configuration. Optional. If this parameter is provided, then it is used to stretch
+                the histogram of the displayed image. If not provided, then the FITS header will be examined for CBLACK
+                and CWHITE keywords and those will be used if present. If none of the above is found, then the default
+                is to use the minimum and maximum data values obtained from the data array.
+            </param>
+            <returns>Bitmap.</returns>
+            <exception cref="T:System.NotSupportedException">Thrown if the image is neither greyscale or RGB</exception>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType">
+            <summary>
+                The types of data that can be associated with a Header Data Unit (HDU).
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType.None">
+            <summary>
+                Indicates that there is no data associated with an HDU
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType.Image">
+            <summary>
+                The HDU contains a bitmapped image
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType.Table">
+            <summary>
+                The HDU contains a Table
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType.BinaryTable">
+            <summary>
+                The HDU contains a Binary Table
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType.Other">
+            <summary>
+                The HDU contains a nonstandard/custom data extension.
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException">
+            <summary>
+                Exception thrown when a FITS file is not in a valid format
+            </summary>
+            <remarks>
+                This exception does not have any custom properties, thus it does not implement ISerializable.
+            </remarks>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException.#ctor(System.String,System.Exception)">
+            <summary>
+                Initializes a new instance of the <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException" /> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException.#ctor(System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException" /> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException.#ctor(System.String,System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException" /> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="keyword">The FITS header keyword related to the exception.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+                Serialization constructor, used by the system when an exception must be passed across a remoting channel.
+                This is not expected to be called by the user and therefore is protected.
+            </summary>
+            <param name="info">The serialization information.</param>
+            <param name="context">The serialization context.</param>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.Item(System.String)">
+            <summary>
+                Gets the FITS header value for the specified keyword.
+            </summary>
+            <param name="keyword">The FITS header keyword.</param>
+            <returns>The value field of the first found match, or <see cref="F:System.String.Empty" />.</returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit">
+            <summary>
+                Represents a single complete Header-Data-Unit (either the Primary HDU or an Extension HDU) including the
+                header records and the data array if one is present.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit.MandatoryKeywords">
+            <summary>
+                Gets or sets an object containing values parsed from the mandatory keywords.
+            </summary>
+            <value>
+                An instance of <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords" /> (or derived type
+                <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsPrimaryHduMandatoryKeywords" />) with properties set to the values parsed from corresponding
+                FITS header records.
+            </value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit.DataType">
+            <summary>
+                Gets or sets the type of the data associated with this HDU.
+            </summary>
+            <value>The type of the data.</value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit.RawData">
+            <summary>
+                Gets or sets the raw FITS data.
+                The size of the array returned is given by
+                <code lang="text">
+                    Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)
+                    Nbytes = Nbits / 8
+                </code>
+            </summary>
+            <value>The raw data.</value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit.DataArrayLengthBits">
+            <summary>
+                Gets or sets the data array length bits.
+            </summary>
+            <value>The data array length bits.</value>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.FromRecordText(System.String,TA.Utils.Core.Diagnostics.ILog)">
+            <summary>
+                Creates a new <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" /> from record text in the supplied string.
+            </summary>
+            <param name="text">The record text, which must contain exactly 80 permitted ASCII characters.</param>
+            <returns>A new instance of <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" /> initialized from the record text.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecordExtensions.HasValue(System.String)">
+            <summary>
+                Determines whether the specified FITS record has a value field.
+            </summary>
+            <param name="record">The FITS record to examine.</param>
+            <returns><c>true</c> if the record has a value field; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecordExtensions.HasNoValue(System.String)">
+            <summary>
+                Determines whether the value field is absent for the given FITS record.
+            </summary>
+            <param name="record">The record.</param>
+            <returns><c>true</c> if the value field is absent; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecordExtensions.IsCommentary(System.String)">
+            <summary>
+                Determines whether the specified header keyword is a Commentary type.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns><c>true</c> if the specified keyword is commentary; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsIncompleteBlockException">
+            <summary>
+                An exception thrown by <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader" /> if it is unable to read a complete block of data from a
+                FITS data stream.
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsIncompleteBlockException.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsIncompleteBlockException" /> class.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsIncompleteBlockException.#ctor(System.Exception)">
+            <summary>
+                Initializes a new instance of the <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsIncompleteBlockException" /> class by wrapping an inner
+                exception.
+            </summary>
+            <param name="inner">The inner exception.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsIncompleteBlockException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+                Serialization constructor, used by the system when an exception must be passed across a remoting channel.
+                This is not expected to be called by the user and therefore is protected.
+            </summary>
+            <param name="info">The serialization information.</param>
+            <param name="context">The serialization context.</param>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords.NumberOfAxes">
+            <summary>
+                Gets or sets the number of axes in the data array, as specified in the NAXIS header record.
+            </summary>
+            <value>The number of axes.</value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords.LengthOfAxis">
+            <summary>
+                Gets or sets the length of each axis, as specified in the NAXISn header records, for up to 9 axes. A
+                correctly formed FITS file will only have NAXISn entries from 1 up to the number of axes specified by
+                <see cref="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords.NumberOfAxes" />. Axes are numbered from 1 in FITS files, so the first element (element [0]) of
+                the array corresponds to axis 1.
+            </summary>
+            <value>
+                An array containing the length of each axis. Element [0] in the array corresponds to NAXIS1 and so
+                on.
+            </value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords.BitsPerPixel">
+            <summary>
+                Gets or sets the number of bits per pixel in the data array. The valid values are as follows:
+                <list type="table">
+                    <listheader>
+                        <term>Value</term>
+                        <description>Interpretation</description>
+                    </listheader>
+                    <item>
+                        <term>8</term>
+                        <description>Character or unsigned binary integer</description>
+                    </item>
+                    <item>
+                        <term>16</term>
+                        <description>16-bit two's complement binary integer</description>
+                    </item>
+                    <item>
+                        <term>32</term>
+                        <description>32-bit two's complement binary integer</description>
+                    </item>
+                    <item>
+                        <term>64</term>
+                        <description>64-bit two's complement binary integer</description>
+                    </item>
+                    <item>
+                        <term>-32</term>
+                        <description>IEEE single precision floating point</description>
+                    </item>
+                    <item>
+                        <term>-64</term>
+                        <description>IEEE double precision floating point</description>
+                    </item>
+                </list>
+            </summary>
+            <value>
+                The bits per pixel. Note that this value can be negative, indicating that IEEE floating point format
+                is used.
+            </value>
+            <remarks>
+                The total number of bits in the primary data array, exclusive of fill that is needed after the data to
+                complete the last 2880-byte data block, is given by:
+                <c>
+                    Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)
+                </c>
+            </remarks>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsPrimaryHduMandatoryKeywords.Simple">
+            <summary>
+                Gets or sets a value indicating whether this <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsPrimaryHduMandatoryKeywords" /> contains a
+                valid SIMPLE header. All conforming FITS files set this value to <c>true</c>. If this value is
+                <c>false</c> then the results of operations on the file are undefined and we recommend treating the file
+                with suspicion.
+            </summary>
+            <value><c>true</c> for all conforming FITS files; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader">
+            <summary>
+                An implementation of <see cref="T:System.IO.StreamReader" /> that is useful for reading NASA FITS files.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.ReadBlock">
+            <summary>
+                Reads one block from the source stream and verifies that a complete block was read.
+            </summary>
+            <returns>
+                An array of ASCII-encoded bytes which will always be exactly <see cref="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat.FitsBlockLength" /> bytes.
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.BlockReadExactly(System.Int32)">
+            <summary>
+                Reads exactly the specified number of characters from the block buffer, refilling the buffer as
+                necessary. The ASCII-encoded source characters are decoded to normal UTF-8 Unicode characters.
+            </summary>
+            <param name="charactersRequested">
+                The total number of characters to be read from one or more blocks of data.
+            </param>
+            <returns>
+                Returns a <see cref="T:System.Threading.Tasks.Task`1" /> which upon completion will contain the requested number of characters.
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.MoveToBlockBoundary">
+            <summary>
+                Moves to block boundary. If the read pointer is already at a block boundary, nothing happens.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.ReadRecord">
+            <summary>
+                Asynchronously reads one record.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1" /> that will contain the record upon completion.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if a complete record could not be read.</exception>
+            <remarks>
+                FITS records are based on punched cards and each record contains exactly 80 characters, encoded as ASCII
+                bytes. When reading a record, exactly 80 bytes are read from the underlying stream. The bytes are then
+                converted to a unicode string using UTF-8 encoding.
+            </remarks>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.ReadPrimaryHeader">
+            <summary>
+                Reads the primary header.
+            </summary>
+            <returns>FitsHeader.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.ComputeDataArrayBitLength(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsMandatoryKeywords)">
+            <summary>
+                Computes the length of the data array, in bits, using the formula:
+                <c>Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)</c>
+            </summary>
+            <param name="headerValues">The mandatory FITS header values which specify the type and size of the data array.</param>
+            <returns>The number of bits contained in the data array.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsRecord.FromAsciiBytes(System.Byte[])">
+            <summary>
+                Creates a FITS record from a buffer containing ASCII bytes.
+            </summary>
+            <param name="asciiBytes">
+                A byte array containing exactly <see cref="!:RecordLength" /> ASCII-encoded characters.
+            </param>
+            <returns>A new <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsRecord" /> initialized with the ASCII data.</returns>
+            <exception cref="T:System.ArgumentException">
+                Thrown if the supplied buffer does not contain
+                <see cref="!:RecordLength" /> bytes.
+            </exception>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramShape">
+            <summary>
+                Specifies a histogram stretching strategy for display data.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramShape.Linear">
+            <summary>
+                Linear stretch: Pixel values are scaled linearly between the minimum and maximum values
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramStretch">
+            <summary>
+                Histogram stretching information used when converting raw image data to a display bitmap.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramStretch.BlackPoint">
+            <summary>
+                Gets or sets the black point, or lowest allowed data value. All data values lower than the black point
+                are treated as if they are equal to the black point.
+            </summary>
+            <value>The black point, in Analogue-to-Digital Units (ADU).</value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramStretch.WhitePoint">
+            <summary>
+                Gets or sets the white point, or highest allowed data value. All data values higher than the white point
+                are treated as if they are equal to the white point.
+            </summary>
+            <value>The white point, in Analogue-to-Digital Units (ADU).</value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramStretch.StretchMethod">
+            <summary>
+                Gets or sets the histogram stretching strategy.
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.BigEndianBitConverter">
+            <summary>
+                Implementation of EndianBitConverter which converts to/from big-endian
+                byte arrays.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.BigEndianBitConverter.Endianness">
+            <summary>
+                Indicates the byte order ("endianess") in which data is converted using this class.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.BigEndianBitConverter.IsLittleEndian">
+            <summary>
+                Indicates the byte order ("endianess") in which data is converted using this class.
+            </summary>
+            <remarks>
+                Different computer architectures store data using different byte orders. "Big-endian"
+                means the most significant byte is on the left end of a word. "Little-endian" means the
+                most significant byte is on the right end of a word.
+            </remarks>
+            <returns>true if this converter is little-endian, false otherwise.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.BigEndianBitConverter.CopyBytesImpl(System.Int64,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified number of bytes from value to buffer, starting at index.
+            </summary>
+            <param name="value">The value to copy</param>
+            <param name="bytes">The number of bytes to copy</param>
+            <param name="buffer">The buffer to copy the bytes into</param>
+            <param name="index">The index to start at</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.BigEndianBitConverter.FromBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Returns a value built from the specified number of bytes from the given buffer,
+                starting at index.
+            </summary>
+            <param name="buffer">The data in byte array format</param>
+            <param name="startIndex">The first index to use</param>
+            <param name="bytesToConvert">The number of bytes to use</param>
+            <returns>The value built from the given bytes</returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter">
+            <summary>
+                A class to allow the conversion of doubles to string representations of
+                their exact decimal values. The implementation aims for readability over
+                efficiency.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ToExactString(System.Double)">
+            <summary>
+                Converts the given double to a string representation of its
+                exact decimal value.
+            </summary>
+            <param name="d">The double to convert.</param>
+            <returns>A string representation of the double's exact decimal value.</returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal">
+            <summary>
+                Private class used for manipulating sequences of decimal digits.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.decimalPoint">
+            <summary>
+                How many digits are *after* the decimal point
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.digits">
+            <summary>Digits in the decimal expansion, one byte per digit</summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.#ctor(System.Int64)">
+            <summary>
+                Constructs an arbitrary decimal expansion from the given long.
+                The long must not be negative.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.MultiplyBy(System.Int32)">
+            <summary>
+                Multiplies the current expansion by the given amount, which should
+                only be 2 or 5.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.Shift(System.Int32)">
+            <summary>
+                Shifts the decimal point; a negative value makes
+                the decimal expansion bigger (as fewer digits come after the
+                decimal place) and a positive value makes the decimal
+                expansion smaller.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.Normalize">
+            <summary>
+                Removes leading/trailing zeroes from the expansion.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.DoubleConverter.ArbitraryDecimal.ToString">
+            <summary>
+                Converts the value to a proper decimal string representation.
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader">
+            <summary>
+                Equivalent of System.IO.BinaryReader, but with either endianness, depending on
+                the EndianBitConverter it is constructed with. No data is buffered in the
+                reader; the client may seek within the stream at will.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Dispose">
+            <summary>
+                Disposes of the underlying stream.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.disposed">
+            <summary>
+                Whether or not this reader has been disposed yet.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.decoder">
+            <summary>
+                Decoder to use for string conversions.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.buffer">
+            <summary>
+                Buffer used for temporary storage before conversion into primitives
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.charBuffer">
+            <summary>
+                Buffer used for temporary storage when reading a single character
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.minBytesPerChar">
+            <summary>
+                Minimum number of bytes used to encode a character
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.#ctor(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter,System.IO.Stream)">
+            <summary>
+                Equivalent of System.IO.BinaryWriter, but with either endianness, depending on
+                the EndianBitConverter it is constructed with.
+            </summary>
+            <param name="bitConverter">Converter to use when reading data</param>
+            <param name="stream">Stream to read data from</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.#ctor(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter,System.IO.Stream,System.Text.Encoding)">
+            <summary>
+                Constructs a new binary reader with the given bit converter, reading
+                to the given stream, using the given encoding.
+            </summary>
+            <param name="bitConverter">Converter to use when reading data</param>
+            <param name="stream">Stream to read data from</param>
+            <param name="encoding">Encoding to use when reading character data</param>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.BitConverter">
+            <summary>
+                The bit converter used to read values from the stream
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Encoding">
+            <summary>
+                The encoding used to read strings
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.BaseStream">
+            <summary>
+                Gets the underlying stream of the EndianBinaryReader.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Close">
+            <summary>
+                Closes the reader, including the underlying stream..
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Seek(System.Int32,System.IO.SeekOrigin)">
+            <summary>
+                Seeks within the stream.
+            </summary>
+            <param name="offset">Offset to seek to.</param>
+            <param name="origin">Origin of seek operation.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadByte">
+            <summary>
+                Reads a single byte from the stream.
+            </summary>
+            <returns>The byte read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadSByte">
+            <summary>
+                Reads a single signed byte from the stream.
+            </summary>
+            <returns>The byte read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadBoolean">
+            <summary>
+                Reads a boolean from the stream. 1 byte is read.
+            </summary>
+            <returns>The boolean read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadInt16">
+            <summary>
+                Reads a 16-bit signed integer from the stream, using the bit converter
+                for this reader. 2 bytes are read.
+            </summary>
+            <returns>The 16-bit integer read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadInt32">
+            <summary>
+                Reads a 32-bit signed integer from the stream, using the bit converter
+                for this reader. 4 bytes are read.
+            </summary>
+            <returns>The 32-bit integer read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadInt64">
+            <summary>
+                Reads a 64-bit signed integer from the stream, using the bit converter
+                for this reader. 8 bytes are read.
+            </summary>
+            <returns>The 64-bit integer read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadUInt16">
+            <summary>
+                Reads a 16-bit unsigned integer from the stream, using the bit converter
+                for this reader. 2 bytes are read.
+            </summary>
+            <returns>The 16-bit unsigned integer read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadUInt32">
+            <summary>
+                Reads a 32-bit unsigned integer from the stream, using the bit converter
+                for this reader. 4 bytes are read.
+            </summary>
+            <returns>The 32-bit unsigned integer read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadUInt64">
+            <summary>
+                Reads a 64-bit unsigned integer from the stream, using the bit converter
+                for this reader. 8 bytes are read.
+            </summary>
+            <returns>The 64-bit unsigned integer read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadSingle">
+            <summary>
+                Reads a single-precision floating-point value from the stream, using the bit converter
+                for this reader. 4 bytes are read.
+            </summary>
+            <returns>The floating point value read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadDouble">
+            <summary>
+                Reads a double-precision floating-point value from the stream, using the bit converter
+                for this reader. 8 bytes are read.
+            </summary>
+            <returns>The floating point value read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadDecimal">
+            <summary>
+                Reads a decimal value from the stream, using the bit converter
+                for this reader. 16 bytes are read.
+            </summary>
+            <returns>The decimal value read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Read">
+            <summary>
+                Reads a single character from the stream, using the character encoding for
+                this reader. If no characters have been fully read by the time the stream ends,
+                -1 is returned.
+            </summary>
+            <returns>The character read, or -1 for end of stream.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Read(System.Char[],System.Int32,System.Int32)">
+            <summary>
+                Reads the specified number of characters into the given buffer, starting at
+                the given index.
+            </summary>
+            <param name="data">The buffer to copy data into</param>
+            <param name="index">The first index to copy data into</param>
+            <param name="count">The number of characters to read</param>
+            <returns>
+                The number of characters actually read. This will only be less than
+                the requested number of characters if the end of the stream is reached.
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Reads the specified number of bytes into the given buffer, starting at
+                the given index.
+            </summary>
+            <param name="buffer">The buffer to copy data into</param>
+            <param name="index">The first index to copy data into</param>
+            <param name="count">The number of bytes to read</param>
+            <returns>
+                The number of bytes actually read. This will only be less than
+                the requested number of bytes if the end of the stream is reached.
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadBytes(System.Int32)">
+            <summary>
+                Reads the specified number of bytes, returning them in a new byte array.
+                If not enough bytes are available before the end of the stream, this
+                method will return what is available.
+            </summary>
+            <param name="count">The number of bytes to read</param>
+            <returns>The bytes read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadBytesOrThrow(System.Int32)">
+            <summary>
+                Reads the specified number of bytes, returning them in a new byte array.
+                If not enough bytes are available before the end of the stream, this
+                method will throw an IOException.
+            </summary>
+            <param name="count">The number of bytes to read</param>
+            <returns>The bytes read</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.Read7BitEncodedInt">
+            <summary>
+                Reads a 7-bit encoded integer from the stream. This is stored with the least significant
+                information first, with 7 bits of information per byte of value, and the top
+                bit as a continuation flag. This method is not affected by the endianness
+                of the bit converter.
+            </summary>
+            <returns>The 7-bit encoded integer read from the stream.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadBigEndian7BitEncodedInt">
+            <summary>
+                Reads a 7-bit encoded integer from the stream. This is stored with the most significant
+                information first, with 7 bits of information per byte of value, and the top
+                bit as a continuation flag. This method is not affected by the endianness
+                of the bit converter.
+            </summary>
+            <returns>The 7-bit encoded integer read from the stream.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadString">
+            <summary>
+                Reads a length-prefixed string from the stream, using the encoding for this reader.
+                A 7-bit encoded integer is first read, which specifies the number of bytes
+                to read from the stream. These bytes are then converted into a string with
+                the encoding for this reader.
+            </summary>
+            <returns>The string read from the stream.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.CheckDisposed">
+            <summary>
+                Checks whether or not the reader has been disposed, throwing an exception if so.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.ReadInternal(System.Byte[],System.Int32)">
+            <summary>
+                Reads the given number of bytes from the stream, throwing an exception
+                if they can't all be read.
+            </summary>
+            <param name="data">Buffer to read into</param>
+            <param name="size">Number of bytes to read</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBinaryReader.TryReadInternal(System.Byte[],System.Int32)">
+            <summary>
+                Reads the given number of bytes from the stream if possible, returning
+                the number of bytes actually read, which may be less than requested if
+                (and only if) the end of the stream is reached.
+            </summary>
+            <param name="data">Buffer to read into</param>
+            <param name="size">Number of bytes to read</param>
+            <returns>Number of bytes actually read</returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter">
+            <summary>
+                Equivalent of System.BitConverter, but with either endianness.
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion">
+            <summary>
+                Union used solely for the equivalent of DoubleToInt64Bits and vice versa.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion.i">
+            <summary>
+                Int32 version of the value.
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion.f">
+            <summary>
+                Single version of the value.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion.#ctor(System.Int32)">
+            <summary>
+                Creates an instance representing the given integer.
+            </summary>
+            <param name="i">The integer value of the new instance.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion.#ctor(System.Single)">
+            <summary>
+                Creates an instance representing the given floating point number.
+            </summary>
+            <param name="f">The floating point value of the new instance.</param>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion.AsInt32">
+            <summary>
+                Returns the value of the instance as an integer.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32SingleUnion.AsSingle">
+            <summary>
+                Returns the value of the instance as a floating point number.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.IsLittleEndian">
+            <summary>
+                Indicates the byte order ("endianess") in which data is converted using this class.
+            </summary>
+            <remarks>
+                Different computer architectures store data using different byte orders. "Big-endian"
+                means the most significant byte is on the left end of a word. "Little-endian" means the
+                most significant byte is on the right end of a word.
+            </remarks>
+            <returns>true if this converter is little-endian, false otherwise.</returns>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Endianness">
+            <summary>
+                Indicates the byte order ("endianess") in which data is converted using this class.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Little">
+            <summary>
+                Returns a little-endian bit converter instance. The same instance is
+                always returned.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Big">
+            <summary>
+                Returns a big-endian bit converter instance. The same instance is
+                always returned.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.DoubleToInt64Bits(System.Double)">
+            <summary>
+                Converts the specified double-precision floating point number to a
+                64-bit signed integer. Note: the endianness of this converter does not
+                affect the returned value.
+            </summary>
+            <param name="value">The number to convert. </param>
+            <returns>A 64-bit signed integer whose value is equivalent to value.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int64BitsToDouble(System.Int64)">
+            <summary>
+                Converts the specified 64-bit signed integer to a double-precision
+                floating point number. Note: the endianness of this converter does not
+                affect the returned value.
+            </summary>
+            <param name="value">The number to convert. </param>
+            <returns>A double-precision floating point number whose value is equivalent to value.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.SingleToInt32Bits(System.Single)">
+            <summary>
+                Converts the specified single-precision floating point number to a
+                32-bit signed integer. Note: the endianness of this converter does not
+                affect the returned value.
+            </summary>
+            <param name="value">The number to convert. </param>
+            <returns>A 32-bit signed integer whose value is equivalent to value.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.Int32BitsToSingle(System.Int32)">
+            <summary>
+                Converts the specified 32-bit signed integer to a single-precision floating point
+                number. Note: the endianness of this converter does not
+                affect the returned value.
+            </summary>
+            <param name="value">The number to convert. </param>
+            <returns>A single-precision floating point number whose value is equivalent to value.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToBoolean(System.Byte[],System.Int32)">
+            <summary>
+                Returns a Boolean value converted from one byte at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>true if the byte at startIndex in value is nonzero; otherwise, false.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToChar(System.Byte[],System.Int32)">
+            <summary>
+                Returns a Unicode character converted from two bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A character formed by two bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToDouble(System.Byte[],System.Int32)">
+            <summary>
+                Returns a double-precision floating point number converted from eight bytes
+                at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A double precision floating point number formed by eight bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToSingle(System.Byte[],System.Int32)">
+            <summary>
+                Returns a single-precision floating point number converted from four bytes
+                at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A single precision floating point number formed by four bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToInt16(System.Byte[],System.Int32)">
+            <summary>
+                Returns a 16-bit signed integer converted from two bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A 16-bit signed integer formed by two bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToInt32(System.Byte[],System.Int32)">
+            <summary>
+                Returns a 32-bit signed integer converted from four bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A 32-bit signed integer formed by four bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToInt64(System.Byte[],System.Int32)">
+            <summary>
+                Returns a 64-bit signed integer converted from eight bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A 64-bit signed integer formed by eight bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToUInt16(System.Byte[],System.Int32)">
+            <summary>
+                Returns a 16-bit unsigned integer converted from two bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A 16-bit unsigned integer formed by two bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToUInt32(System.Byte[],System.Int32)">
+            <summary>
+                Returns a 32-bit unsigned integer converted from four bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A 32-bit unsigned integer formed by four bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToUInt64(System.Byte[],System.Int32)">
+            <summary>
+                Returns a 64-bit unsigned integer converted from eight bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A 64-bit unsigned integer formed by eight bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CheckByteArgument(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Checks the given argument for validity.
+            </summary>
+            <param name="value">The byte array passed in</param>
+            <param name="startIndex">The start index passed in</param>
+            <param name="bytesRequired">The number of bytes required</param>
+            <exception cref="T:System.ArgumentNullException">value is a null reference</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                startIndex is less than zero or greater than the length of value minus bytesRequired.
+            </exception>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CheckedFromBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Checks the arguments for validity before calling FromBytes
+                (which can therefore assume the arguments are valid).
+            </summary>
+            <param name="value">The bytes to convert after checking</param>
+            <param name="startIndex">The index of the first byte to convert</param>
+            <param name="bytesToConvert">The number of bytes to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.FromBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Convert the given number of bytes from the given array, from the given start
+                position, into a long, using the bytes as the least significant part of the long.
+                By the time this is called, the arguments have been checked for validity.
+            </summary>
+            <param name="value">The bytes to convert</param>
+            <param name="startIndex">The index of the first byte to convert</param>
+            <param name="bytesToConvert">The number of bytes to use in the conversion</param>
+            <returns>The converted number</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToString(System.Byte[])">
+            <summary>
+                Returns a String converted from the elements of a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <remarks>All the elements of value are converted.</remarks>
+            <returns>
+                A String of hexadecimal pairs separated by hyphens, where each pair
+                represents the corresponding element in value; for example, "7F-2C-4A".
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToString(System.Byte[],System.Int32)">
+            <summary>
+                Returns a String converted from the elements of a byte array starting at a specified array position.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <remarks>The elements from array position startIndex to the end of the array are converted.</remarks>
+            <returns>
+                A String of hexadecimal pairs separated by hyphens, where each pair
+                represents the corresponding element in value; for example, "7F-2C-4A".
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToString(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Returns a String converted from a specified number of bytes at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <param name="length">The number of bytes to convert.</param>
+            <remarks>The length elements from array position startIndex are converted.</remarks>
+            <returns>
+                A String of hexadecimal pairs separated by hyphens, where each pair
+                represents the corresponding element in value; for example, "7F-2C-4A".
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.ToDecimal(System.Byte[],System.Int32)">
+            <summary>
+                Returns a decimal value converted from sixteen bytes
+                at a specified position in a byte array.
+            </summary>
+            <param name="value">An array of bytes.</param>
+            <param name="startIndex">The starting position within value.</param>
+            <returns>A decimal  formed by sixteen bytes beginning at startIndex.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Decimal)">
+            <summary>
+                Returns the specified decimal value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 16.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Decimal,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified decimal value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">A character to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Int64,System.Int32)">
+            <summary>
+                Returns an array with the given number of bytes formed
+                from the least significant bytes of the specified value.
+                This is used to implement the other GetBytes methods.
+            </summary>
+            <param name="value">The value to get bytes for</param>
+            <param name="bytes">The number of significant bytes to return</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Boolean)">
+            <summary>
+                Returns the specified Boolean value as an array of bytes.
+            </summary>
+            <param name="value">A Boolean value.</param>
+            <returns>An array of bytes with length 1.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Char)">
+            <summary>
+                Returns the specified Unicode character value as an array of bytes.
+            </summary>
+            <param name="value">A character to convert.</param>
+            <returns>An array of bytes with length 2.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Double)">
+            <summary>
+                Returns the specified double-precision floating point value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 8.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Int16)">
+            <summary>
+                Returns the specified 16-bit signed integer value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 2.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Int32)">
+            <summary>
+                Returns the specified 32-bit signed integer value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 4.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Int64)">
+            <summary>
+                Returns the specified 64-bit signed integer value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 8.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.Single)">
+            <summary>
+                Returns the specified single-precision floating point value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 4.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.UInt16)">
+            <summary>
+                Returns the specified 16-bit unsigned integer value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 2.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.UInt32)">
+            <summary>
+                Returns the specified 32-bit unsigned integer value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 4.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.GetBytes(System.UInt64)">
+            <summary>
+                Returns the specified 64-bit unsigned integer value as an array of bytes.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <returns>An array of bytes with length 8.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Int64,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+                Copies the given number of bytes from the least-specific
+                end of the specified value into the specified byte array, beginning
+                at the specified index.
+                This is used to implement the other CopyBytes methods.
+            </summary>
+            <param name="value">The value to copy bytes for</param>
+            <param name="bytes">The number of significant bytes to copy</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytesImpl(System.Int64,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+                Copies the given number of bytes from the least-specific
+                end of the specified value into the specified byte array, beginning
+                at the specified index.
+                This must be implemented in concrete derived classes, but the implementation
+                may assume that the value will fit into the buffer.
+            </summary>
+            <param name="value">The value to copy bytes for</param>
+            <param name="bytes">The number of significant bytes to copy</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Boolean,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified Boolean value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">A Boolean value.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Char,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified Unicode character value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">A character to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Double,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified double-precision floating point value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Int16,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified 16-bit signed integer value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Int32,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified 32-bit signed integer value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Int64,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified 64-bit signed integer value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.Single,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified single-precision floating point value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.UInt16,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified 16-bit unsigned integer value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.UInt32,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified 32-bit unsigned integer value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.EndianBitConverter.CopyBytes(System.UInt64,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified 64-bit unsigned integer value into the specified byte array,
+                beginning at the specified index.
+            </summary>
+            <param name="value">The number to convert.</param>
+            <param name="buffer">The byte array to copy the bytes into</param>
+            <param name="index">The first index into the array to copy the bytes into</param>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.Endianness">
+            <summary>
+            Endianness of a converter
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.Endianness.LittleEndian">
+            <summary>
+            Little endian - least significant byte first
+            </summary>
+        </member>
+        <member name="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.Endianness.BigEndian">
+            <summary>
+            Big endian - most significant byte first
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.LittleEndianBitConverter">
+            <summary>
+                Implementation of EndianBitConverter which converts to/from little-endian
+                byte arrays.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.LittleEndianBitConverter.Endianness">
+            <summary>
+                Indicates the byte order ("endianess") in which data is converted using this class.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.LittleEndianBitConverter.IsLittleEndian">
+            <summary>
+                Indicates the byte order ("endianess") in which data is converted using this class.
+            </summary>
+            <remarks>
+                Different computer architectures store data using different byte orders. "Big-endian"
+                means the most significant byte is on the left end of a word. "Little-endian" means the
+                most significant byte is on the right end of a word.
+            </remarks>
+            <returns>true if this converter is little-endian, false otherwise.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.LittleEndianBitConverter.CopyBytesImpl(System.Int64,System.Int32,System.Byte[],System.Int32)">
+            <summary>
+                Copies the specified number of bytes from value to buffer, starting at index.
+            </summary>
+            <param name="value">The value to copy</param>
+            <param name="bytes">The number of bytes to copy</param>
+            <param name="buffer">The buffer to copy the bytes into</param>
+            <param name="index">The index to start at</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil.LittleEndianBitConverter.FromBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+                Returns a value built from the specified number of bytes from the given buffer,
+                starting at index.
+            </summary>
+            <param name="buffer">The data in byte array format</param>
+            <param name="startIndex">The first index to use</param>
+            <param name="bytesToConvert">The number of bytes to use</param>
+            <returns>The value built from the given bytes</returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.MathExtensions">
+            <summary>
+                Extension methods for numerical values.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.MathExtensions.HistogramStretch(System.Double,System.Double,System.Double)">
+            <summary>
+                Performs a histogram stretch.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="lowerThreshold">The lower threshold.</param>
+            <param name="upperThreshold">The upper threshold.</param>
+            <returns>System.Double.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.MathExtensions.Constrain``1(``0,``0,``0)">
+            <summary>
+                Clips (truncates) the input value so that it is within the specified range.
+            </summary>
+            <typeparam name="T">Any type that implements <see cref="T:System.IComparable" />.</typeparam>
+            <param name="input">The input.</param>
+            <param name="upperBound">The upper bound.</param>
+            <param name="lowerBound">The lower bound.</param>
+            <returns>
+                An instance of <typeparamref name="T" /> that is in the specified range. If <typeparamref name="T" /> is a
+                reference type, then the result will be a reference to the original input value, the
+                <paramref name="upperBound" /> or <paramref name="lowerBound" />.
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.MathExtensions.MapToRange(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+                Maps (i.e. scales and translates) a value from a source range to a destination range.
+            </summary>
+            <param name="input">The input, which must lie within the source range.</param>
+            <param name="sourceMinimum">The source range minimum.</param>
+            <param name="sourceMaximum">The source range maximum.</param>
+            <param name="destMinimum">The destination range minimum.</param>
+            <param name="destMaximum">The destination range maximum.</param>
+            <returns>The mapped value.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.MathExtensions.IsInRange``1(``0,``0,``0)">
+            <summary>
+                Determines whether an object is within a specified range.
+            </summary>
+            <typeparam name="T">Any object that implements <see cref="T:System.IComparable" />.</typeparam>
+            <param name="input">The input.</param>
+            <param name="lowerBound">The inclusive lower bound of the range.</param>
+            <param name="upperBound">The inclusive upper bound of the range.</param>
+            <returns><c>true</c> if the input is within the specified range; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PrimaryDataExtractor.ExtractDataArray(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit)">
+            <summary>
+                This function returns the array that corresponds to the hdu's raw data byte array.
+                Note: I believe that double works for every data type except for certain values of Int64. This will need to be
+                fixed in the future.
+                But for the moment I only intend to use this for working with bitmaps
+            </summary>
+            <param name="hdu"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute">
+            <summary>
+                Class FitsKeywordAttribute. This class cannot be inherited. Used with property binding to identify the
+                header keyword that should provide the source data for a property.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute.#ctor(System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute" /> class.
+            </summary>
+            <param name="keyword">
+                The name of the keyword, as it appears in the FITS header, that will supply the data for
+                the decorated property.
+            </param>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute.Keyword">
+            <summary>
+                Gets the FITS keyword.
+            </summary>
+            <value>The keyword.</value>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute.Sequence">
+            <summary>
+                Gets or sets the sequence number of this attribute. In situations where multiple attributes are applied
+                to the same property, this sequence number determines the order in which the attributes are considered.
+                Bindings occur in ascending order of sequence numbers. Attributes where the sequence number is not
+                specified will have a default of zero. For properties with equal sequence numbers, the order is
+                undefined and those properties may be used in any order relative to each other. Therefore it is
+                recommended that sequence numbers are always used when multiple attributes are applied to a property.
+            </summary>
+            <value>The sequence number.</value>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder">
+            <summary>
+                Provides a mechanism for binding values in FITS header metadata to properties in an arbitrary type, based on
+                name matching between the properties and the keywords in the metadata. The default name matching strategy is
+                to use the uppercase property name. The default strategy can be modified somewhat by applying
+                <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute" /> attributes to the properties being bound.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder.BindProperties``1(System.Collections.Generic.IEnumerable{TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord})">
+            <summary>
+                Given an <see cref="T:System.Collections.Generic.IEnumerable`1" /> containing FITS header metadata,
+                attempts to create a data transfer object of type <typeparamref name="TOut" />
+                with its properties set to values obtained from the FITS metadata.
+                Properties are matched with keywords in the FITS header records in one of several ways:
+                <list type="number">
+                    <item>
+                        <term>
+                            using the <see cref="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute.Keyword" /> value specified in a
+                            <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute" /> attribute applied to the property.
+                        </term>
+                        <description>
+                            The property is examined using reflection to see if it has been decorated with one or more
+                            <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute" /> attributes.
+                            If found, the Keyword value from each attribute is tried in turn to search the FITS header records
+                            for a match. The value from the first matching header record is used to set the property value.
+                        </description>
+                    </item>
+                    <item>
+                        <term>Property name</term>
+                        <description>
+                            The uppercase name of the target property is used to search the FITS header records for a match. The
+                            value
+                            from the first matching header record is used to set the property value.
+                        </description>
+                    </item>
+                    <item>
+                        <term>Property implementing <see cref="T:System.Collections.IList" /> (complex property)</term>
+                        <description>
+                            In the case of a 'complex' property that implements <see cref="T:System.Collections.IList" />, use of the
+                            <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute" /> is mandatory. Multiple attributes may be applied, and for each
+                            attribute, values from all matching header records will be added to the collection property.
+                        </description>
+                    </item>
+                </list>
+                If no matching records are found, the property is left uninitialized and will have its default value.
+            </summary>
+            <typeparam name="TOut">The type of the target data transfer object.</typeparam>
+            <param name="headerRecords">An enumerable collection of <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" />.</param>
+            <returns>
+                A new instance of <typeparamref name="TOut" />, with its properties initialized from the values in the
+                FITS header records.
+            </returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder.BindProperty(System.Collections.Generic.IEnumerable{TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord},System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+                Binds a single property.
+            </summary>
+            <param name="headerRecords">The source dictionary containing the key/value pairs to be bound.</param>
+            <param name="property">The property being bound.</param>
+            <param name="target">The target object.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder.PropertyTypeOrUnderlyingCollectionType(System.Reflection.PropertyInfo)">
+            <summary>
+                Gets the type of a 'simple' or collection property.
+                If the property is assignable to <c>IList</c> or <c>IList{T}</c>, then it is a collection.
+                For generic collections, the type is the generic type paramter of the collection.
+                For non-generic collections, the type is <c>object</c>.
+                For simple properties, the type is the property type.
+            </summary>
+            <param name="property">An instance of <see cref="T:System.Reflection.PropertyInfo" />.</param>
+            <returns>The underlying type of the property.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder.DeserializedValues(System.Collections.Generic.IEnumerable{TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord},System.Type)">
+            <summary>
+                Deserializes values from a collection of <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" />
+                converting each value to type <paramref name="targetType" />
+                and returns the successfully converted values in an <see cref="!:IEnumerable&lt;object&gt;" />.
+            </summary>
+            <param name="headerRecords">The source dictionary of key/value pairs.</param>
+            <param name="targetType">The target type.</param>
+            <param name="keyword">Keyword to search for in the header records.</param>
+            <returns>System.Object containing the converted type, or null if the conversion failed, or the key did not exist.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder.GetKeywordNamesFromPropertyNameOrAttributes(System.Reflection.PropertyInfo)">
+            <summary>
+                Retrieves candidate FITS keywords for a given property.
+                This will be determined by the presence of one or more <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute" /> attributes, if any are
+                present. If no attribute is present, then the name of the property itself will be used.
+            </summary>
+            <param name="property">The property being examined.</param>
+            <returns>A collection of candidate keywords.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder.ConvertStringToSimpleTypeOrNull(System.String,System.Type)">
+            <summary>
+                Converts a string-encoded value to a simple type or null.
+                This technique is borrowed in part from the ASP.net MVC ModelBinder subsystem.
+            </summary>
+            <param name="value">The string encoded value.</param>
+            <param name="destinationType">Type of the destination.</param>
+            <returns>A new System.Object containing the converted value, or null if conversion failed.</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.IKeywordLookup`2">
+            <summary>
+                A collection that can perform keyword lookup and return a value.
+            </summary>
+            <typeparam name="TKey">The type of the keys in the collection.</typeparam>
+            <typeparam name="TValue">The type of the values in the collection.</typeparam>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.IKeywordLookup`2.Item(`0)">
+            <summary>
+                Looks up the specified keyword and returns the value as a <see cref="T:TA.Utils.Core.Maybe`1" />. If no match was
+                found, then <see cref="P:TA.Utils.Core.Maybe`1.Empty" /> is returned.
+            </summary>
+            <param name="keyword">The keyword to be looked up.</param>
+            <returns>
+                <see cref="T:TA.Utils.Core.Maybe`1" /> containing the first matching value; or <see cref="P:TA.Utils.Core.Maybe`1.Empty" />,
+            </returns>
+        </member>
+    </members>
+</doc>
