@@ -327,6 +327,24 @@
                 <see cref="!:RecordLength" /> bytes.
             </exception>
         </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.BlockSpaceRemaining">
+            <summary>
+            Gets the number of characters remaining in the current FITS block.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.WriteRecord(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsRecord)">
+            <summary>
+            Writes the supplied <paramref name="record"/> to the current FITS block.
+            If the current block becomes full, it will be flushed to the output stream.
+            </summary>
+            <param name="record"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.Close">
+            <summary>
+            Flushes any pending data and closes the underlying output stream.
+            </summary>
+        </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramShape">
             <summary>
                 Specifies a histogram stretching strategy for display data.

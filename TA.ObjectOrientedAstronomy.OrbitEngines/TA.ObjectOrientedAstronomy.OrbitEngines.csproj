@@ -14,7 +14,7 @@
         <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="NLog" Version="4.5.6" />
+      <PackageReference Include="NLog" Version="4.7.3" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
