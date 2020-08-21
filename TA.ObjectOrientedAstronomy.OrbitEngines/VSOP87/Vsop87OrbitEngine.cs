@@ -1,4 +1,4 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 

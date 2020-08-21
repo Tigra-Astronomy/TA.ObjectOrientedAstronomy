@@ -1,6 +1,6 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+ï»¿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
+// Copyright ï¿½ 2015-2016 Tigra Astronomy, all rights reserved.
 // 
 // File: Vsop87DataReader.cs  Last modified: 2016-10-08@18:50 by Tim Long
 

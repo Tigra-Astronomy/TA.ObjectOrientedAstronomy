@@ -4,20 +4,6 @@
         <name>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</name>
     </assembly>
     <members>
-        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.BitmapConverter.ToWindowsBitmap(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit,TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramStretch)">
-            <summary>
-                Converts the data array in this HDU to a Windows bitmap.
-            </summary>
-            <param name="hdu">The hdu.</param>
-            <param name="histogram">
-                The histogram stretch configuration. Optional. If this parameter is provided, then it is used to stretch
-                the histogram of the displayed image. If not provided, then the FITS header will be examined for CBLACK
-                and CWHITE keywords and those will be used if present. If none of the above is found, then the default
-                is to use the minimum and maximum data values obtained from the data array.
-            </param>
-            <returns>Bitmap.</returns>
-            <exception cref="T:System.NotSupportedException">Thrown if the image is neither greyscale or RGB</exception>
-        </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsDataType">
             <summary>
                 The types of data that can be associated with a Header Data Unit (HDU).

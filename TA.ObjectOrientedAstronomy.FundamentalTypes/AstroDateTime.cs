@@ -1,6 +1,6 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+ï»¿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015 Tigra Astronomy, all rights reserved.
+// Copyright ï¿½ 2015 Tigra Astronomy, all rights reserved.
 // 
 // File: AstroDateTime.cs  Last modified: 2015-11-21@16:44 by Tim Long
 

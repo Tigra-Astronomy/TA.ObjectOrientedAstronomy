@@ -1,4 +1,4 @@
-
+﻿
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.JonSkeet.MiscUtil
 {
 	/// <summary>
