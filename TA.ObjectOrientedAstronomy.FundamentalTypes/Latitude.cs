@@ -110,7 +110,7 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         /// <returns>string object containing formatted result</returns>
         public override string ToString()
         {
-            var strLat = string.Format("{0} {1:D2}�{2:D2}'{3:D2}\"", IsNorth ? 'N' : 'S', Degrees, Minutes, Seconds);
+            var strLat = string.Format("{0} {1:D2}°{2:D2}'{3:D2}\"", IsNorth ? 'N' : 'S', Degrees, Minutes, Seconds);
             return strLat;
         }
     }
