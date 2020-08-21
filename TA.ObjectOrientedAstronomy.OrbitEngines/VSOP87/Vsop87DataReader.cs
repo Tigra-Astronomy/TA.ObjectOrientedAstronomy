@@ -47,7 +47,7 @@ namespace TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87
         private static string GetDataDirectory()
             {
             var assemblyDirectory = GetAssemblyLocation();
-            var dataDirectory = Path.Combine(assemblyDirectory, "Vsop87_data");
+            var dataDirectory = Path.Combine(assemblyDirectory, "VSOP87_data");
             return dataDirectory;
             }
 
