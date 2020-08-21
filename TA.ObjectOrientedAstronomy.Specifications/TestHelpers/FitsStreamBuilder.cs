@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.TestHelpers
     {
     class FitsStreamBuilder
         {
