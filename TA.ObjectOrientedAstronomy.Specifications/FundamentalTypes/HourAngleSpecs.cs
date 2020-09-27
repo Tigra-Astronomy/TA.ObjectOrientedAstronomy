@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
     {
     [Subject(typeof(HourAngle), "coersion")]
     class when_creating_an_hour_angle_of_24

@@ -12,7 +12,7 @@ using TA.ObjectOrientedAstronomy.FundamentalTypes;
 using TA.ObjectOrientedAstronomy.OrbitEngines.VSOP87;
 using TA.Orbits.ReferenceData;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.OrbitEngines
     {
     #region  Context base classes
     public class with_target_date_2014_jan_29_midday

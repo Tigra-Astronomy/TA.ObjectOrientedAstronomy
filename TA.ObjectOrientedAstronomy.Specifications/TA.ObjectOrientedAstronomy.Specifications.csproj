@@ -8,6 +8,7 @@
     <None Remove="SampleData\Fits\DDTSUVDATA.fits" />
     <None Remove="SampleData\Fits\EUVEngc4151imgx.fits" />
     <None Remove="SampleData\Fits\FGSf64y0106m_a1f.fits" />
+    <None Remove="SampleData\Fits\FITS-SIMPLE-Minimal-Monochrome-16x16-all-pizels-zero.fits" />
     <None Remove="SampleData\Fits\FOCx38i0101t_c0f.fits" />
     <None Remove="SampleData\Fits\FOSy19g0309t_c2f.fits" />
     <None Remove="SampleData\Fits\HRSz0yd020fm_c2f.fits" />
@@ -22,6 +23,9 @@
     <EmbeddedResource Include="SampleData\Fits\DDTSUVDATA.fits" />
     <EmbeddedResource Include="SampleData\Fits\EUVEngc4151imgx.fits" />
     <EmbeddedResource Include="SampleData\Fits\FGSf64y0106m_a1f.fits" />
+    <EmbeddedResource Include="SampleData\Fits\FITS-SIMPLE-Minimal-Monochrome-16x16-all-pizels-zero.fits">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="SampleData\Fits\FOCx38i0101t_c0f.fits" />
     <EmbeddedResource Include="SampleData\Fits\FOSy19g0309t_c2f.fits" />
     <EmbeddedResource Include="SampleData\Fits\HRSz0yd020fm_c2f.fits" />

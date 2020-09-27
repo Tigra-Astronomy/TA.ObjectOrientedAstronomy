@@ -70,12 +70,41 @@
             <param name="info">The serialization information.</param>
             <param name="context">The serialization context.</param>
         </member>
-        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.Item(System.String)">
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader">
             <summary>
-                Gets the FITS header value for the specified keyword.
+                Represents an ordered collection of FITS header records, each of which has a mandatory keyword,
+                an optional value field and an optional comment field. The ordering of the header records is
+                preserved so that a FITS file may be read and re-written without disturbing the order of
+                existing records, or the records displayed in the order they occurred in the file.
             </summary>
-            <param name="keyword">The FITS header keyword.</param>
-            <returns>The value field of the first found match, or <see cref="F:System.String.Empty" />.</returns>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.HeaderRecords">
+            <summary>
+                Gets a list of the header records in the order they occurred in the file, or in which they were
+                added.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.Item(System.String)">
+            <summary>Gets the FITS header value for the specified keyword.</summary>
+            <param name="keyword">The FITS header keyword to look up.</param>
+            <returns>The value field of the first found match if one exists, as a <see cref="T:TA.Utils.Core.Maybe`1" />.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.AppendHeaderRecord(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord)">
+            <summary>Appends a header record, preserving the sequence of all existing records.</summary>
+            <param name="record">The record to be appended.</param>
+            <returns>The zero-based index of the added record.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.CreateSingleImageFitsHeader(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsPrimaryHduMandatoryKeywords)">
+            <summary>
+                Creates a header record collection containing the minimum required mandatory keywords for a
+                Single Image FITS file (SIF). The user may then append additional records before writing the
+                header out to a stream using a <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter" />.
+            </summary>
+            <param name="mandatoryKeywords">
+                Values that must be supplied as the bare minimum required for any
+                FITS file.
+            </param>
+            <returns>A <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader" /> instance populated with the required header records.</returns>
         </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit">
             <summary>
@@ -116,10 +145,66 @@
             </summary>
             <value>The data array length bits.</value>
         </member>
-        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.FromRecordText(System.String,TA.Utils.Core.Diagnostics.ILog)">
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord">
             <summary>
-                Creates a new <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" /> from record text in the supplied string.
+                Represents a single FITS header record, in a form that can be read from or written to a FITS
+                file. FITS records must always contain exactly <see cref="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat.FitsRecordLength" />
+                characters.
             </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.Create(System.String,TA.Utils.Core.Maybe{System.String},TA.Utils.Core.Maybe{System.String})">
+            <summary>
+                Creates a FITS Header Record from the specified keyword plus optional value and comment,
+                which complies with § 4 of the NASA FITS Standard.
+            </summary>
+            <param name="keyword">
+                The FITS keyword, which is required and must be a valid keyword as defined in § 4.1.2.1 of the
+                FITS standard, with one exception: mixed case will be accepted here. FITS keywords must be
+                upper-case, so any lower-case characters will be converted to upper-case.
+                The keyword should not contain any padding or white space.
+            </param>
+            <param name="value">
+                An optional value string to be written to the value field of the header record. If a value is
+                present, then the Value Indicator (§4.1.2.2) will be added automatically. The value string must
+                conform to FITS standard § 4.2.
+                The value should not contain any padding or (except within string values) white space.
+            </param>
+            <param name="comment">
+                An optional comment to be written in the comment field of the header record. The
+                <see cref="F:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat.CommentCharacter" /> should not be included in the string and will be
+                added automatically if the comment is present. The string must conform to FITS standard §
+                4.1.2.3.
+            </param>
+            <exception cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException">
+                Thrown if any of the supplied parameters are invalid according to FITS standard § 4.
+            </exception>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.Create(System.String,System.String,System.String)">
+            <summary>
+            Creates a FITS Header Record from the supplied non-null non-empty arguments.
+            </summary>
+            <param name="keyword">The FITS keyword, which must not be null or empty.</param>
+            <param name="value">The record value, which must not be null or empty.</param>
+            <param name="comment">The comment field, which must not be null or empty.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.Create(System.String,System.String)">
+            <summary>
+            Creates a FITS Keyword-Value Header Record from the supplied non-null non-empty arguments.
+            </summary>
+            <param name="keyword">The FITS keyword, which must not be null or empty.</param>
+            <param name="value">The record value, which must not be null or empty.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.Create(System.String)">
+            <summary>
+            Creates a keyword-only FITS Header Record from the supplied keyword.
+            </summary>
+            <param name="keyword">The FITS keyword, which must not be null or empty.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord.FromRecordText(System.String,TA.Utils.Core.Diagnostics.ILog)">
+            <summary>Creates a new <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" /> from record text in the supplied string.</summary>
             <param name="text">The record text, which must contain exactly 80 permitted ASCII characters.</param>
             <returns>A new instance of <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord" /> initialized from the record text.</returns>
         </member>
@@ -330,6 +415,25 @@
             <summary>
             Flushes any pending data and closes the underlying output stream.
             </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.FlushBlock">
+            <summary>
+            Flushes a non-empty block to the output stream, padding with fill characters as necessary.
+            Empty blocks cannot be flushed and produce no output.
+            </summary>
+            <returns>A task that completes when the block is fully written to the output stream.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.WriteHeaderRecord(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord)">
+            <summary>
+            Writes a header record into the current header block.
+            </summary>
+            <param name="record"></param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.EndHeader">
+            <summary>
+            Writes an END record if not already present and flushes the block.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramShape">
             <summary>

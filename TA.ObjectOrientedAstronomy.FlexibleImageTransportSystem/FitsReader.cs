@@ -136,7 +136,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// <summary>
         ///     Asynchronously reads one record.
         /// </summary>
-        /// <returns>A <see cref="Task{String}" /> that will contain the record upon completion.</returns>
+        /// <returns>A <see cref="Task{FitsRecord}" /> that will contain the record upon completion.</returns>
         /// <exception cref="InvalidOperationException">Thrown if a complete record could not be read.</exception>
         /// <remarks>
         ///     FITS records are based on punched cards and each record contains exactly 80 characters, encoded as ASCII

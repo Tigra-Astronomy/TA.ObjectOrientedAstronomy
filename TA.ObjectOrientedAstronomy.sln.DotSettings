@@ -9,4 +9,5 @@ File: $FILENAME$  Last modified: $CURRENT_YEAR$-$CURRENT_MONTH$-$CURRENT_DAY$@$C
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A2B8DB1640564F4596CE670F86AA484C/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA2B8DB1640564F4596CE670F86AA484C/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA2B8DB1640564F4596CE670F86AA484C/IsOn/@EntryValue">False</s:Boolean>
-	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA2B8DB1640564F4596CE670F86AA484C/RelativePriority/@EntryValue">1</s:Double></wpf:ResourceDictionary>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA2B8DB1640564F4596CE670F86AA484C/RelativePriority/@EntryValue">1</s:Double>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Tigra/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

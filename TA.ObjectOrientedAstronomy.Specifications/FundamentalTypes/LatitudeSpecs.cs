@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
     {
     [Subject(typeof(Latitude), "coersion")]
     class when_creating_a_latitude_of_91

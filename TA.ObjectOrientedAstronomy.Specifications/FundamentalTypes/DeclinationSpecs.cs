@@ -7,7 +7,7 @@
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
 {
     [Subject(typeof(Declination), "Conversion to sexagesimal")]
     class when_converting_a_negative_double_declination_to_sexagesimal

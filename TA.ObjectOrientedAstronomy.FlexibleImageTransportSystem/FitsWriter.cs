@@ -4,9 +4,11 @@
 // 
 // File: FitsWriter.cs  Last modified: 2020-08-20@14:58 by Tim Long
 
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
 using static TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
@@ -15,6 +17,8 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         {
         readonly Stream stream;
         internal StringBuilder currentBlock;
+        internal FitsPrimaryHduMandatoryKeywords headerMandatoryValues = new FitsPrimaryHduMandatoryKeywords();
+        internal FitsHeader headerRecords = new FitsHeader();
 
         public FitsWriter(Stream stream)
             {
@@ -70,6 +74,11 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             stream.Dispose();
             }
 
+        /// <summary>
+        /// Flushes a non-empty block to the output stream, padding with fill characters as necessary.
+        /// Empty blocks cannot be flushed and produce no output.
+        /// </summary>
+        /// <returns>A task that completes when the block is fully written to the output stream.</returns>
         internal async Task FlushBlock()
             {
             if (BlockIsEmpty) return;
@@ -77,6 +86,32 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             if (bytesToPad > 0)
                 currentBlock.Append('\0', bytesToPad);
             await WriteBlock();
+            }
+
+        /// <summary>
+        /// Writes a header record into the current header block.
+        /// </summary>
+        /// <param name="record"></param>
+        public async Task WriteHeaderRecord(FitsHeaderRecord record)
+            {
+            headerRecords.AppendHeaderRecord(record);   // Keep track of records we've already written.
+            headerMandatoryValues =
+                FitsPropertyBinder.BindProperties<FitsPrimaryHduMandatoryKeywords>(headerRecords.HeaderRecords);
+            await WriteRecord(record);
+            }
+
+        /// <summary>
+        /// Writes an END record if not already present and flushes the block.
+        /// </summary>
+        /// <returns></returns>
+        public async Task EndHeader()
+            {
+            if (headerRecords["END"].None)
+                {
+                var endRecord = FitsHeaderRecord.Create("END");
+                await WriteHeaderRecord(endRecord);
+                await FlushBlock();
+                }
             }
         }
     }

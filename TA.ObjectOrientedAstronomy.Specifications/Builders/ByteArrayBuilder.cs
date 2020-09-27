@@ -17,7 +17,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace UtilityClasses
+namespace TA.ObjectOrientedAstronomy.Specifications.Builders
     {
     /// <summary>Provides similar functionality to a StringBuilder, but for bytes</summary>
     /// <remarks>

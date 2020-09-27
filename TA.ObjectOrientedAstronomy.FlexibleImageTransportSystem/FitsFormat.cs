@@ -28,6 +28,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public const int ValueIndicatorPosition = 8;
         public const string BooleanTrue = "T";
         public const string BooleanFalse = "F";
+        public const char PadCharacter = ' '; // Space, ASCII 0x20, decimal 32
         public static IEnumerable<string> CommentaryKeywords = new[] {"COMMENT", "HISTORY"};
         }
     }

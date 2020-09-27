@@ -6,10 +6,9 @@
 
 using System.Linq;
 using Machine.Specifications;
-using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
 using TA.Utils.Core;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
     {
     [Subject(typeof(Maybe<>), "non-empty")]
     class when_creating_a_maybe_from_a_non_null_value

@@ -7,7 +7,7 @@
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FundamentalTypes;
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
     {
     [Behaviors]
     class DenebRightAscension

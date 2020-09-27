@@ -6,8 +6,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem;
@@ -17,7 +15,7 @@ using TA.ObjectOrientedAstronomy.Specifications.TestHelpers;
 
 // ReSharper disable ComplexConditionExpression
 
-namespace TA.ObjectOrientedAstronomy.Specifications
+namespace TA.ObjectOrientedAstronomy.Specifications.FITS
     {
 
     #region  Context base classes
@@ -81,8 +79,8 @@ namespace TA.ObjectOrientedAstronomy.Specifications
         Establish context = () => FitsReader = ContextBuilder.FromEmbeddedResource("FOSy19g0309t_c2f.fits").Build();
         Because of = () => record = FitsReader.ReadHeaderRecord().WaitFoResult();
         It should_parse_the_expected_keyword = () => record.Keyword.ShouldEqual("SIMPLE");
-        It should_parse_the_expected_value = () => record.Value.ShouldEqual("T");
-        It should_parse_the_expected_comment = () => record.Comment.ShouldEqual("Standard FITS format");
+        It should_parse_the_expected_value = () => record.Value.Single().ShouldEqual("T");
+        It should_parse_the_expected_comment = () => record.Comment.Single().ShouldEqual("Standard FITS format");
         static FitsHeaderRecord record;
         //   0        1         2         3         4         5         6         7         8
         //   12345678901234567890123456789012345678901234567890123456789012345678901234567890
