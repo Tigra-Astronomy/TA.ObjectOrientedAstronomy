@@ -222,3 +222,4 @@ jquery*.js
 /MS.Gamification/Scripts/DataTables
 /MS.Gamification/App_Data/Badges
 /MS.Gamification/App_Data/Badges
+/.vscode

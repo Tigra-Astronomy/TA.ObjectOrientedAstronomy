@@ -169,7 +169,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
             };
         Because of = () =>
             {
-            writer.WriteProtocolDataUnit(specimenPdu).Wait();
+            writer.WriteHeaderDataUnit(specimenPdu).Wait();
             writer.Close();
             actual = outputStream.OutputBytes;
             };

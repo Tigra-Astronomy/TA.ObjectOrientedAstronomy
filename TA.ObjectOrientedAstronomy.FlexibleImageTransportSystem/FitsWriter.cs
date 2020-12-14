@@ -126,7 +126,15 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 }
             }
 
-        public async Task WriteProtocolDataUnit(FitsHeaderDataUnit hdu)
+        /// <summary>
+        /// Asynchronously Writes an entire Single Image FITS file.
+        /// </summary>
+        /// <param name="hdu">
+        ///  An instance of FitsHeaderDataUnit containing the header metadata and data array.
+        /// </param>
+        /// <returns>A Task that completes when the all of the data is written to the output stream.</returns>
+
+        public async Task WriteHeaderDataUnit(FitsHeaderDataUnit hdu)
             {
             await WriteHeader(hdu.Header);
             await WriteDataArray(hdu.RawData, hdu.DataArrayLengthBytes);
