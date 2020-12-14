@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TA.ObjectOrientedAstronomy.Specifications.Builders;
 
-namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
+namespace TA.ObjectOrientedAstronomy.Specifications.TestHelpers
     {
     public class LoggingStream : MemoryStream
         {
@@ -27,6 +27,29 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes
             {
             outputLog.Append(buffer);
             return base.WriteAsync(buffer, offset, count, cancellationToken);
+            }
+
+        /// <inheritdoc />
+        public override void WriteByte(byte value)
+            {
+            outputLog.Append(value);
+            base.WriteByte(value);
+            }
+
+        /// <inheritdoc />
+        public override ValueTask DisposeAsync()
+            {
+            Disposed = true;
+            return base.DisposeAsync();
+            }
+
+        public bool Disposed { get; private set; } = false;
+
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+            {
+            Disposed = true;
+            base.Dispose(disposing);
             }
         }
     }

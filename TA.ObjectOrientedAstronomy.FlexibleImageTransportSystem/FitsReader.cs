@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+using TA.Utils.Core;
 using TA.Utils.Core.Diagnostics;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
@@ -108,20 +109,20 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             while (bytesOutstanding > 0)
                 {
                 if (BlockIsEmpty)
-                    await FillCurrentBlock().ConfigureAwait(false);
+                    await FillCurrentBlock().ContinueOnAnyThread();
                 if (BlockBytesRemaining >= bytesOutstanding)
                     {
+                    // There are sufficient bytes in the block to completely satisfy the request
                     Array.ConstrainedCopy(currentBlock, blockIndex, buffer, bufferIndex, bytesOutstanding);
                     blockIndex += bytesOutstanding;
                     bufferIndex += bytesOutstanding;
                     bytesOutstanding = 0;
                     return buffer;
                     }
-                // BlockBytesRemaining < bytesOutstanding
+                // There are insufficient bytes in the block, so empty the block into the buffer.
                 Array.ConstrainedCopy(currentBlock, blockIndex, buffer, bufferIndex, BlockBytesRemaining);
                 bufferIndex += BlockBytesRemaining;
                 bytesOutstanding -= BlockBytesRemaining;
-                blockIndex += BlockBytesRemaining;
                 blockIndex += BlockBytesRemaining;
                 }
             return buffer;
@@ -200,7 +201,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 }
             var dataArrayBits = ComputeDataArrayBitLength(hdu.MandatoryKeywords);
             var dataArrayBytes = dataArrayBits / 8;
-            hdu.RawData = await BlockReadBytes(dataArrayBytes).ConfigureAwait(false);
+            hdu.RawData = await BlockReadBytes(dataArrayBytes).ContinueOnAnyThread();
             hdu.DataArrayLengthBits = dataArrayBits;
             hdu.DataType = FitsDataType.Image;
             return hdu;

@@ -37,6 +37,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         [FitsKeyword("NAXIS7", Sequence = 7)]
         [FitsKeyword("NAXIS8", Sequence = 8)]
         [FitsKeyword("NAXIS9", Sequence = 9)]
+        [FitsSerializeSequence(3, Keyword="NAXIS", AppendIndex=true)]
         public List<int> LengthOfAxis { get; set; } = new List<int>();
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         ///         Nbits = |BITPIX| × (NAXIS1 × NAXIS2 × · · · × NAXISm)
         ///     </c>
         /// </remarks>
-        [FitsKeyword("BITPIX")]
+        [FitsKeyword("BITPIX", WriteSequence = 2)]
         public int BitsPerPixel { get; set; }
         }
     }

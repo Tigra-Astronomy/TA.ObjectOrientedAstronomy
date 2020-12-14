@@ -13,7 +13,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications.TestHelpers
     {
     class FitsStreamBuilder
         {
-        Stream FitsStream;
+        public Stream FitsStream;
 
         public FitsStreamBuilder FromEmbeddedResource(string name)
             {

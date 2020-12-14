@@ -1,37 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading.Tasks;
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem;
-using TA.ObjectOrientedAstronomy.Specifications.FundamentalTypes;
+using TA.ObjectOrientedAstronomy.Specifications.TestHelpers;
 using TA.Utils.Core;
 
 namespace TA.ObjectOrientedAstronomy.Specifications.FITS
     {
-    public class with_fits_writer
-        {
-        protected static readonly TimeSpan writerTimeout = TimeSpan.FromSeconds(1);
-        static AggregateException exception;
-        protected static LoggingStream outputStream;
-        protected static FitsWriter writer;
-        //                                                 0        1         2         3         4         5         6         7         8
-        protected const string ValidFitsRecord          = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        protected const string ValidPrimaryHeaderRecord = "SWOWNER = 'Tigra Automatic Observatory' / Licensed software owner               ";
-        Establish context = () =>
-            {
-            outputStream = new LoggingStream();
-            writer = new FitsWriter(outputStream);
-            };
-        Cleanup after = () =>
-            {
-            writer = null; // [Sentinel]
-            outputStream.Dispose();
-            outputStream = null; // [Sentinel]
-            };
-        }
-
     [Subject(typeof(FitsWriter))]
     public class When_writing_a_record_into_an_empty_block : with_fits_writer
         {
@@ -61,19 +40,33 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
         Establish context = () => writer.currentBlock.Append(ValidFitsRecord);
         Because of = () => writer.Close();
         It should_clear_the_block = () => writer.BlockSpaceRemaining.ShouldEqual(FitsFormat.FitsBlockLength);
-        It should_dispose_the_stream = () => Catch.Exception(()=>outputStream.WriteByte(0)).ShouldBeOfExactType<ObjectDisposedException>();
+        It should_dispose_the_stream = () => outputStream.Disposed.ShouldBeTrue();
         It should_pad_the_block = () => outputStream.OutputByteCount.ShouldEqual(FitsFormat.FitsBlockLength);    
         }
 
     [Subject(typeof(FitsWriter), "block padding")]
-    internal class when_flushing_a_partially_filled_block : with_fits_writer
+    internal class when_flushing_a_partially_filled_header_block : with_fits_writer
         {
-        IStream thing;
         Establish context = () => writer.currentBlock.Append(ValidFitsRecord);
         Because of = () => writer.FlushBlock().Wait(writerTimeout);
         It should_write_a_full_block = () => outputStream.Length.ShouldEqual(FitsFormat.FitsBlockLength);
         It should_leave_the_current_block_empty = () => writer.BlockSpaceRemaining.ShouldEqual(FitsFormat.FitsBlockLength);
-        It should_pad_with_zeroes = () => outputStream.GetBuffer().Skip(ValidFitsRecord.Length).All(item=>item==0).ShouldBeTrue();
+        It should_pad_with_spaces = () => outputStream.GetBuffer().Skip(ValidFitsRecord.Length).All(item=>item==FitsFormat.PadCharacter).ShouldBeTrue();
+        }
+
+    [Subject(typeof(FitsWriter), "block padding")]
+    internal class when_flushing_a_partially_filled_data_block : with_fits_writer
+        {
+        Establish context = () =>
+            {
+            writer.currentBlock.Append(ValidFitsRecord);
+            writer.EndHeader().Wait();
+            writer.WriteDataByte(0xFF).Wait();
+            };
+        Because of = () => writer.FlushBlock().Wait(writerTimeout);
+        It should_write_a_full_block = () => outputStream.Length.ShouldEqual(FitsFormat.FitsBlockLength * 2);
+        It should_leave_the_current_block_empty = () => writer.BlockSpaceRemaining.ShouldEqual(FitsFormat.FitsBlockLength);
+        It should_pad_with_zeroes = () => outputStream.OutputBytes.Skip(FitsFormat.FitsBlockLength+1).All(item=>item==0x0).ShouldBeTrue();
         }
 
     [Subject(typeof(FitsWriter), "header records")]
@@ -133,20 +126,58 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
         }
 
     [Subject(typeof(FitsWriter), "header records")]
-    [Ignore("Pending implementation")]
     internal class when_writing_the_end_header_record : with_fits_writer
         {
         Establish context = () => writer.WriteHeaderRecord(FitsHeaderRecord.Create("SIMPLE")).Wait();
-        Because of = async () => writer.EndHeader();
-        It should_flush_the_header_block;
-        It should_start_the_data_block;
+        Because of = async () => writer.EndHeader().Wait();
+        It should_flush_the_header_block = () => outputStream.Length.ShouldEqual(FitsFormat.FitsBlockLength);
+        It should_add_the_end_record = () => writer.headerRecords.HeaderRecords.Last().Keyword.ShouldEqual(FitsFormat.EndKeyword);
+        It should_start_the_data_block = () => writer.state.ShouldEqual(WriterState.PrimaryData);
         static FitsPrimaryHduMandatoryKeywords mandatoryKeywords;
         }
 
     [Subject(typeof(FitsWriter), "header records")]
-    [Ignore("Pending implementation")]
     internal class when_writing_a_header_record_within_a_data_block : with_fits_writer
         {
-        It should_throw;
+        Establish context = () => writer.WriteHeaderRecord(FitsHeaderRecord.Create("SIMPLE"))
+            .ContinueWith((task) => writer.EndHeader())
+            .Wait();
+        Because of = () => Exception = Catch.Exception(() => { writer.WriteHeaderRecord(record).Wait(); })
+            .First();
+        It should_be_invalid_fits_format = () => Exception.ShouldBeOfExactType<FitsFormatException>();
+        static Exception Exception;
+        static FitsHeaderRecord record = FitsHeaderRecord.Create("INVALID");
+        }
+
+    // Full end-to-end test of creating a Simple FITS image as defined in SBFITSEXT 1.0
+    [Subject(typeof(FitsWriter), "SBFITSEXT 1.0")]
+    internal class when_round_tripping_a_fits_file : with_fits_writer
+        {
+        Establish context = () =>
+            {
+            fitsStreamBuilder = new FitsStreamBuilder();
+            fitsReader = fitsStreamBuilder
+                .FromEmbeddedResource(@"FITS-SIMPLE-Minimal-Monochrome-16x16-all-pizels-zero.fits")
+                .Build();
+            specimenPdu = fitsReader.ReadPrimaryHeaderDataUnit().WaitFoResult();
+            var inputStream = fitsStreamBuilder.FitsStream;
+            inputStream.Seek(0L, SeekOrigin.Begin);
+            var length = inputStream.Length;
+            expected = new byte[length];
+            var bytesRead = inputStream.ReadAsync(expected, 0, (int) length)
+                .WaitFoResult();
+            };
+        Because of = () =>
+            {
+            writer.WriteProtocolDataUnit(specimenPdu).Wait();
+            writer.Close();
+            actual = outputStream.OutputBytes;
+            };
+        It should_write_a_binary_equal_output_stream = () => actual.SequenceEqual(expected);
+        static FitsReader fitsReader;
+        static FitsStreamBuilder fitsStreamBuilder;
+        static byte[] expected;
+        static byte[] actual;
+        static FitsHeaderDataUnit specimenPdu;
         }
     }
