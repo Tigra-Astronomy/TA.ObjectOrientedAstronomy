@@ -1,5 +1,7 @@
 # Object Oriented Astronomy Libraries #
 
+Please see the [Wiki pages on Github][wiki] for the latest project information.
+
 ## Fundamental Types ##
 
 Classes for storing and manipulating various fundamental types, such as coordinates, time/date in various timescales.
@@ -43,6 +45,9 @@ In time, we plan to provide additional orbit engines, such as VSOP2000 and SGP4 
 
 ## License ##
 
-This project is licensed under the [Tigra Astronomy MIT License](https://tigra.mit-license.org/ "MIT open source license").
+This project is licensed under the [Tigra Astronomy MIT License][license].
 Essentially, "Anyone can do anything at all with the software without restriction, 
 but whatever happens it's not our fault".
+
+[wiki]: https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy/wiki "Project Wiki"
+[license]: https://tigra.mit-license.org/ "Tigra open source license"

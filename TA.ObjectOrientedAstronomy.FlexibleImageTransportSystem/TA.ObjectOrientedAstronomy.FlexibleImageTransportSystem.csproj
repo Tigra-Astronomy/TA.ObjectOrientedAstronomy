@@ -9,25 +9,29 @@
         <Description>Routines for reading and manipulating NASA FITS (Flexible Image Transport System) files</Description>
         <Copyright>Copyright © 2016-18 Tigra Astronomy, all rights reserved</Copyright>
         <PackageLicenseUrl>http://tigra.mit-license.org/</PackageLicenseUrl>
-        <PackageProjectUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</PackageProjectUrl>
-        <RepositoryUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>astronomy, FITS, NASA FITS, Flexible Image Transport System</PackageTags>
         <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
       <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
       <DefineConstants>DEBUG;TRACE</DefineConstants>
       <DebugType>pdbonly</DebugType>
       <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
       <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
-      <PackageReference Include="NLog" Version="4.7.3" />
-      <PackageReference Include="TA.Utils.Core" Version="1.1.1" />
+      <PackageReference Include="GitVersionTask" Version="5.5.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+      <PackageReference Include="NLog" Version="4.7.6" />
+      <PackageReference Include="TA.Utils.Core" Version="1.3.0" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
