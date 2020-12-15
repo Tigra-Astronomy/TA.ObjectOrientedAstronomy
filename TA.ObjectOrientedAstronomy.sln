@@ -33,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{5E
 		Assets\TA.OOA.png = Assets\TA.OOA.png
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B99EF086-4509-4BAB-90AF-2A6F9FA1F227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TA.ObjectOrientedAstronomy.FitsSamples", "TA.ObjectOrientedAstronomy.FitsSamples\TA.ObjectOrientedAstronomy.FitsSamples.csproj", "{D65E5574-269D-4A0F-BDD2-C592DC3A1F95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,12 +63,17 @@ Global
 		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{483E1BC4-8B68-45B4-8487-E8F081885F58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65E5574-269D-4A0F-BDD2-C592DC3A1F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65E5574-269D-4A0F-BDD2-C592DC3A1F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65E5574-269D-4A0F-BDD2-C592DC3A1F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65E5574-269D-4A0F-BDD2-C592DC3A1F95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5E32C0EA-05B5-4EBA-9FF0-381C7E956DD4} = {26312736-84E8-40E0-BA25-539F7537AD0C}
+		{D65E5574-269D-4A0F-BDD2-C592DC3A1F95} = {B99EF086-4509-4BAB-90AF-2A6F9FA1F227}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A729347-8716-41C7-9041-D4168AEFC712}

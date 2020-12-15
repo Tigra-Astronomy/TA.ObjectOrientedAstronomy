@@ -119,7 +119,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
 
         public override string ToString()
             {
-            return $"{Keyword} = {Value} / {Comment}";
+            return $"{Keyword,-8} = {Value} / {Comment}";
             }
 
         /// <summary>Creates a new <see cref="FitsHeaderRecord" /> from record text in the supplied string.</summary>
@@ -155,7 +155,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 {
                 // keywords that are blank, or one of the commentary types, or which have no value
                 // have comment text from position 9 and no value.
-                record.Comment = text.RemoveHead(FitsFormat.ValueFieldPosition).TrimEnd().AsMaybe();
+                record.Comment = text.RemoveHead(record.Keyword.Length + 1).TrimEnd().AsMaybe();
                 record.Value = Maybe<string>.Empty;
                 }
             else

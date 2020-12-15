@@ -170,4 +170,29 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
         It should_set_the_data_type_to_image = () => hdu.DataType.ShouldEqual(FitsDataType.Image);
         static FitsHeaderDataUnit hdu;
         }
+
+    [Subject(typeof(FitsHeaderRecord), "Commentary Keywords")]
+    internal class when_parsing_a_history_record 
+        {
+        //                           00000000011111111112222222222333333333344444444445555555555666666666677777777778
+        //                           12345678901234567890123456789012345678901234567890123456789012345678901234567890 
+        const string sourceRecord = "HISTORY The cat sat on the mat                                                  ";
+        Because of = () => header = FitsHeaderRecord.FromRecordText(sourceRecord);
+        It should_start_the_comment_immediately_after_the_keyword = () => header.Comment.Single().ShouldStartWith("The");
+        It should_have_no_value = () => header.Value.Any().ShouldBeFalse();
+        static FitsHeaderRecord header;
+        }
+
+    [Subject(typeof(FitsHeaderRecord), "Commentary Keywords")]
+    internal class when_parsing_a_comment_record 
+        {
+        //                           00000000011111111112222222222333333333344444444445555555555666666666677777777778
+        //                           12345678901234567890123456789012345678901234567890123456789012345678901234567890 
+        const string sourceRecord = "COMMENT      The cat sat on the mat                                             ";
+        Because of = () => header = FitsHeaderRecord.FromRecordText(sourceRecord);
+        It should_start_the_comment_immediately_after_the_keyword_and_not_remove_leading_white_space 
+            = () => header.Comment.Single().ShouldStartWith("     The");
+        It should_have_no_value = () => header.Value.Any().ShouldBeFalse();
+        static FitsHeaderRecord header;
+        }
     }
