@@ -1,39 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>netstandard2.1</TargetFrameworks>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.0-unversioned</Version>
-        <Authors>Tim Long, Tigra Astronomy</Authors>
-        <Company>Tigra Astronomy</Company>
-        <Product>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem</Product>
-        <Description>Routines for reading and manipulating NASA FITS (Flexible Image Transport System) files</Description>
-        <Copyright>Copyright © 2016-18 Tigra Astronomy, all rights reserved</Copyright>
-        <PackageLicenseUrl>http://tigra.mit-license.org/</PackageLicenseUrl>
-        <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
-        <RepositoryType>Git</RepositoryType>
-        <PackageTags>astronomy, FITS, NASA FITS, Flexible Image Transport System</PackageTags>
-        <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
-      <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
-      <DefineConstants>DEBUG;TRACE</DefineConstants>
-      <DebugType>pdbonly</DebugType>
-      <DebugSymbols>true</DebugSymbols>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
-      <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="GitVersionTask" Version="5.5.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
-      <PackageReference Include="NLog" Version="4.7.6" />
-      <PackageReference Include="TA.Utils.Core" Version="1.3.0" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0-unversioned</Version>
+    <Authors>Tim Long, Tigra Astronomy</Authors>
+    <Company>Tigra Astronomy</Company>
+    <Product>Object Oriented Astronomy</Product>
+    <Description>Utilities for reading, writing and manipulating NASA FITS (Flexible Image Transport System) files</Description>
+    <Copyright>Copyright © 2016-20 Tigra Astronomy, all rights reserved</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>astronomy, FITS, NASA FITS, Flexible Image Transport System, Imaging, astrophotography</PackageTags>
+    <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
+    <PackageIcon>TA.OOA.FITS-256x256.png</PackageIcon>
+    <PackageIconUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy/wiki/images/TA.OOA.FITS-256x256.png</PackageIconUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
+    <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
+    <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="GitVersionTask" Version="5.5.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NLog" Version="4.7.6" />
+    <PackageReference Include="TA.Utils.Core" Version="1.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\TA.OOA.FITS-256x256.png">
+      <Pack>True</Pack>
+      <PackagePath>/</PackagePath>
+    </None>
+  </ItemGroup>
+
 </Project>

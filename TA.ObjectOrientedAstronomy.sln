@@ -9,8 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
-		Package-Solution.ps1 = Package-Solution.ps1
 		postsharp.config = postsharp.config
+		Push-Packages.ps1 = Push-Packages.ps1
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
@@ -21,6 +21,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem", "TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem\TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.csproj", "{C7A50EA5-CFFF-4F33-BA9D-4B07E78EDFB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TA.ObjectOrientedAstronomy.FundamentalTypes", "TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj", "{483E1BC4-8B68-45B4-8487-E8F081885F58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{5E32C0EA-05B5-4EBA-9FF0-381C7E956DD4}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\Hubble.png = Assets\Hubble.png
+		Assets\Object Oriented FITS.ico = Assets\Object Oriented FITS.ico
+		Assets\TA.OOA-256x256.png = Assets\TA.OOA-256x256.png
+		Assets\TA.OOA.FITS-256x256.png = Assets\TA.OOA.FITS-256x256.png
+		Assets\TA.OOA.FITS.png = Assets\TA.OOA.FITS.png
+		Assets\TA.OOA.pdn = Assets\TA.OOA.pdn
+		Assets\TA.OOA.png = Assets\TA.OOA.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +62,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5E32C0EA-05B5-4EBA-9FF0-381C7E956DD4} = {26312736-84E8-40E0-BA25-539F7537AD0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A729347-8716-41C7-9041-D4168AEFC712}

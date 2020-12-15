@@ -398,6 +398,37 @@
                 <see cref="!:RecordLength" /> bytes.
             </exception>
         </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsSerializeSequenceAttribute">
+            <summary>
+            An attribute used to control various serialization options.
+            </summary>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsSerializeSequenceAttribute.Sequence">
+            <summary>
+            Gets the sequence number, which is used to determine the order in which
+            header records are serialized. Items having the same sequence number
+            will be adjacent to each other in the headers but in an undefined order.
+            Items without this attribute occur towards the end of the header.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsSerializeSequenceAttribute.Keyword">
+            <summary>
+            Gets or sets the FITS keyword to be written into the header for a property.
+            If this optional item is not specified, then a value from a
+            <seealso cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute"/> will be used if present,
+            otherwise the header keyword will be derived from the property name.
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsSerializeSequenceAttribute.AppendIndex">
+            <summary>
+            Gets or sets a value indicating whether to append an index number
+            to the FITS keyword for each item in a collection.
+            </summary>
+            <value>
+              <c>true</c> if [append index]; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.BlockSpaceRemaining">
             <summary>
             Gets the number of characters remaining in the current FITS block.
@@ -432,8 +463,30 @@
         <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.EndHeader">
             <summary>
             Writes an END record if not already present and flushes the block.
+            Prepares to write a data block.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.WriteHeaderDataUnit(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit)">
+            <summary>
+            Asynchronously Writes an entire Single Image FITS file.
+            </summary>
+            <param name="hdu">
+             An instance of FitsHeaderDataUnit containing the header metadata and data array.
+            </param>
+            <returns>A Task that completes when the all of the data is written to the output stream.</returns>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.WriteDataArray(System.Byte[],System.Int32)">
+            <summary>
+            Writes binary data into the current data unit and closes the data unit.
+            The supplied bytes are written 'as-is' and not interpreted in any way.
+            Padding characters will be appended if necessary to ensure that the output
+            stream ends on a FITS block boundary.
+            Does not close the writer, as the user may wish to add further header-data units.
+            </summary>
+            <param name="rawData">The memory buffer containing the data.</param>
+            <param name="dataArrayLengthBytes">The number of bytes to be written.</param>
+            <exception cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException">Thrown if the writer is not in a valid state for writing a data array.</exception>
         </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramShape">
             <summary>
@@ -1455,6 +1508,108 @@
             </summary>
             <value>The sequence number.</value>
         </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsKeywordAttribute.WriteSequence">
+            <summary>
+            Gets or sets the write sequence number.
+            When serializing data transfer objects to FITS header record collections, this
+            sequence number is used to determine the order in which records are created.
+            Items having the same sequence number occur adjacent to each other in the header
+            but not in any specific order.
+            </summary>
+            <remarks>
+              <para>
+            The following sequence numbers are reserved for mandatory and predefined headers:
+            </para>
+              <para>
+                <br />
+              </para>
+              <list type="table">
+                <item>
+                  <description>1</description>
+                  <description>SIMPLE</description>
+                </item>
+                <item>
+                  <description>2</description>
+                  <description>BITPIX</description>
+                </item>
+                <item>
+                  <description>3</description>
+                  <description>NAXIS</description>
+                </item>
+                <item>
+                  <description>4</description>
+                  <description>NAXIS1</description>
+                </item>
+                <item>
+                  <description>5</description>
+                  <description>NAXIS2</description>
+                </item>
+                <item>
+                  <description>6</description>
+                  <description>NAXIS3</description>
+                </item>
+                <item>
+                  <description></description>
+                  <description></description>
+                </item>
+                <item>
+                  <description>10</description>
+                  <description>OBJECT</description>
+                </item>
+                <item>
+                  <description>11</description>
+                  <description>TELECOP</description>
+                </item>
+                <item>
+                  <description>12</description>
+                  <description>INSTRUME</description>
+                </item>
+                <item>
+                  <description>13</description>
+                  <description>OBSERVER</description>
+                </item>
+                <item>
+                  <description>14</description>
+                  <description>DATE-OBS</description>
+                </item>
+                <item>
+                  <description>15</description>
+                  <description>BSCALE</description>
+                </item>
+                <item>
+                  <description>16</description>
+                  <description>BZERO</description>
+                </item>
+                <item>
+                  <description>9999</description>
+                  <description>HISTORY</description>
+                </item>
+                <item>
+                  <description></description>
+                  <description></description>
+                </item>
+                <item>
+                  <description></description>
+                  <description></description>
+                </item>
+                <item>
+                  <description></description>
+                  <description></description>
+                </item>
+                <item>
+                  <description></description>
+                  <description></description>
+                </item>
+                <item>
+                  <description></description>
+                  <description></description>
+                </item>
+              </list>
+              <para>
+                <br />
+              </para>
+            </remarks>
+        </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertyBinder">
             <summary>
                 Provides a mechanism for binding values in FITS header metadata to properties in an arbitrary type, based on
@@ -1557,6 +1712,12 @@
             <returns>A new System.Object containing the converted value, or null if conversion failed.</returns>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.FitsPropertySerializer">
+            <summary>
+            Serializes a data transfer object (a plain CLR object with public properties)
+            into FITS header records.
+            </summary>
+        </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder.IKeywordLookup`2">
             <summary>
                 A collection that can perform keyword lookup and return a value.
@@ -1573,6 +1734,69 @@
             <returns>
                 <see cref="T:TA.Utils.Core.Maybe`1" /> containing the first matching value; or <see cref="P:TA.Utils.Core.Maybe`1.Empty" />,
             </returns>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExt">
+            <summary>
+                Static methods for creating SIMPLE FITS images that conform to the SBFITSEXT 1.0 Standard. See
+                https://diffractionlimited.com/wp-content/uploads/2016/11/sbfitsext_1r0.pdf
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.TargetName">
+            <summary>
+                Gets or sets the name or catalogue number of the target under observation. Examples: "Crab
+                Nebula", "M1", "Messier 1".
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.TelescopeName">
+            <summary>
+                Gets or sets the name of the telescope used for the observation. Examples: "Meade LX-200",
+                "PlaneWave CDK-17", "Hubble Space Telescope".
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.CameraName">
+            <summary>
+                Gets or sets the name of the camera or measuring instrument used for the observation. Examples:
+                "STXL-6303E", "WFPC2"
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.ObserverName">
+            <summary>
+                Gets or sets the name of the observer. Usually the name of an individual. Example: "Tim
+                Long"
+            </summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.ExposureStartDateTime">
+            <summary>Gets or sets the UTC date and time of the start of the exposure or observation.</summary>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.Scale">
+            <summary>Gets or sets the scale of the data values. Typically 1.0.</summary>
+            <seealso cref="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.ZeroOffset" />
+            <remarks>
+                Setting this property does not change data values. It is the responsibility of the user to
+                correctly interpret data values.
+            </remarks>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.ZeroOffset">
+            <summary>
+                Gets or sets the zero offset of the data values. Typically set to 32768.0 to shift positive
+                data into the range of 16-bit signed integers.
+            </summary>
+            <seealso cref="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.Scale" />
+            <remarks>
+                Setting this property does not change data values. It is the responsibility of the user to
+                correctly interpret data values.
+            </remarks>
+        </member>
+        <member name="P:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.SbFitsExtHeader.History">
+            <summary>
+            Gets or sets the history of the FITS file.
+            </summary>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.WriterState">
+            <summary>
+                Used to track the internal state of the FitsWriter (whether it is writing the primary header or
+                data blocks, or a secondary header or data blocks).
+            </summary>
         </member>
     </members>
 </doc>

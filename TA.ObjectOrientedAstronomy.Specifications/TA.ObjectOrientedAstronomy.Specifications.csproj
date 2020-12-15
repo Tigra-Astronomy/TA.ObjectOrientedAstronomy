@@ -8,7 +8,7 @@
     <None Remove="SampleData\Fits\DDTSUVDATA.fits" />
     <None Remove="SampleData\Fits\EUVEngc4151imgx.fits" />
     <None Remove="SampleData\Fits\FGSf64y0106m_a1f.fits" />
-    <None Remove="SampleData\Fits\FITS-SIMPLE-Minimal-Monochrome-16x16-all-pizels-zero.fits" />
+    <None Remove="SampleData\Fits\FITS-SIMPLE-Minimal-Monochrome-16x16-all-pixels-zero.fits" />
     <None Remove="SampleData\Fits\FOCx38i0101t_c0f.fits" />
     <None Remove="SampleData\Fits\FOSy19g0309t_c2f.fits" />
     <None Remove="SampleData\Fits\HRSz0yd020fm_c2f.fits" />
@@ -23,7 +23,7 @@
     <EmbeddedResource Include="SampleData\Fits\DDTSUVDATA.fits" />
     <EmbeddedResource Include="SampleData\Fits\EUVEngc4151imgx.fits" />
     <EmbeddedResource Include="SampleData\Fits\FGSf64y0106m_a1f.fits" />
-    <EmbeddedResource Include="SampleData\Fits\FITS-SIMPLE-Minimal-Monochrome-16x16-all-pizels-zero.fits">
+    <EmbeddedResource Include="SampleData\Fits\FITS-SIMPLE-Minimal-Monochrome-16x16-all-pixels-zero.fits">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="SampleData\Fits\FOCx38i0101t_c0f.fits" />
@@ -37,13 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="6.2.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+    <PackageReference Include="FakeItEasy" Version="6.2.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.10.1" />
     <PackageReference Include="Machine.Specifications.Should" Version="1.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="TA.Utils.Core" Version="1.1.1" />
-    <PackageReference Include="TA.Utils.Logging.Nlog" Version="1.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="TA.Utils.Core" Version="1.3.0" />
+    <PackageReference Include="TA.Utils.Logging.Nlog" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup>

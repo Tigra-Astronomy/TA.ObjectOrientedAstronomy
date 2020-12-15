@@ -157,7 +157,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
             {
             fitsStreamBuilder = new FitsStreamBuilder();
             fitsReader = fitsStreamBuilder
-                .FromEmbeddedResource(@"FITS-SIMPLE-Minimal-Monochrome-16x16-all-pizels-zero.fits")
+                .FromEmbeddedResource(@"FITS-SIMPLE-Minimal-Monochrome-16x16-all-pixels-zero.fits")
                 .Build();
             specimenPdu = fitsReader.ReadPrimaryHeaderDataUnit().WaitFoResult();
             var inputStream = fitsStreamBuilder.FitsStream;

@@ -223,3 +223,4 @@ jquery*.js
 /MS.Gamification/App_Data/Badges
 /MS.Gamification/App_Data/Badges
 /.vscode
+/BuildOutput/netstandard2.1

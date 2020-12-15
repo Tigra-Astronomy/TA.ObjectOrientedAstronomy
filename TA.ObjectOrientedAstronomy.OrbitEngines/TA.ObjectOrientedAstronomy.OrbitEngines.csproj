@@ -1,174 +1,189 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>netstandard2.1</TargetFrameworks>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.4-Beta</Version>
-        <Authors>Tim Long, Tigra Astronomy</Authors>
-        <Company>Tigra Astronomy</Company>
-        <Description>Engines for computing the position of planets and other orbital bodies</Description>
-        <Copyright>Copyright © 2016-18 Tigra Astronomy, all rights reserved</Copyright>
-        <PackageLicenseUrl>http://tigra.mit-license.org/</PackageLicenseUrl>
-        <PackageProjectUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</PackageProjectUrl>
-        <RepositoryType>Git</RepositoryType>
-        <RepositoryUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy/src/master/</RepositoryUrl>
-        <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="NLog" Version="4.7.3" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Update="VSOP87_data\VSOP87.emb">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.jup">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.mar">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.mer">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.nep">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.sat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.ura">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87.ven">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.ear">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.emb">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.jup">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.mar">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.mer">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.nep">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.sat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.ura">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87A.ven">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.ear">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.jup">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.mar">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.mer">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.nep">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.sat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.ura">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87B.ven">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.ear">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.jup">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.mar">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.mer">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.nep">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.sat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.ura">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87C.ven">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.ear">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.jup">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.mar">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.mer">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.nep">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.sat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.ura">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87D.ven">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.ear">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.jup">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.mar">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.mer">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.nep">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.sat">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.sun">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.ura">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="VSOP87_data\VSOP87E.ven">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0-unversioned</Version>
+    <Authors>Tim Long, Tigra Astronomy</Authors>
+    <Company>Tigra Astronomy</Company>
+    <Product>Object Oriented Astronomy</Product>
+    <Description>Engines for computing the position of planets and other orbital bodies</Description>
+    <Copyright>Copyright © 2016-20 Tigra Astronomy, all rights reserved</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>astronomy, C#, Tigra Astronomy, orbit, orbital mechanics, VSOP89a</PackageTags>
+    <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
+    <PackageIcon>TA.OOA-256x256.png</PackageIcon>
+    <PackageIconUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy/wiki/images/TA.OOA.Orbit-256x256.png</PackageIconUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\Assets\TA.OOA-256x256.png">
+      <Pack>True</Pack>
+      <PackagePath>/</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GitVersionTask" Version="5.5.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NLog" Version="4.7.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference
+      Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="VSOP87_data\VSOP87.emb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.jup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.mar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.mer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.nep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.sat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.ura">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87.ven">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.ear">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.emb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.jup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.mar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.mer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.nep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.sat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.ura">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87A.ven">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.ear">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.jup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.mar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.mer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.nep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.sat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.ura">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87B.ven">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.ear">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.jup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.mar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.mer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.nep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.sat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.ura">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87C.ven">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.ear">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.jup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.mar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.mer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.nep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.sat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.ura">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87D.ven">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.ear">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.jup">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.mar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.mer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.nep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.sat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.sun">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.ura">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="VSOP87_data\VSOP87E.ven">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
