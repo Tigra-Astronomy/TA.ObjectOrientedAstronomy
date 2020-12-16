@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem;
 
@@ -25,6 +26,17 @@ namespace TA.ObjectOrientedAstronomy.FitsSamples
 
         public static async Task Copy(string source, string destination)
             {
+            FitsHeaderDataUnit hdu;
+            await using (var inStream = new FileStream(source, FileMode.Open, FileAccess.Read))
+            await using (var reader = new FitsReader(inStream))
+                hdu = await reader.ReadPrimaryHeaderDataUnit();
+            await using (var outStream = new FileStream(destination, FileMode.CreateNew, FileAccess.Write))
+            await using (var writer = new FitsWriter(outStream))
+                {
+                hdu.Header.AppendHistory($"Duplicated by {Assembly.GetExecutingAssembly().GetName().Name}");
+                await writer.WriteHeaderDataUnit(hdu);
+                }
+
             }
         }
     }

@@ -4,12 +4,14 @@
 // 
 // File: FitsHeader.cs  Last modified: 2020-08-22@21:29 by Tim Long
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
 using TA.Utils.Core;
+using static TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
@@ -75,6 +77,44 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     Maybe<string>.From($"Length of axis {axis}")));
                 }
             return header;
+            }
+
+        /// <summary>
+        /// Appends a header record at the end of the header, but before the END record.
+        /// </summary>
+        /// <param name="record">The record.</param>
+        public void AppendRecord(FitsHeaderRecord record)
+            {
+            if (records.Any() && records.Last().Value.Keyword == EndKeyword)
+                InsertBeforeSequence(records.Last().Key, record);
+            else
+                AppendHeaderRecord(record);
+            }
+
+        /// <summary>
+        /// Opens a gap at <paramref name="sequence"/> and inserts the new record there.
+        /// Items above that location have their sequence number incremented.
+        /// </summary>
+        /// <param name="sequence">The position in the sequence where the new record should be inserted.</param>
+        /// <param name="record">The record to insert.</param>
+        private void InsertBeforeSequence(int sequence, FitsHeaderRecord record)
+            {
+            if (records.Count == 0)
+                {
+                // Shortcut case: collection empty and this is the first record.
+                AppendHeaderRecord(record);
+                return;
+                }
+            var index = Interlocked.Increment(ref nextSequenceNumber);
+            for (var updateSequence = index; updateSequence > sequence; --updateSequence)
+                {
+                var moveTo = updateSequence;
+                var moveFrom = updateSequence - 1;
+                var recordToMove = records[moveFrom];
+                records.Remove(moveFrom);
+                records.Add(moveTo, recordToMove);
+                }
+            records.Add(sequence, record);
             }
         }
     }

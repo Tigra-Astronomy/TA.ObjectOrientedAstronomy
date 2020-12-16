@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Machine.Specifications;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem;
@@ -194,5 +195,18 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
             = () => header.Comment.Single().ShouldStartWith("     The");
         It should_have_no_value = () => header.Value.Any().ShouldBeFalse();
         static FitsHeaderRecord header;
+        }
+
+    [Subject(typeof(FitsReader), "disposal")]
+    internal class when_calling_a_disposed_reader : with_fits_reader
+        {
+        Establish context = () =>
+            {
+            FitsReader = ContextBuilder.FromEmbeddedResource("FOSy19g0309t_c2f.fits").Build();
+            FitsReader.Dispose();
+            };
+        Because of = () => exception = Catch.Exception(() => FitsReader.ReadPrimaryHeader().Wait()).First();
+        It should_throw_object_disposed = () => exception.ShouldBeOfExactType<ObjectDisposedException>();
+        static Exception exception;
         }
     }

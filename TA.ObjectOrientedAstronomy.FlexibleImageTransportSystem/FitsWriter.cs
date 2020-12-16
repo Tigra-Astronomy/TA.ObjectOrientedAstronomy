@@ -14,7 +14,7 @@ using static TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormat;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
-    public class FitsWriter
+    public sealed class FitsWriter : IDisposable, IAsyncDisposable
         {
         internal WriterState state = WriterState.PrimaryHeader;
         readonly Stream stream;
@@ -193,6 +193,18 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             currentBlock.Append((char)datum);
             if (BlockSpaceRemaining <= 0)
                 await WriteBlock();
+            }
+
+        /// <inheritdoc />
+        public void Dispose()
+            {
+            stream.Dispose();
+            }
+
+        /// <inheritdoc />
+        public ValueTask DisposeAsync()
+            {
+            return stream.DisposeAsync();
             }
         }
     }

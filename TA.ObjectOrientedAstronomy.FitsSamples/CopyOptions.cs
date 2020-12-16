@@ -8,7 +8,8 @@ using CommandLine;
 
 namespace TA.ObjectOrientedAstronomy.FitsSamples
     {
-    [Verb("Copy", false, new []{"Duplicate"})]
+    [Verb("Copy", false, new []{"Duplicate"},
+        HelpText = "Creates a duplicate copy of a FITS with an additional HISTORY record to record the action.")]
     internal class CopyOptions
         {
         [Value(0, Required = true,

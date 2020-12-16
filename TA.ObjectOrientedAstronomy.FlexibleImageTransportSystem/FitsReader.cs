@@ -17,12 +17,13 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     /// <summary>
     ///     An implementation of <see cref="StreamReader" /> that is useful for reading NASA FITS files.
     /// </summary>
-    public class FitsReader
+    public sealed class FitsReader : IDisposable, IAsyncDisposable
         {
         private readonly Stream sourceStream;
         private readonly ILog log;
         private int blockIndex = FitsFormat.FitsBlockLength + 1;
         private byte[] currentBlock = new byte[0];
+        private bool disposed = false;
 
         public FitsReader(Stream sourceStream, ILog log = null)
             {
@@ -31,9 +32,14 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             }
 
         private bool BlockIsEmpty
-            =>
-            blockIndex >= FitsFormat.FitsBlockLength || blockIndex < 0 ||
-            currentBlock.Length != FitsFormat.FitsBlockLength;
+            {
+            get
+                {
+                if (disposed) throw new ObjectDisposedException("FitsReader must not be used after being disposed. Please create a new instance.");
+                return blockIndex >= FitsFormat.FitsBlockLength || blockIndex < 0 ||
+                       currentBlock.Length != FitsFormat.FitsBlockLength;
+                }
+            }
 
         internal int BlockBytesRemaining => BlockIsEmpty ? 0 : FitsFormat.FitsBlockLength - blockIndex;
 
@@ -221,6 +227,23 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 dataArrayBits *= axisLength;
                 }
             return dataArrayBits;
+            }
+
+        /// <inheritdoc />
+        public void Dispose()
+            {
+            if (disposed) return;
+            disposed = true;
+            sourceStream.Dispose();
+            }
+
+        /// <summary>
+        /// Disposes the reader (and teh underlying stream) asynchronously.
+        /// </summary>
+        /// <returns>A ValueTask that completes when the underlying stream is disposed.</returns>
+        public ValueTask DisposeAsync()
+            {
+            return sourceStream.DisposeAsync();
             }
         }
     }

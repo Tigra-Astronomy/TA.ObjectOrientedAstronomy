@@ -106,6 +106,20 @@
             </param>
             <returns>A <see cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader" /> instance populated with the required header records.</returns>
         </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.AppendRecord(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord)">
+            <summary>
+            Appends a header record at the end of the header, but before the END record.
+            </summary>
+            <param name="record">The record.</param>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader.InsertBeforeSequence(System.Int32,TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord)">
+            <summary>
+            Opens a gap at <paramref name="sequence"/> and inserts the new record there.
+            Items above that location have their sequence number incremented.
+            </summary>
+            <param name="sequence">The position in the sequence where the new record should be inserted.</param>
+            <param name="record">The record to insert.</param>
+        </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderDataUnit">
             <summary>
                 Represents a single complete Header-Data-Unit (either the Primary HDU or an Extension HDU) including the
@@ -144,6 +158,18 @@
                 Gets or sets the data array length bits.
             </summary>
             <value>The data array length bits.</value>
+        </member>
+        <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderExtensions">
+            <summary>
+            Extension methods for manipulating FITS headers.
+            </summary>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderExtensions.AppendHistory(TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeader,System.String)">
+            <summary>
+            Appends a history record to the header.
+            </summary>
+            <param name="header">The FITS header.</param>
+            <param name="comment">The comment to be appended.</param>
         </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsHeaderRecord">
             <summary>
@@ -385,6 +411,15 @@
             <param name="headerValues">The mandatory FITS header values which specify the type and size of the data array.</param>
             <returns>The number of bits contained in the data array.</returns>
         </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsReader.DisposeAsync">
+            <summary>
+            Disposes the reader (and teh underlying stream) asynchronously.
+            </summary>
+            <returns>A ValueTask that completes when the underlying stream is disposed.</returns>
+        </member>
         <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsRecord.FromAsciiBytes(System.Byte[])">
             <summary>
                 Creates a FITS record from a buffer containing ASCII bytes.
@@ -487,6 +522,12 @@
             <param name="rawData">The memory buffer containing the data.</param>
             <param name="dataArrayLengthBytes">The number of bytes to be written.</param>
             <exception cref="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsFormatException">Thrown if the writer is not in a valid state for writing a data array.</exception>
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.FitsWriter.DisposeAsync">
+            <inheritdoc />
         </member>
         <member name="T:TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.HistogramShape">
             <summary>
