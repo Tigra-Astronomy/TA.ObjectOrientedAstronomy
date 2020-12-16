@@ -80,18 +80,6 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             }
 
         /// <summary>
-        /// Appends a header record at the end of the header, but before the END record.
-        /// </summary>
-        /// <param name="record">The record.</param>
-        public void AppendRecord(FitsHeaderRecord record)
-            {
-            if (records.Any() && records.Last().Value.Keyword == EndKeyword)
-                InsertBeforeSequence(records.Last().Key, record);
-            else
-                AppendHeaderRecord(record);
-            }
-
-        /// <summary>
         /// Opens a gap at <paramref name="sequence"/> and inserts the new record there.
         /// Items above that location have their sequence number incremented.
         /// </summary>

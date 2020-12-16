@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+# Intellisense artifacts
+TA.ObjectOrientedAstronomy.*.xml
+
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -25,8 +29,12 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-# Visual Studio 2015 cache/options directory
+# Visual Studio cache/options directory
 .vs/
+
+# Visual Studio Code user config
+.vscode/
+
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -215,12 +223,3 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 *.map
-/MS.Gamification/Scripts/password.js
-/MS.Gamification/Scripts/typings/jquery/jquery.d.ts
-jquery*.js
-/MS.Gamification/Content/DataTables
-/MS.Gamification/Scripts/DataTables
-/MS.Gamification/App_Data/Badges
-/MS.Gamification/App_Data/Badges
-/.vscode
-/BuildOutput/netstandard2.1
