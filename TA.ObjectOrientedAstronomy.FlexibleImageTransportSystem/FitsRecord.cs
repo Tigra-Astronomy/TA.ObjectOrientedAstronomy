@@ -12,6 +12,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
     public class FitsRecord
         {
+        // ToDo: the storage unit should probably be byte[] rather than string.
         public string Text { get; protected set; }
 
         /// <summary>
@@ -35,10 +36,21 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             return new FitsRecord {Text = utf8};
             }
 
+        public static FitsRecord FromMemory(Memory<byte> memory)
+            {
+            if (memory.Length != FitsRecordLength)
+                throw new ArgumentException(
+                    $"FITS records require exactly {FitsRecordLength} bytes (received {memory.Length})",
+                    nameof(memory));
+            var bytes = memory.ToArray();
+            return FromAsciiBytes(bytes);
+            }
+
         public static FitsRecord FromString(string source)
             {
-            if (source.Length != FitsRecordLength)
-                throw new ArgumentException($"The supplied string must be exactly {FitsRecordLength} characters",
+            var sourceLength = source.Length;
+            if (sourceLength != FitsRecordLength)
+                throw new ArgumentException($"The supplied string must be exactly {FitsRecordLength} characters but was {sourceLength}",
                     nameof(source));
             return new FitsRecord {Text = source};
             }

@@ -1,6 +1,6 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+ï»¿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2018 Tigra Astronomy, all rights reserved.
+// Copyright ï¿½ 2015-2018 Tigra Astronomy, all rights reserved.
 // 
 // File: BigEndianBitConverter.cs  Last modified: 2018-07-11@23:15 by Tim Long
 

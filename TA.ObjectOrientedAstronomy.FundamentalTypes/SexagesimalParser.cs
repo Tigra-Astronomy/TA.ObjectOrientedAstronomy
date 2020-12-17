@@ -1,13 +1,12 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+ï»¿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
+// Copyright ï¿½ 2015-2016 Tigra Astronomy, all rights reserved.
 // 
 // File: SexagesimalParser.cs  Last modified: 2016-10-15@04:14 by Tim Long
 
 using System;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
-using NLog;
 
 namespace TA.ObjectOrientedAstronomy.FundamentalTypes
     {
@@ -47,8 +46,6 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
                                                             | RegexOptions.CultureInvariant |
                                                             RegexOptions.ExplicitCapture
                                                             | RegexOptions.Singleline;
-
-        private static readonly ILogger log = LogManager.GetCurrentClassLogger();
 
         private static readonly Regex RegexSexagesimal = new Regex(Pattern, matchOptions);
 
@@ -93,7 +90,6 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
             if (!sgParsed.Success)
                 {
                 var message = $"Unable to parse sexagesimal string [{sexagesimal}]";
-                log.Error(message);
                 throw new ArgumentException(message, nameof(sexagesimal));
                 }
             var sign = sgParsed.Groups["Sign"].Value == "-" ? -1.0 : +1.0;
