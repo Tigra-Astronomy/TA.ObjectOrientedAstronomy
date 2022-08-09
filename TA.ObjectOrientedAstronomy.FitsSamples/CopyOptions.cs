@@ -8,7 +8,7 @@ using CommandLine;
 
 namespace TA.ObjectOrientedAstronomy.FitsSamples
     {
-    [Verb("Copy", false, new []{"Duplicate"},
+    [Verb("Copy", false, new[] { "Duplicate" },
         HelpText = "Creates a duplicate copy of a FITS with an additional HISTORY record to record the action.")]
     internal class CopyOptions
         {
@@ -16,7 +16,7 @@ namespace TA.ObjectOrientedAstronomy.FitsSamples
             HelpText = "The absolute or relative path to the input file")]
         public string InputFile { get; private set; }
 
-        [Value(1,Required = true, HelpText = "The absolute or relative path to the output file.")]
+        [Value(1, Required = true, HelpText = "The absolute or relative path to the output file.")]
         public string OutputFile { get; private set; }
         }
     }
