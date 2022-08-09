@@ -24,10 +24,11 @@ namespace TA.ObjectOrientedAstronomy.FitsSamples
                     with.AutoHelp = true;
                     });
 
-            await commandLineParser.ParseArguments<PrintHeaderOptions, CopyOptions>(args)
+            await commandLineParser.ParseArguments<PrintHeaderOptions, CopyOptions, InfoOptions>(args)
                 .MapResult(
                     (PrintHeaderOptions opt)  => FitsDemo.PrintHeaderRecords(opt.InputFile),
                     (CopyOptions copy)=>FitsDemo.Copy(copy.InputFile, copy.OutputFile),
+                    (InfoOptions info)=>FitsDemo.ShowInformation(info.InputFile),
                     errors => Task.CompletedTask
                 );
 
