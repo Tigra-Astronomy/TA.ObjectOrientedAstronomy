@@ -53,30 +53,30 @@ namespace TA.ObjectOrientedAstronomy.FitsSamples
             int pixelCount = 0;
             double pixelSum = 0;
             // keep a list of how many times each value occurs. This is a list of Key-Value pairs,
-            // where item.Key is the pixel value, and item.Value is the number of times that value is found.
+            // where pixel.Key is the pixel value, and pixel.Value is the number of times that value is found.
             // Note: using keys of type double may be a naive implementation, but it appears to work.
             SortedList<double, int> valueFrequency = new System.Collections.Generic.SortedList<double, int>();
 
-            foreach (var item in imageData)
+            foreach (var pixel in imageData)
                 {
                 ++pixelCount;
-                pixelSum += item;
-                highestPixel = System.Math.Max(highestPixel, item);
-                lowestPixel = System.Math.Min(lowestPixel, item);
+                pixelSum += pixel;
+                highestPixel = System.Math.Max(highestPixel, pixel);
+                lowestPixel = System.Math.Min(lowestPixel, pixel);
                 // Keep a tally of the number of times each value occurs
-                if (valueFrequency.ContainsKey(item))
+                if (valueFrequency.ContainsKey(pixel))
                     {
-                    valueFrequency[item] += 1;
+                    valueFrequency[pixel] += 1;
                     }
                 else
                     {
-                    valueFrequency.Add(item, 1);
+                    valueFrequency.Add(pixel, 1);
                     }
                 }
             var pixelMean = pixelSum / pixelCount;
             var mostFrequentOccurence = valueFrequency.Values.Max();
-            var mostFrequentValues = valueFrequency.First(p => p.Value == mostFrequentOccurence);
-            var pixelMode = mostFrequentValues.Key;
+            var mostFrequentValue = valueFrequency.First(p => p.Value == mostFrequentOccurence);
+            var pixelMode = mostFrequentValue.Key;
             var distinctValues = valueFrequency.Keys.Count;
 
             // Find the median pixel value by traversing the value frequency list.
