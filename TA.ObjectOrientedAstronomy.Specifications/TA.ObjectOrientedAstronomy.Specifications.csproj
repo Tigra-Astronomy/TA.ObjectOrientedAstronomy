@@ -49,6 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem\TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.csproj" />
     <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.Observatory\TA.ObjectOrientedAstronomy.Observatory.csproj" />
     <ProjectReference Include="..\TA.ObjectOrientedAstronomy.OrbitEngines\TA.ObjectOrientedAstronomy.OrbitEngines.csproj" />
     <ProjectReference Include="..\TA.Orbits.ReferenceData\TA.Orbits.ReferenceData.csproj" />
   </ItemGroup>
