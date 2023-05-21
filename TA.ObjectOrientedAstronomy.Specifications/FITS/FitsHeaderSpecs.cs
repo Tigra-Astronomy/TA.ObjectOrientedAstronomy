@@ -24,6 +24,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
         }
 
     [Subject(typeof(FitsHeader), "END records")]
+    [Ignore("Not implemented")]
     internal class when_reading_a_header
         {
         Establish context;
@@ -32,6 +33,7 @@ namespace TA.ObjectOrientedAstronomy.Specifications.FITS
         }
 
     [Subject(typeof(FitsHeader), "END records")]
+    [Ignore("Not implemented")]
     internal class when_writing_a_header
         {
         Establish context;

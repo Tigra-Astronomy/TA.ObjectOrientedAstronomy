@@ -27,11 +27,11 @@
     <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.5.1">
+    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NLog" Version="4.7.6" />
+    <PackageReference Include="NLog" Version="5.1.4" />
     <PackageReference Include="TA.Utils.Core" Version="1.3.0" />
   </ItemGroup>
   <ItemGroup>

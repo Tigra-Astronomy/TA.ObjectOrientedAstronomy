@@ -10,7 +10,7 @@
     <Product>Object Oriented Astronomy</Product>
     <Description>Object-oriented observatory utilities</Description>
     <Copyright>Copyright © 2016-2022 Tim Long and Timtek Systems Limited</Copyright>
-    <PackageIcon>TA.OOA.png</PackageIcon>
+    <PackageIcon>TA.OOA-256x256.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Prerelease - interfaces subject to change</PackageReleaseNotes>
     <IncludeSymbols>True</IncludeSymbols>
@@ -18,10 +18,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\Assets\TA.OOA.png">
+    <None Include="..\Assets\TA.OOA-256x256.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
