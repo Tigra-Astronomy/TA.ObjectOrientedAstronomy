@@ -3,11 +3,12 @@
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.0-unversioned</Version>
-    <Authors>Tim Long, Tigra Astronomy</Authors>
-    <Company>Tigra Astronomy</Company>
+    <Authors>Tim Long, Timtek Systems Limited</Authors>
+    <Company>Timtek Systems Limited</Company>
     <Product>Object Oriented Astronomy</Product>
-    <Description>Utilities for reading, writing and manipulating NASA FITS (Flexible Image Transport System) files</Description>
-    <Copyright>Copyright © 2016-20 Tigra Astronomy, all rights reserved</Copyright>
+    <Description>Utilities for reading, writing and manipulating NASA FITS (Flexible Image Transport System) files.
+A ground-up object-oriented implemntation folowing the SOLID principles.</Description>
+    <Copyright>Copyright © 2016-23 Timtek Systems Limited, all rights reserved</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
@@ -16,6 +17,9 @@
     <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
     <PackageIcon>TA.OOA.FITS-256x256.png</PackageIcon>
     <PackageIconUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy/wiki/images/TA.OOA.FITS-256x256.png</PackageIconUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Object-oriented FITS manipulation</Title>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
     <DocumentationFile>TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.xml</DocumentationFile>
