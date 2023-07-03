@@ -3,19 +3,17 @@
 # Searches the current directory and child directories recursively.
 
 param (
-    [string]$ApiKey = $null
+    [string]$ApiKey = "231f5f9d-d1ee-4445-a9e0-5d7eafecbc46"
 )
-
-if ($ApiKey) { $setApiKey = "-ApiKey " + $ApiKey }
 
 $packageFeed = "https://www.myget.org/F/tigra-astronomy/api/v2/package"
 $symbolFeed = "https://www.myget.org/F/tigra-astronomy/api/v3/index.json"
 
-$allPackages = Get-ChildItem -Recurse | Where-Object { $_.Name -match '^.*\.s?nupkg$' }
+$allPackages = Get-ChildItem -Recurse | Where-Object { $_.Name -match '^.*\.nupkg$' }
 $releasePackages = $allPackages | Where-Object { $_.DirectoryName -match 'Release' }
 
 if ($releasePackages) {
-    $releasePackages | Format-Table | Write-Output
+    $releasePackages | Format-List -Property Name | Write-Output
 }
 else {
     Write-Host "No release packages found"
@@ -23,10 +21,5 @@ else {
 }
 
 foreach ($package in $releasePackages) {
-    if ($package.Name -like "*.snupkg") {
-        NuGet.exe push -Source $symbolFeed $package $setApiKey
-    }
-    else {
-        NuGet.exe push -Source $packageFeed $package $setApiKey
-    }
+    NuGet.exe push $package -Source $packageFeed -SymbolSource $symbolFeed -ApiKey $ApiKey -SymbolApiKey $ApiKey -NonInteractive -SkipDuplicate
 }
