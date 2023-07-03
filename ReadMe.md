@@ -32,6 +32,12 @@ Currently, this library contains an implementation of the VSOP87a algorithm for 
 
 In time, we plan to provide additional orbit engines, such as VSOP2000 and SGP4 (Standard General Perterbation model for working with minor planet and satellite orbits)
 
+## Observatory ##
+
+Contains routines relating to the observatory as a whole.
+Offers classes that descript an observatory location and geometry and telescope mechanical position.
+There is a scope-dome synchronization algorithm that originates from Patrick Wallace, of TPoint fame.
+
 ### ToDo List ###
 
 - How to represent the Sun and Earth?

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/TA.ObjectOrientedAstronomy.Specifications/TA.ObjectOrientedAstronomy.Specifications.csproj",
+                "${workspaceFolder}/TA.ObjectOrientedAstronomy.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/TA.ObjectOrientedAstronomy.Specifications/TA.ObjectOrientedAstronomy.Specifications.csproj",
+                "${workspaceFolder}/TA.ObjectOrientedAstronomy.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
