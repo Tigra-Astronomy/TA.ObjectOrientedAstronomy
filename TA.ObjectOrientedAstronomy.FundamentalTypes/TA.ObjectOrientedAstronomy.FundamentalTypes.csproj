@@ -1,24 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>netstandard2.0</TargetFrameworks>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Authors>Tim Long, Tigra Astronomy</Authors>
-        <Company>Tigra Astronomy</Company>
-        <Description>Fundamental types for representing astronomical quantities and general utilities</Description>
-        <Copyright>Copyright © 2016-18 Tigra Astronomy, all rights reserved</Copyright>
-        <PackageLicenseUrl>http://tigra.mit-license.org</PackageLicenseUrl>
-        <PackageProjectUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy</PackageProjectUrl>
-        <RepositoryUrl>https://bitbucket.org/tigra-astronomy/ta.objectorientedastronomy/src/master/</RepositoryUrl>
-        <RepositoryType>Git</RepositoryType>
-        <PackageTags>astronomy.C#,Tigra Astronomy</PackageTags>
-        <PackageReleaseNotes>This is a pre-release project and the API is not stable.</PackageReleaseNotes>
-        <Version>0.0.4-Beta</Version>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-      <PackageReference Include="NLog" Version="4.5.6" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Properties\" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0-unversioned</Version>
+    <Authors>Tim Long, Tigra Astronomy</Authors>
+    <Company>Tigra Astronomy</Company>
+    <Product>Object Oriented Astronomy</Product>
+    <Description>Fundamental types for representing astronomical quantities and general utilities</Description>
+    <Copyright>Copyright © 2016-23 Timtek Systems Limited, all rights reserved</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>astronomy, C#, Tigra Astronomy, Fundamental Types, types</PackageTags>
+    <PackageReleaseNotes>This project is pre-release and the API is not stable</PackageReleaseNotes>
+    <PackageIcon>TA.OOA.Orbit-256x256.png</PackageIcon>
+    <PackageIconUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy/wiki/images/TA.OOA-256x256.png</PackageIconUrl>
+    <Title>Fundamental types for representing astronomical quantities and general utilities</Title>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnableNETAnalyzers>False</EnableNETAnalyzers>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\Assets\TA.OOA.Orbit-256x256.png">
+      <Pack>True</Pack>
+      <PackagePath>/</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
+  </ItemGroup>
+
 </Project>

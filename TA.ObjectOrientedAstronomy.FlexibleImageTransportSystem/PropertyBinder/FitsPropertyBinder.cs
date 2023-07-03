@@ -1,4 +1,4 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
 // 
@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 using NLog;
+using TA.Utils.Core;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder
     {
@@ -81,6 +82,13 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder
                 BindProperty(headerRecords, property, targetObject);
             target = (TOut) targetObject; // This unboxes the target if it is a struct.
             return target;
+            }
+
+        public static IEnumerable<FitsHeaderRecord> SerializeToFitsHeaderRecords<TIn>(TIn dto) where TIn : class
+            {
+            var records = new List<FitsHeaderRecord>();
+            //ToDo: some code here!
+            return records;
             }
 
         /// <summary>
@@ -192,10 +200,15 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder
             Type targetType)
             {
             Contract.Requires(headerRecords != null);
-            var valueStrings = from record in headerRecords
-                               select string.IsNullOrEmpty(record.Value) ? record.Comment : record.Value;
-            return valueStrings.Select(valueString => DeserializeToType(valueString, targetType))
-                .Where(deserializedValue => deserializedValue != null);
+            var deserializedValues = from record in headerRecords
+                                     where record.Value.Any() || record.Comment.Any()
+                                     let maybeValue = record.Value.Any() ? record.Value : record.Comment
+                                     where maybeValue.Any()
+                                     let deserializedValue =
+                                         Maybe<object>.From(DeserializeToType(maybeValue.Single(), targetType))
+                                     where deserializedValue.Any()
+                                     select deserializedValue.Single();
+            return deserializedValues;
             }
 
         [CanBeNull]

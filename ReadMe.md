@@ -1,5 +1,7 @@
 # Object Oriented Astronomy Libraries #
 
+Please see the [Wiki pages on Github][wiki] for the latest project information.
+
 ## Fundamental Types ##
 
 Classes for storing and manipulating various fundamental types, such as coordinates, time/date in various timescales.
@@ -30,6 +32,12 @@ Currently, this library contains an implementation of the VSOP87a algorithm for 
 
 In time, we plan to provide additional orbit engines, such as VSOP2000 and SGP4 (Standard General Perterbation model for working with minor planet and satellite orbits)
 
+## Observatory ##
+
+Contains routines relating to the observatory as a whole.
+Offers classes that descript an observatory location and geometry and telescope mechanical position.
+There is a scope-dome synchronization algorithm that originates from Patrick Wallace, of TPoint fame.
+
 ### ToDo List ###
 
 - How to represent the Sun and Earth?
@@ -43,6 +51,9 @@ In time, we plan to provide additional orbit engines, such as VSOP2000 and SGP4 
 
 ## License ##
 
-This project is licensed under the [Tigra Astronomy MIT License](https://tigra.mit-license.org/ "MIT open source license").
+This project is licensed under the [Tigra Astronomy MIT License][license].
 Essentially, "Anyone can do anything at all with the software without restriction, 
 but whatever happens it's not our fault".
+
+[wiki]: https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy/wiki "Project Wiki"
+[license]: https://tigra.mit-license.org/ "Tigra open source license"

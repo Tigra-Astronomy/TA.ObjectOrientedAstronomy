@@ -1,37 +1,45 @@
 ﻿// This file is part of the TA.ObjectOrientedAstronomy project
-// 
+//
 // Copyright © 2015-2016 Tigra Astronomy, all rights reserved.
-// 
+//
 // File: FitsReader.cs  Last modified: 2016-10-13@23:19 by Tim Long
 
 using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using NLog;
 using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+using TA.Utils.Core;
+using TA.Utils.Core.Diagnostics;
 
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
     /// <summary>
     ///     An implementation of <see cref="StreamReader" /> that is useful for reading NASA FITS files.
     /// </summary>
-    public class FitsReader
+    public sealed class FitsReader : IDisposable, IAsyncDisposable
         {
-        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
         private readonly Stream sourceStream;
+        private readonly ILog log;
         private int blockIndex = FitsFormat.FitsBlockLength + 1;
         private byte[] currentBlock = new byte[0];
+        private bool disposed = false;
 
-        public FitsReader(Stream sourceStream)
+        public FitsReader(Stream sourceStream, ILog log = null)
             {
             this.sourceStream = sourceStream;
+            this.log = log ?? new DegenerateLoggerService();
             }
 
         private bool BlockIsEmpty
-            =>
-            blockIndex >= FitsFormat.FitsBlockLength || blockIndex < 0 ||
-            currentBlock.Length != FitsFormat.FitsBlockLength;
+            {
+            get
+                {
+                if (disposed) throw new ObjectDisposedException("FitsReader must not be used after being disposed. Please create a new instance.");
+                return blockIndex >= FitsFormat.FitsBlockLength || blockIndex < 0 ||
+                       currentBlock.Length != FitsFormat.FitsBlockLength;
+                }
+            }
 
         internal int BlockBytesRemaining => BlockIsEmpty ? 0 : FitsFormat.FitsBlockLength - blockIndex;
 
@@ -107,20 +115,20 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
             while (bytesOutstanding > 0)
                 {
                 if (BlockIsEmpty)
-                    await FillCurrentBlock().ConfigureAwait(false);
+                    await FillCurrentBlock().ContinueOnAnyThread();
                 if (BlockBytesRemaining >= bytesOutstanding)
                     {
+                    // There are sufficient bytes in the block to completely satisfy the request
                     Array.ConstrainedCopy(currentBlock, blockIndex, buffer, bufferIndex, bytesOutstanding);
                     blockIndex += bytesOutstanding;
                     bufferIndex += bytesOutstanding;
                     bytesOutstanding = 0;
                     return buffer;
                     }
-                // BlockBytesRemaining < bytesOutstanding
+                // There are insufficient bytes in the block, so empty the block into the buffer.
                 Array.ConstrainedCopy(currentBlock, blockIndex, buffer, bufferIndex, BlockBytesRemaining);
                 bufferIndex += BlockBytesRemaining;
                 bytesOutstanding -= BlockBytesRemaining;
-                blockIndex += BlockBytesRemaining;
                 blockIndex += BlockBytesRemaining;
                 }
             return buffer;
@@ -135,7 +143,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         /// <summary>
         ///     Asynchronously reads one record.
         /// </summary>
-        /// <returns>A <see cref="Task{String}" /> that will contain the record upon completion.</returns>
+        /// <returns>A <see cref="Task{FitsRecord}" /> that will contain the record upon completion.</returns>
         /// <exception cref="InvalidOperationException">Thrown if a complete record could not be read.</exception>
         /// <remarks>
         ///     FITS records are based on punched cards and each record contains exactly 80 characters, encoded as ASCII
@@ -145,7 +153,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public async Task<FitsRecord> ReadRecord()
             {
             var record = await BlockReadExactly(FitsFormat.FitsRecordLength).ConfigureAwait(false);
-            NLog.Fluent.Log.Debug($"Read record: [{record}]");
+            log.Debug().Message("Read record: [{record}]", record).Write();
             if (record.Length != FitsFormat.FitsRecordLength)
                 {
                 throw new InvalidOperationException(
@@ -157,7 +165,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         public async Task<FitsHeaderRecord> ReadHeaderRecord()
             {
             var rawRecord = await ReadRecord().ConfigureAwait(false);
-            return FitsHeaderRecord.FromRecordText(rawRecord.Text);
+            return FitsHeaderRecord.FromRecordText(rawRecord.Text, log);
             }
 
         /// <summary>
@@ -177,9 +185,10 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                     }
                 catch (InvalidHeaderRecordException ex)
                     {
-                    Log.Warn(ex, $"ignoring invalid header record: [{ex.Record}]");
+                    log.Warn().Message("ignoring invalid header record: [{record}]", ex.Record).Exception(ex);
                     }
                 } while (currentRecord.Keyword != FitsFormat.EndKeyword);
+            log.Debug().Message("Read FITS header").Property("header",result).Write();
             return result;
             }
 
@@ -198,7 +207,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 }
             var dataArrayBits = ComputeDataArrayBitLength(hdu.MandatoryKeywords);
             var dataArrayBytes = dataArrayBits / 8;
-            hdu.RawData = await BlockReadBytes(dataArrayBytes).ConfigureAwait(false);
+            hdu.RawData = await BlockReadBytes(dataArrayBytes).ContinueOnAnyThread();
             hdu.DataArrayLengthBits = dataArrayBits;
             hdu.DataType = FitsDataType.Image;
             return hdu;
@@ -218,6 +227,23 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
                 dataArrayBits *= axisLength;
                 }
             return dataArrayBits;
+            }
+
+        /// <inheritdoc />
+        public void Dispose()
+            {
+            if (disposed) return;
+            disposed = true;
+            sourceStream.Dispose();
+            }
+
+        /// <summary>
+        /// Disposes the reader (and teh underlying stream) asynchronously.
+        /// </summary>
+        /// <returns>A ValueTask that completes when the underlying stream is disposed.</returns>
+        public ValueTask DisposeAsync()
+            {
+            return sourceStream.DisposeAsync();
             }
         }
     }

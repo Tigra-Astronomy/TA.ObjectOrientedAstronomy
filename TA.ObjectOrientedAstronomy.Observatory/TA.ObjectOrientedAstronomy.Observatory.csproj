@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Observatory Utilities</Title>
+    <Authors>Tim Long, Timtek Systems Limited</Authors>
+    <Company>Timtek Systems Limited</Company>
+    <Product>Object Oriented Astronomy</Product>
+    <Description>Object-oriented observatory utilities</Description>
+    <Copyright>Copyright © 2016-2023 Tim Long and Timtek Systems Limited</Copyright>
+    <PackageIcon>TA.OOA-256x256.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Prerelease - interfaces subject to change</PackageReleaseNotes>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageProjectUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tigra-Astronomy/TA.ObjectOrientedAstronomy</RepositoryUrl>
+    <PackageTags>Astronomy;Observatory;Timtek</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Assets\TA.OOA-256x256.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TA.ObjectOrientedAstronomy.FundamentalTypes\TA.ObjectOrientedAstronomy.FundamentalTypes.csproj" />
+  </ItemGroup>
+
+</Project>

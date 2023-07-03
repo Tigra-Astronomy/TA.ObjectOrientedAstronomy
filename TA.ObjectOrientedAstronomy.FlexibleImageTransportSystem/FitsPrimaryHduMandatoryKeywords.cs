@@ -4,6 +4,8 @@
 // 
 // File: FitsPrimaryHduMandatoryKeywords.cs  Last modified: 2016-10-02@06:41 by Tim Long
 
+using TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem.PropertyBinder;
+
 namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
     {
     public class FitsPrimaryHduMandatoryKeywords : FitsMandatoryKeywords
@@ -15,6 +17,7 @@ namespace TA.ObjectOrientedAstronomy.FlexibleImageTransportSystem
         ///     with suspicion.
         /// </summary>
         /// <value><c>true</c> for all conforming FITS files; otherwise, <c>false</c>.</value>
-        public bool Simple { get; set; }
+        [FitsKeyword("SIMPLE", Sequence = 1)]
+        public bool Simple { get; set; } = true;
         }
     }

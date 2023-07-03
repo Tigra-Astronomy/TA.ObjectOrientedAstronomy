@@ -1,6 +1,6 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+﻿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright � 2015 Tigra Astronomy, all rights reserved.
+// Copyright © 2015 Tigra Astronomy, all rights reserved.
 // 
 // File: HourAngle.cs  Last modified: 2015-11-21@16:44 by Tim Long
 

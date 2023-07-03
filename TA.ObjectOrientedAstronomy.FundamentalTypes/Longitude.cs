@@ -1,6 +1,6 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+ï»¿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015 Tigra Astronomy, all rights reserved.
+// Copyright ï¿½ 2015 Tigra Astronomy, all rights reserved.
 // 
 // File: Longitude.cs  Last modified: 2015-11-21@16:44 by Tim Long
 
@@ -9,8 +9,8 @@ using System;
 namespace TA.ObjectOrientedAstronomy.FundamentalTypes
 {
     /// <summary>
-    ///     Geographical longitude represented in degrees, minutes and seconds of arc, in the range -179°59'59" to
-    ///     +180°00'00". West is negative, East is positive.
+    ///     Geographical longitude represented in degrees, minutes and seconds of arc, in the range -179ï¿½59'59" to
+    ///     +180ï¿½00'00". West is negative, East is positive.
     /// </summary>
     public class Longitude : Bearing
     {
@@ -78,13 +78,13 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         }
 
         /// <summary>
-        ///     Output the lattitude as a formatted string h dd°mm'ss"
+        ///     Output the lattitude as a formatted string h ddï¿½mm'ss"
         ///     (h is the hemisphere, N or S, dd is positive degrees).
         /// </summary>
         /// <returns>string object containing formatted result</returns>
         public override string ToString()
         {
-            var strLat = string.Format("{0} {1:D3}°{2:D2}'{3:D2}\"", IsEast ? 'E' : 'W', Degrees, Minutes, Seconds);
+            var strLat = string.Format("{0} {1:D3}ï¿½{2:D2}'{3:D2}\"", IsEast ? 'E' : 'W', Degrees, Minutes, Seconds);
             return strLat;
         }
     }

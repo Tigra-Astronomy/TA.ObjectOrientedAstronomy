@@ -1,6 +1,6 @@
-// This file is part of the TA.ObjectOrientedAstronomy project
+ï»¿// This file is part of the TA.ObjectOrientedAstronomy project
 // 
-// Copyright © 2015 Tigra Astronomy, all rights reserved.
+// Copyright ï¿½ 2015 Tigra Astronomy, all rights reserved.
 // 
 // File: Latitude.cs  Last modified: 2015-11-21@16:44 by Tim Long
 
@@ -104,13 +104,13 @@ namespace TA.ObjectOrientedAstronomy.FundamentalTypes
         }
 
         /// <summary>
-        ///     Output the lattitude as a formatted string h dd°mm'ss"
+        ///     Output the lattitude as a formatted string h ddï¿½mm'ss"
         ///     (h is the hemisphere, N or S, dd is positive degrees).
         /// </summary>
         /// <returns>string object containing formatted result</returns>
         public override string ToString()
         {
-            var strLat = string.Format("{0} {1:D2}°{2:D2}'{3:D2}\"", IsNorth ? 'N' : 'S', Degrees, Minutes, Seconds);
+            var strLat = string.Format("{0} {1:D2}Â°{2:D2}'{3:D2}\"", IsNorth ? 'N' : 'S', Degrees, Minutes, Seconds);
             return strLat;
         }
     }

@@ -1,7 +1,0 @@
-﻿<ProjectConfiguration>
-  <Settings>
-    <AdditionalFilesToIncludeForProject>
-      <Value>..\TA.ObjectOrientedAstronomy.OrbitEngines\VSOP87_data\**.*</Value>
-    </AdditionalFilesToIncludeForProject>
-  </Settings>
-</ProjectConfiguration>
